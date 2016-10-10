@@ -1,0 +1,159 @@
+swagger: '2.0'
+info:
+    title: Release Manager
+#    description: This application generate version for your software.
+#    contact:
+#        name: Vital Leshchyk
+#        url: https://github.com/itcreator/release-manager
+#        email: vitalleshchyk@gmail.com
+#    license:
+#        name: 3-Clause BSD
+#        url: https://github.com/itcreator/release-manager/blob/master/LICENSE
+    version: 0.2.0
+#
+#schemes:
+#    - http
+#    - https
+
+consumes:
+    - application/release-manager.v1+json
+produces:
+    - application/release-manager.v1+json
+tags:
+    - name: project
+      description: manages project
+
+paths:
+    /projects:
+        get:
+            operationId: listProjects
+            tags:
+                - project
+            summary: List the projects
+            description: |
+                Get all projects list.
+
+            responses:
+                200:
+                    description: Successful response
+#                    headers: ~
+                    schema:
+                        title: ProjectList
+                        type: array
+                        items:
+                            $ref: "#/definitions/Project"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+        post:
+            operationId: createProject
+            tags:
+                - project
+            summary: Create new projects
+            parameters:
+                - name: body
+                  in: body
+                  schema:
+                      $ref: "#/definitions/Project"
+            responses:
+                201:
+                    $ref: "#/responses/ProjectResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+
+    /projects/{id}:
+        parameters:
+            - type: integer
+              format: uint64
+              name: id
+              in: path
+              required: true
+        get:
+            operationId: readProject
+            tags:
+                - project
+            summary: Read the projects
+            description: |
+                Get all projects list
+            responses:
+                200:
+                    $ref: "#/responses/ProjectResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+        put:
+            tags:
+                - project
+            operationId: updateProject
+            parameters:
+                - name: body
+                  in: body
+                  schema:
+                      $ref: "#/definitions/Project"
+            responses:
+                200:
+                    $ref: "#/responses/ProjectResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+responses:
+    ErrorResponse:
+        description: Error response
+        headers:
+            X-Error-Code:
+                type: string
+        schema:
+            $ref: "#/definitions/Error"
+    ProjectResponse:
+        description: Project response
+        headers:
+            X-Error-Code:
+                type: string
+        schema:
+            $ref: "#/definitions/Project"
+
+
+definitions:
+    Error:
+        title: Error Structure
+        description: |
+            Contains all the properties any error response from the API will contain.
+            Some properties are optional so might be empty most of the time
+        type: object
+        required:
+            - code
+            - message
+        properties:
+            code:
+                description: the error code, this is not necessarily the http status code
+                type: integer
+                format: int32
+            message:
+                description: a human readable version of the error
+                type: string
+            helpUrl:
+                description: an optional url for getting more help about this error
+                type: string
+                format: uri
+
+    Project:
+        title: Project
+        type: object
+        required:
+            - name
+        properties:
+            id:
+                title: The id of the project.
+                description: A unique identifier for the project. These are created in ascending order.
+                type: integer
+                format: uint64
+                readOnly: true
+            name:
+                title: The name of the project.
+                type: string
+                minLength: 2
+                maxLength: 150
+                x-nullable: false #don't generate reference
+            description:
+                title: The description of the project.
+                type: string
+                maxLength: 4000
+                x-nullable: false #don't generate reference
+

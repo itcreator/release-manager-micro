@@ -1,0 +1,80 @@
+hash: 030916f004ddf43808e4c50addf4528629b17bc4beb405e41f638ff89d2b60f3
+updated: 2016-09-30T17:27:11.049827514Z
+imports:
+- name: github.com/eclipse/paho.mqtt.golang
+  version: 97b6f6bfc5007d4bc6859ea6ef8995079b60adc8
+  subpackages:
+  - packets
+- name: github.com/facebookgo/inject
+  version: 643b7206b487b04fbea325cf6e8d06a66f8db772
+- name: github.com/facebookgo/structtag
+  version: 217e25fb96916cc60332e399c9aa63f5c422ceed
+- name: github.com/golang/protobuf
+  version: 87c000235d3d852c1628dc9490cd21ab36a7d69f
+  subpackages:
+  - proto
+- name: github.com/hashicorp/consul
+  version: 9fc0c0ede2299bc290c0d5ab4d316788b605a197
+  subpackages:
+  - api
+  - watch
+- name: github.com/hashicorp/go-cleanhttp
+  version: ad28ea4487f05916463e2423a55166280e8254b5
+- name: github.com/hashicorp/serf
+  version: b7a120a5fc494f6dd5e858f42fd0fd4022d6320f
+  subpackages:
+  - coordinate
+- name: github.com/lib/pq
+  version: 50761b0867bd1d9d069276790bcd4a3bccf2324a
+  subpackages:
+  - oid
+- name: github.com/micro/cli
+  version: 3d2263bb092286dde294a31049c92665f8373820
+- name: github.com/micro/go-micro
+  version: 419b952fb353ecb1fbea9081cffec63f6067efa8
+  subpackages:
+  - broker
+  - broker/http
+  - broker/mqtt
+  - client
+  - cmd
+  - codec
+  - codec/jsonrpc
+  - codec/protorpc
+  - errors
+  - metadata
+  - registry
+  - registry/consul
+  - registry/mdns
+  - selector
+  - selector/cache
+  - server
+  - server/debug
+  - server/debug/proto
+  - transport
+  - transport/http
+- name: github.com/micro/mdns
+  version: cdf30746f9f70dc7a366d3d885792a092fd83102
+- name: github.com/micro/misc
+  version: 677e2a0beb40a3dd7418548fe0cdc661e2922859
+  subpackages:
+  - lib/tls
+- name: github.com/miekg/dns
+  version: db96a2b759cdef4f11a34506a42eb8d1290c598e
+- name: github.com/mitchellh/hashstructure
+  version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
+- name: github.com/pborman/uuid
+  version: b984ec7fa9ff9e428bd0cf0abf429384dfbe3e37
+- name: github.com/stretchr/testify
+  version: 976c720a22c8eb4eb6a0b4348ad85ad12491a506
+- name: golang.org/x/net
+  version: 697293012c1df3836225e65b04b16871ac5bf0bf
+  subpackages:
+  - bpf
+  - context
+  - internal/iana
+  - internal/netreflect
+  - ipv4
+  - ipv6
+  - websocket
+testImports: []

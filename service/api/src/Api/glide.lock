@@ -1,0 +1,135 @@
+hash: 94b3f8fbff659e083b1a1402def269f261341dcdcdd15f21ec0752e905d0050d
+updated: 2016-09-26T20:50:56.417135127Z
+imports:
+- name: github.com/asaskevich/govalidator
+  version: 593d64559f7600f29581a3ee42177f5dbded27a9
+- name: github.com/eclipse/paho.mqtt.golang
+  version: b0f0cce24f138f7a1d034f55069883c7dcb6a9d7
+  subpackages:
+  - packets
+- name: github.com/go-openapi/analysis
+  version: b44dc874b601d9e4e2f6e19140e794ba24bead3b
+- name: github.com/go-openapi/errors
+  version: 4178436c9f2430cdd945c50301cfb61563b56573
+- name: github.com/go-openapi/jsonpointer
+  version: 46af16f9f7b149af66e5d1bd010e3574dc06de98
+- name: github.com/go-openapi/jsonreference
+  version: 13c6e3589ad90f49bd3e3bbe2c2cb3d7a4142272
+- name: github.com/go-openapi/loads
+  version: 18441dfa706d924a39a030ee2c3b1d8d81917b38
+- name: github.com/go-openapi/runtime
+  version: 18efe8c11921c0ddabc8e91554971d6db1f91c7c
+  subpackages:
+  - middleware
+  - middleware/denco
+  - middleware/header
+  - middleware/untyped
+  - security
+- name: github.com/go-openapi/spec
+  version: 2433d2f0fc794728337e0c5d65716e79e163f04d
+- name: github.com/go-openapi/strfmt
+  version: d65c7fdb29eca313476e529628176fe17e58c488
+- name: github.com/go-openapi/swag
+  version: c98c5a1cc708d9860aeeceea6391da6f223d479c
+- name: github.com/go-openapi/validate
+  version: 03d947b0268e1c2bb5c74ac4095447f140c9a112
+- name: github.com/go-swagger/go-swagger
+  version: 8602d06bcde193b6f837e2e511f4403c8d3c5394
+  subpackages:
+  - httpkit/middleware
+  - swag
+- name: github.com/golang/protobuf
+  version: 87c000235d3d852c1628dc9490cd21ab36a7d69f
+  subpackages:
+  - proto
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/hashicorp/consul
+  version: bdcc8c44f510c2c2407cf63a722d2f92aecba255
+  subpackages:
+  - api
+  - watch
+- name: github.com/hashicorp/go-cleanhttp
+  version: ad28ea4487f05916463e2423a55166280e8254b5
+- name: github.com/hashicorp/serf
+  version: b7a120a5fc494f6dd5e858f42fd0fd4022d6320f
+  subpackages:
+  - coordinate
+- name: github.com/jessevdk/go-flags
+  version: 4cc2832a6e6d1d3b815e2b9d544b2a4dfb3ce8fa
+- name: github.com/mailru/easyjson
+  version: a5759050626e5d52afe79bbb6d77a59e98df5d2d
+  subpackages:
+  - buffer
+  - jlexer
+  - jwriter
+- name: github.com/micro/cli
+  version: 3d2263bb092286dde294a31049c92665f8373820
+- name: github.com/micro/go-micro
+  version: 419b952fb353ecb1fbea9081cffec63f6067efa8
+  subpackages:
+  - broker
+  - broker/http
+  - broker/mqtt
+  - client
+  - cmd
+  - codec
+  - codec/jsonrpc
+  - codec/protorpc
+  - errors
+  - metadata
+  - registry
+  - registry/consul
+  - registry/mdns
+  - selector
+  - selector/cache
+  - server
+  - server/debug
+  - server/debug/proto
+  - transport
+  - transport/http
+- name: github.com/micro/mdns
+  version: ab413e42fed3fdd8198ac4df3db5a342eb67d6e4
+- name: github.com/micro/misc
+  version: 677e2a0beb40a3dd7418548fe0cdc661e2922859
+  subpackages:
+  - lib/tls
+- name: github.com/miekg/dns
+  version: db96a2b759cdef4f11a34506a42eb8d1290c598e
+- name: github.com/mitchellh/hashstructure
+  version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
+- name: github.com/pborman/uuid
+  version: b984ec7fa9ff9e428bd0cf0abf429384dfbe3e37
+- name: github.com/PuerkitoBio/purell
+  version: 8a290539e2e8629dbc4e6bad948158f790ec31f4
+- name: github.com/PuerkitoBio/urlesc
+  version: 5bd2802263f21d8788851d5305584c82a5c75d7e
+- name: github.com/stretchr/testify
+  version: 976c720a22c8eb4eb6a0b4348ad85ad12491a506
+- name: github.com/tylerb/graceful
+  version: 50a48b6e73fcc75b45e22c05b79629a67c79e938
+- name: golang.org/x/net
+  version: f09c4662a0bd6bd8943ac7b4931e185df9471da4
+  subpackages:
+  - bpf
+  - context
+  - idna
+  - internal/iana
+  - internal/netreflect
+  - ipv4
+  - ipv6
+  - websocket
+- name: golang.org/x/text
+  version: a7c023693a94aedd6b6df43ae7526bfe9d2b7d22
+  subpackages:
+  - cases
+  - internal/tag
+  - language
+  - runes
+  - secure/bidirule
+  - secure/precis
+  - transform
+  - unicode/bidi
+  - unicode/norm
+  - width
+testImports: []

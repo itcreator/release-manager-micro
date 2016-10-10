@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+service Project {
+    rpc Create(CreateRequest) returns (CreateResponse) {}
+    rpc Read(ReadRequest) returns (ReadResponse) {}
+    rpc Update(UpdateRequest) returns (UpdateResponse) {}
+    rpc List(ListRequest) returns (ListResponse) {}
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+    repeated ReadResponse projects = 1;
+}
+
+message CreateRequest {
+    string name = 1;
+    string description = 2;
+}
+
+message CreateResponse {
+    bool success = 1;
+    uint64 id=2;
+}
+
+message ReadRequest {
+    uint64 id = 1;
+}
+
+message ReadResponse {
+    uint64 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateRequest {
+    uint64 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message UpdateResponse {
+    bool success = 1;
+}

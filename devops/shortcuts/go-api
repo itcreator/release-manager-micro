@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+#compose=$(dirname "$0")/compose
+#compose run --no-deps api go $@
+
+docker exec -it relmmicro_service.api_1 $@

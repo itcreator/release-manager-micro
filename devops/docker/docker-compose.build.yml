@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+    api:
+        command: glide install
+
+    database:
+        image: 'postgres:9.5'
+        volumes:
+            - dbdata:/var/lib/postgresql
+
+volumes:
+    dbdata:
+        driver: local

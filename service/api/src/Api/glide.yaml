@@ -1,0 +1,16 @@
+package: app
+import:
+    - package: github.com/stretchr/testify
+    - package: github.com/tylerb/graceful
+    - package: github.com/go-swagger/go-swagger
+    - package: github.com/go-openapi/loads
+    - package: github.com/jessevdk/go-flags
+    - package: github.com/go-swagger/go-swagger/httpkit/middleware
+    - package: github.com/go-swagger/go-swagger/swag
+    - package: github.com/micro/go-micro
+    - package: github.com/eclipse/paho.mqtt.golang
+#    - package:
+#    - package:
+#    - package:
+    #go-micro
+

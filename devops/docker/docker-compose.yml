@@ -1,0 +1,70 @@
+version: "2"
+
+services:
+#### Service Discovery
+    consul:
+        build: ../../devops/docker/consul
+        depends_on:
+            - service.api
+            - service.project
+#        command: consul join service.project
+#        command: sh -c "consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -node=agent-one && consul join service.api && consul join service.project && consul members"
+#        command: sh -c "consul agent -server -bootstrap-expect 1 -node=agent-one -bind=172.20.20.10 && consul join 172.20.20.11"
+        expose:
+          - "8500"
+        ports:
+          - "8500:8500"
+
+
+#### API layer
+    service.api:
+        build: ../../devops/docker/go
+        working_dir: /go/src/Api
+        command: sh -c "consul agent -node=agent-api -data-dir /tmp/consul"
+#        command: sh -c "glide install && consul agent -node=agent-api -data-dir /tmp/consul"
+#        command: sh -c "glide install && tail -f /dev/null"
+#        command: tail -f /dev/null
+
+        volumes:
+           - ../../service/api/src:/go/src
+           - ../../service/api/apiDoc:/apiDoc
+#           - ../../service/project/src/project/proto:/go/src/proto
+        expose:
+           - "80"
+        ports:
+          - "9090:80"
+
+
+
+#### microservices
+## project
+    service.project:
+        build: ../../devops/docker/go
+        working_dir: /go/src/project
+        command: sh -c "consul agent -node=agent-project -data-dir /tmp/consul"
+#        command: sh -c "glide install && consul agent -node=agent-project -data-dir /tmp/consul"
+#        command: sh -c "glide install && consul agent -dev -advertise=127.0.0.1"
+#        command: sh -c "glide install && tail -f /dev/null"
+        depends_on:
+            - service.project.db
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - APP_HTTP_PORT=${APP_HTTP_PORT}
+            - APP_DATABASE_HOST=service.project.db
+        volumes:
+           - ../../service/project/src:/go/src
+
+    service.project.db:
+        image: 'postgres:9.5'
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - service.project.dbdata:/var/lib/postgresql
+
+volumes:
+    service.project.dbdata:
+        driver: local
