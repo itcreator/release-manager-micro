@@ -38,7 +38,7 @@ func (gateway *ProjectGateway) Insert(p *Project) {
 	}
 }
 
-// Select project from DB
+// SelectById selects project from DB
 func (gateway *ProjectGateway) SelectById(id uint64) (*Project, bool) {
 	stmt, err := gateway.Db.Prepare("SELECT id, name, description FROM " + tableName + " WHERE id = $1;")
 	checkErr(err)

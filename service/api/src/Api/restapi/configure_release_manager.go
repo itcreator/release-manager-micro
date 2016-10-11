@@ -8,7 +8,7 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	"Api/micro_gateway"
+	"Api/microGateway"
 	"Api/restapi/operations"
 	"Api/restapi/operations/project"
 )
@@ -33,7 +33,7 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	projectGateway := micro_gateway.NewProjectGateway()
+	projectGateway := microGateway.NewProjectGateway()
 	api.ProjectCreateProjectHandler = project.CreateProjectHandlerFunc(func(params project.CreateProjectParams) middleware.Responder {
 		return projectGateway.CreateProjectAction(params)
 	})

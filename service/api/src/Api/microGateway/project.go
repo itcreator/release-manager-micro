@@ -1,4 +1,4 @@
-package micro_gateway
+package microGateway
 
 import (
 	"Api/models"
