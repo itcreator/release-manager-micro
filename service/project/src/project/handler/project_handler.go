@@ -34,9 +34,9 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 	project, _ := h.Gateway.SelectById(req.Id)
 
 	rsp.Status = uint32(codes.OK)
-	rsp.Project = &proto.ProjectItem {
-		Id: project.Id,
-		Name: project.Name,
+	rsp.Project = &proto.ProjectItem{
+		Id:          project.Id,
+		Name:        project.Name,
 		Description: project.Description,
 	}
 
@@ -62,7 +62,7 @@ func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, r
 func (h *ProjectHandler) List(ctx context.Context, req *proto.ListRequest, rsp *proto.ListResponse) error {
 	projects := h.Gateway.SelectAll()
 	for _, project := range projects {
-		readRsp := &proto.ProjectItem {
+		readRsp := &proto.ProjectItem{
 			Id:          project.Id,
 			Name:        project.Name,
 			Description: project.Description,
