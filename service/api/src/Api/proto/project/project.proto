@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package project;
+
 service Project {
     rpc Create(CreateRequest) returns (CreateResponse) {}
     rpc Read(ReadRequest) returns (ReadResponse) {}
@@ -11,7 +13,8 @@ message ListRequest {
 }
 
 message ListResponse {
-    repeated ReadResponse projects = 1;
+    uint32 status = 1;
+    repeated ProjectItem projects = 2;
 }
 
 message CreateRequest {
@@ -20,8 +23,8 @@ message CreateRequest {
 }
 
 message CreateResponse {
-    bool success = 1;
-    uint64 id=2;
+    uint32 status = 1;
+    uint64 id = 2;
 }
 
 message ReadRequest {
@@ -29,9 +32,8 @@ message ReadRequest {
 }
 
 message ReadResponse {
-    uint64 id = 1;
-    string name = 2;
-    string description = 3;
+    uint32 status = 1;
+    ProjectItem project = 2;
 }
 
 message UpdateRequest {
@@ -41,5 +43,11 @@ message UpdateRequest {
 }
 
 message UpdateResponse {
-    bool success = 1;
+    uint32 status = 1;
+}
+
+message ProjectItem {
+    uint64 id = 2;
+    string name = 3;
+    string description = 4;
 }

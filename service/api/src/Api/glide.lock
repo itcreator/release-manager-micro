@@ -1,14 +1,12 @@
-hash: 94b3f8fbff659e083b1a1402def269f261341dcdcdd15f21ec0752e905d0050d
-updated: 2016-09-26T20:50:56.417135127Z
+hash: 08c0897201779081d5ba07788b5123a1b440e45b2c13c79d7cf5316d9978f81f
+updated: 2016-10-12T17:59:30.994870274Z
 imports:
 - name: github.com/asaskevich/govalidator
-  version: 593d64559f7600f29581a3ee42177f5dbded27a9
+  version: 7b3beb6df3c42abd3509abfc3bcacc0fbfb7c877
 - name: github.com/eclipse/paho.mqtt.golang
-  version: b0f0cce24f138f7a1d034f55069883c7dcb6a9d7
-  subpackages:
-  - packets
+  version: 13afcbe8e41508479762a90e9242577210c2ca8d
 - name: github.com/go-openapi/analysis
-  version: b44dc874b601d9e4e2f6e19140e794ba24bead3b
+  version: 7222828b8ce19afee3c595aef6643b9e42150120
 - name: github.com/go-openapi/errors
   version: 4178436c9f2430cdd945c50301cfb61563b56573
 - name: github.com/go-openapi/jsonpointer
@@ -18,7 +16,7 @@ imports:
 - name: github.com/go-openapi/loads
   version: 18441dfa706d924a39a030ee2c3b1d8d81917b38
 - name: github.com/go-openapi/runtime
-  version: 18efe8c11921c0ddabc8e91554971d6db1f91c7c
+  version: 3969e1fbeb2c58cc2e539bf8d35f1448d278729f
   subpackages:
   - middleware
   - middleware/denco
@@ -26,7 +24,7 @@ imports:
   - middleware/untyped
   - security
 - name: github.com/go-openapi/spec
-  version: 2433d2f0fc794728337e0c5d65716e79e163f04d
+  version: 451818a42c4560481c33bf592ca7665c928f7889
 - name: github.com/go-openapi/strfmt
   version: d65c7fdb29eca313476e529628176fe17e58c488
 - name: github.com/go-openapi/swag
@@ -34,31 +32,31 @@ imports:
 - name: github.com/go-openapi/validate
   version: 03d947b0268e1c2bb5c74ac4095447f140c9a112
 - name: github.com/go-swagger/go-swagger
-  version: 8602d06bcde193b6f837e2e511f4403c8d3c5394
+  version: 5891fa3a97f4c7b48702ad7c65d5bcec98eee371
   subpackages:
   - httpkit/middleware
   - swag
 - name: github.com/golang/protobuf
-  version: 87c000235d3d852c1628dc9490cd21ab36a7d69f
+  version: df1d3ca07d2d07bba352d5b73c4313b4e2a6203e
   subpackages:
   - proto
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/hashicorp/consul
-  version: bdcc8c44f510c2c2407cf63a722d2f92aecba255
+  version: 6197cc802a61508f4e4529bdeb0cb8c38543b0ab
   subpackages:
   - api
   - watch
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/serf
-  version: b7a120a5fc494f6dd5e858f42fd0fd4022d6320f
+  version: 1d4fa605f6ff3ed628d7ae5eda7c0e56803e72a5
   subpackages:
   - coordinate
 - name: github.com/jessevdk/go-flags
   version: 4cc2832a6e6d1d3b815e2b9d544b2a4dfb3ce8fa
 - name: github.com/mailru/easyjson
-  version: a5759050626e5d52afe79bbb6d77a59e98df5d2d
+  version: 9dc3521db3580379d6cc493938ef9d2e9782ee7b
   subpackages:
   - buffer
   - jlexer
@@ -66,11 +64,10 @@ imports:
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
 - name: github.com/micro/go-micro
-  version: 419b952fb353ecb1fbea9081cffec63f6067efa8
+  version: 32bf930ea1786e5145f5c370de1e2fb38eb24b0d
   subpackages:
   - broker
   - broker/http
-  - broker/mqtt
   - client
   - cmd
   - codec
@@ -89,17 +86,17 @@ imports:
   - transport
   - transport/http
 - name: github.com/micro/mdns
-  version: ab413e42fed3fdd8198ac4df3db5a342eb67d6e4
+  version: cdf30746f9f70dc7a366d3d885792a092fd83102
 - name: github.com/micro/misc
   version: 677e2a0beb40a3dd7418548fe0cdc661e2922859
   subpackages:
   - lib/tls
 - name: github.com/miekg/dns
-  version: db96a2b759cdef4f11a34506a42eb8d1290c598e
+  version: fc4e1e2843d86c346d7203160cfdbf14fa654a9b
 - name: github.com/mitchellh/hashstructure
   version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
 - name: github.com/pborman/uuid
-  version: b984ec7fa9ff9e428bd0cf0abf429384dfbe3e37
+  version: 3d4f2ba23642d3cfd06bd4b54cf03d99d95c0f1b
 - name: github.com/PuerkitoBio/purell
   version: 8a290539e2e8629dbc4e6bad948158f790ec31f4
 - name: github.com/PuerkitoBio/urlesc
@@ -109,7 +106,7 @@ imports:
 - name: github.com/tylerb/graceful
   version: 50a48b6e73fcc75b45e22c05b79629a67c79e938
 - name: golang.org/x/net
-  version: f09c4662a0bd6bd8943ac7b4931e185df9471da4
+  version: 6dba816f1056709e29a1c442883cab1336d3c083
   subpackages:
   - bpf
   - context
@@ -118,11 +115,11 @@ imports:
   - internal/netreflect
   - ipv4
   - ipv6
-  - websocket
 - name: golang.org/x/text
-  version: a7c023693a94aedd6b6df43ae7526bfe9d2b7d22
+  version: afa951a3250e0e2195be7366207189f3184d3fe1
   subpackages:
   - cases
+  - internal
   - internal/tag
   - language
   - runes
@@ -132,4 +129,8 @@ imports:
   - unicode/bidi
   - unicode/norm
   - width
+- name: google.golang.org/grpc
+  version: 9eaed1a74af580b44448989c8ed830bc210bddf4
+  subpackages:
+  - codes
 testImports: []

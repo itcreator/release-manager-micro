@@ -9,6 +9,7 @@ import:
     - package: github.com/go-swagger/go-swagger/swag
     - package: github.com/micro/go-micro
     - package: github.com/eclipse/paho.mqtt.golang
+    - package: google.golang.org/grpc/codes
 #    - package:
 #    - package:
 #    - package:

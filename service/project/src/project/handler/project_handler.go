@@ -2,6 +2,7 @@ package handler
 
 import (
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
 	"project/model"
 	proto "project/proto/project"
 )
@@ -20,7 +21,7 @@ func (h *ProjectHandler) Create(ctx context.Context, req *proto.CreateRequest, r
 
 	h.Gateway.Insert(project)
 
-	rsp.Success = true
+	rsp.Status = uint32(codes.OK)
 	rsp.Id = project.Id
 
 	return nil
@@ -32,9 +33,12 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 	//project, isEmpty := h.Gateway.SelectById(pro)
 	project, _ := h.Gateway.SelectById(req.Id)
 
-	rsp.Id = project.Id
-	rsp.Name = project.Name
-	rsp.Description = project.Description
+	rsp.Status = uint32(codes.OK)
+	rsp.Project = &proto.ProjectItem {
+		Id: project.Id,
+		Name: project.Name,
+		Description: project.Description,
+	}
 
 	return nil
 }
@@ -49,7 +53,7 @@ func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, r
 
 	h.Gateway.Update(project)
 
-	rsp.Success = true
+	rsp.Status = uint32(codes.OK)
 
 	return nil
 }
@@ -58,7 +62,7 @@ func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, r
 func (h *ProjectHandler) List(ctx context.Context, req *proto.ListRequest, rsp *proto.ListResponse) error {
 	projects := h.Gateway.SelectAll()
 	for _, project := range projects {
-		readRsp := &proto.ReadResponse{
+		readRsp := &proto.ProjectItem {
 			Id:          project.Id,
 			Name:        project.Name,
 			Description: project.Description,

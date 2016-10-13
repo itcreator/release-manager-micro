@@ -8,6 +8,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/micro/go-micro"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
 )
 
 //IProjectGateway is go-micro gateway for project
@@ -44,7 +45,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 		return project.NewCreateProjectInternalServerError()
 	}
 
-	if rsp.Success {
+	if uint32(codes.OK) == rsp.Status {
 		fmt.Println(fmt.Sprintf("project.client: ok. Id = %v", rsp.Id))
 	} else {
 		fmt.Println("project.client: fail. ")
@@ -59,9 +60,9 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Id,
-		Name:        readRsp.Name,
-		Description: readRsp.Description,
+		ID:          readRsp.Project.Id,
+		Name:        readRsp.Project.Name,
+		Description: readRsp.Project.Description,
 	}
 
 	return project.NewCreateProjectCreated().WithPayload(pr)
@@ -82,9 +83,9 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Id,
-		Name:        readRsp.Name,
-		Description: readRsp.Description,
+		ID:          readRsp.Project.Id,
+		Name:        readRsp.Project.Name,
+		Description: readRsp.Project.Description,
 	}
 
 	return project.NewReadProjectsOK().WithPayload(pr)
@@ -107,7 +108,7 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 		return project.NewCreateProjectInternalServerError()
 	}
 
-	if rsp.Success {
+	if uint32(codes.OK) == rsp.Status {
 		fmt.Println(fmt.Sprintf("project.client update: ok. Id = %v", params.ID))
 	} else {
 		fmt.Println("project.client: fail. ")
@@ -123,9 +124,9 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Id,
-		Name:        readRsp.Name,
-		Description: readRsp.Description,
+		ID:          readRsp.Project.Id,
+		Name:        readRsp.Project.Name,
+		Description: readRsp.Project.Description,
 	}
 
 	return project.NewUpdateProjectOK().WithPayload(pr)
