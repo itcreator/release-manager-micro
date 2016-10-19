@@ -29,15 +29,17 @@ func (h *ProjectHandler) Create(ctx context.Context, req *proto.CreateRequest, r
 
 //Read project by id
 func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *proto.ReadResponse) error {
-	//TODO: check if not found
-	//project, isEmpty := h.Gateway.SelectById(pro)
-	project, _ := h.Gateway.SelectById(req.Id)
+	project, isEmpty := h.Gateway.SelectById(req.Id)
 
-	rsp.Status = uint32(codes.OK)
-	rsp.Project = &proto.ProjectItem{
-		Id:          project.Id,
-		Name:        project.Name,
-		Description: project.Description,
+	if isEmpty {
+		rsp.Status = uint32(codes.NotFound)
+	} else {
+		rsp.Status = uint32(codes.OK)
+		rsp.Project = &proto.ProjectItem{
+			Id:          project.Id,
+			Name:        project.Name,
+			Description: project.Description,
+		}
 	}
 
 	return nil
@@ -45,15 +47,21 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 
 //Update projects
 func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, rsp *proto.UpdateResponse) error {
-	project, _ := h.Gateway.SelectById(req.Id)
+	project, notFound := h.Gateway.SelectById(req.Id)
 
-	project.Id = req.Id
-	project.Name = req.Name
-	project.Description = req.Description
+	if notFound {
+		rsp.Status = uint32(codes.NotFound)
+	} else {
+		project.Id = req.Id
+		project.Name = req.Name
+		project.Description = req.Description
 
-	h.Gateway.Update(project)
-
-	rsp.Status = uint32(codes.OK)
+		if h.Gateway.Update(project) {
+			rsp.Status = uint32(codes.OK)
+		} else {
+			rsp.Status = uint32(codes.NotFound)
+		}
+	}
 
 	return nil
 }

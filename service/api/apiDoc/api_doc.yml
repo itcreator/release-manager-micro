@@ -77,6 +77,8 @@ paths:
             responses:
                 200:
                     $ref: "#/responses/ProjectResponse"
+                404:
+                    $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
         put:
@@ -90,6 +92,8 @@ paths:
                       $ref: "#/definitions/Project"
             responses:
                 200:
+                    $ref: "#/responses/ProjectResponse"
+                404:
                     $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"

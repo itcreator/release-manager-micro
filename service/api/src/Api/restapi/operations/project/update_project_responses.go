@@ -67,6 +67,61 @@ func (o *UpdateProjectOK) WriteResponse(rw http.ResponseWriter, producer runtime
 	}
 }
 
+/*UpdateProjectNotFound Project response
+
+swagger:response updateProjectNotFound
+*/
+type UpdateProjectNotFound struct {
+	/*
+	  Required: true
+	*/
+	XErrorCode string `json:"X-Error-Code"`
+
+	// In: body
+	Payload *models.Project `json:"body,omitempty"`
+}
+
+// NewUpdateProjectNotFound creates UpdateProjectNotFound with default headers values
+func NewUpdateProjectNotFound() *UpdateProjectNotFound {
+	return &UpdateProjectNotFound{}
+}
+
+// WithXErrorCode adds the xErrorCode to the update project not found response
+func (o *UpdateProjectNotFound) WithXErrorCode(xErrorCode string) *UpdateProjectNotFound {
+	o.XErrorCode = xErrorCode
+	return o
+}
+
+// SetXErrorCode sets the xErrorCode to the update project not found response
+func (o *UpdateProjectNotFound) SetXErrorCode(xErrorCode string) {
+	o.XErrorCode = xErrorCode
+}
+
+// WithPayload adds the payload to the update project not found response
+func (o *UpdateProjectNotFound) WithPayload(payload *models.Project) *UpdateProjectNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update project not found response
+func (o *UpdateProjectNotFound) SetPayload(payload *models.Project) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateProjectNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	// response header X-Error-Code
+	rw.Header().Add("X-Error-Code", fmt.Sprintf("%v", o.XErrorCode))
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		if err := producer.Produce(rw, o.Payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 /*UpdateProjectInternalServerError Error response
 
 swagger:response updateProjectInternalServerError

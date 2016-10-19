@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/stretchr/testify/suite"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
 	"project/model"
 	proto "project/proto/project"
 	"testing"
@@ -27,7 +28,7 @@ func (suite *projectHandlerTestSuite) TestCreate() {
 
 	handler.Create(ctx, req, rsp)
 
-	suite.Equal(rsp.Success, true)
+	suite.Equal(rsp.Status, uint32(codes.OK))
 	suite.Equal(rsp.Id, uint64(1))
 	suite.Equal(gateway.StoredProject.Name, req.Name)
 	suite.Equal(gateway.StoredProject.Description, req.Description)
@@ -52,9 +53,33 @@ func (suite *projectHandlerTestSuite) TestRead() {
 
 	handler.Read(ctx, req, rsp)
 
-	suite.Equal(rsp.Id, uint64(1))
-	suite.Equal(gateway.StoredProject.Name, rsp.Name)
-	suite.Equal(gateway.StoredProject.Description, rsp.Description)
+	suite.Equal(rsp.Status, uint32(codes.OK))
+	suite.Equal(rsp.Project.Id, uint64(1))
+	suite.Equal(gateway.StoredProject.Name, rsp.Project.Name)
+	suite.Equal(gateway.StoredProject.Description, rsp.Project.Description)
+}
+
+func (suite *projectHandlerTestSuite) TestReadNotFound() {
+	gateway := new(projectGatewayMock)
+	gateway.Insert(&model.Project{
+		Name:        "N",
+		Description: "D",
+	})
+
+	ctx := context.TODO()
+	req := &proto.ReadRequest{
+		Id: 17636356,
+	}
+	rsp := new(proto.ReadResponse)
+
+	handler := &ProjectHandler{
+		Gateway: gateway,
+	}
+
+	handler.Read(ctx, req, rsp)
+
+	suite.Equal(uint32(codes.NotFound), rsp.Status)
+	suite.Nil(rsp.Project)
 }
 
 func (suite *projectHandlerTestSuite) TestUpdate() {
@@ -78,10 +103,31 @@ func (suite *projectHandlerTestSuite) TestUpdate() {
 
 	handler.Update(ctx, req, rsp)
 
-	suite.Equal(rsp.Success, true)
+	suite.Equal(rsp.Status, uint32(codes.OK))
 	suite.Equal(gateway.StoredProject.Id, uint64(1))
 	suite.Equal(gateway.StoredProject.Name, req.Name)
 	suite.Equal(gateway.StoredProject.Description, req.Description)
+}
+
+func (suite *projectHandlerTestSuite) TestUpdateNotFound() {
+	gateway := new(projectGatewayMock)
+
+	ctx := context.TODO()
+	req := &proto.UpdateRequest{
+		Id:          uint64(13435322),
+		Name:        "N4",
+		Description: "D4",
+	}
+	rsp := new(proto.UpdateResponse)
+
+	handler := &ProjectHandler{
+		Gateway: gateway,
+	}
+
+	handler.Update(ctx, req, rsp)
+
+	suite.Equal(uint32(codes.NotFound), rsp.Status)
+	suite.Nil(gateway.StoredProject)
 }
 
 func (suite *projectHandlerTestSuite) TestList() {
@@ -116,14 +162,34 @@ func (mock *projectGatewayMock) Insert(p *model.Project) {
 	mock.StoredProject.Id = 1
 }
 
-func (mock *projectGatewayMock) SelectById(id uint64) (*model.Project, bool) {
-	return mock.StoredProject, nil == mock.StoredProject
+func (mock *projectGatewayMock) isNotFound(id uint64) bool {
+	var notFound bool
+	if nil == mock.StoredProject || mock.StoredProject.Id != id {
+		notFound = true
+	} else {
+		println(mock.StoredProject.Id, id)
+		notFound = false
+	}
+
+	return notFound
 }
 
-func (mock *projectGatewayMock) Update(p *model.Project) *model.Project {
-	mock.StoredProject = p
+func (mock *projectGatewayMock) SelectById(id uint64) (*model.Project, bool) {
+	if (mock.isNotFound(id)) {
+		return &model.Project{}, true
+	} else {
+		return mock.StoredProject, false
+	}
+}
 
-	return p
+func (mock *projectGatewayMock) Update(p *model.Project) bool {
+	if mock.isNotFound(p.Id) {
+		return false
+	} else {
+		mock.StoredProject = p
+
+		return true
+	}
 }
 
 func (mock *projectGatewayMock) SelectAll() []*model.Project {

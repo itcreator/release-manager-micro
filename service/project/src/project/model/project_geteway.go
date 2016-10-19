@@ -11,7 +11,7 @@ var tableName string = "project"
 type IProjectGateway interface {
 	Insert(p *Project)
 	SelectById(id uint64) (*Project, bool)
-	Update(p *Project) *Project
+	Update(p *Project) bool
 	SelectAll() []*Project
 }
 
@@ -64,15 +64,18 @@ func checkErr(err error) {
 }
 
 //Update one project in DB
-func (gateway *ProjectGateway) Update(p *Project) *Project {
+func (gateway *ProjectGateway) Update(p *Project) bool {
 	stmt, err := gateway.Db.Prepare("UPDATE " + tableName + " SET name=$1, description=$2 WHERE id=$3")
 	checkErr(err)
 	defer stmt.Close()
 
-	_, err = stmt.Exec(p.Name, p.Description, p.Id)
+	res, err := stmt.Exec(p.Name, p.Description, p.Id)
 	checkErr(err)
 
-	return p
+	cnt, err := res.RowsAffected()
+	checkErr(err)
+
+	return cnt > 0
 }
 
 // SelectAll select all projects from DB

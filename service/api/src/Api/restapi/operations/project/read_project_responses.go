@@ -67,6 +67,61 @@ func (o *ReadProjectOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 	}
 }
 
+/*ReadProjectNotFound Project response
+
+swagger:response readProjectNotFound
+*/
+type ReadProjectNotFound struct {
+	/*
+	  Required: true
+	*/
+	XErrorCode string `json:"X-Error-Code"`
+
+	// In: body
+	Payload *models.Project `json:"body,omitempty"`
+}
+
+// NewReadProjectNotFound creates ReadProjectNotFound with default headers values
+func NewReadProjectNotFound() *ReadProjectNotFound {
+	return &ReadProjectNotFound{}
+}
+
+// WithXErrorCode adds the xErrorCode to the read project not found response
+func (o *ReadProjectNotFound) WithXErrorCode(xErrorCode string) *ReadProjectNotFound {
+	o.XErrorCode = xErrorCode
+	return o
+}
+
+// SetXErrorCode sets the xErrorCode to the read project not found response
+func (o *ReadProjectNotFound) SetXErrorCode(xErrorCode string) {
+	o.XErrorCode = xErrorCode
+}
+
+// WithPayload adds the payload to the read project not found response
+func (o *ReadProjectNotFound) WithPayload(payload *models.Project) *ReadProjectNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the read project not found response
+func (o *ReadProjectNotFound) SetPayload(payload *models.Project) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *ReadProjectNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	// response header X-Error-Code
+	rw.Header().Add("X-Error-Code", fmt.Sprintf("%v", o.XErrorCode))
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		if err := producer.Produce(rw, o.Payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 /*ReadProjectInternalServerError Error response
 
 swagger:response readProjectInternalServerError

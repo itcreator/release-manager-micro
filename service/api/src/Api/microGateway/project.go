@@ -48,7 +48,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 	if uint32(codes.OK) == rsp.Status {
 		fmt.Println(fmt.Sprintf("project.client: ok. Id = %v", rsp.Id))
 	} else {
-		fmt.Println("project.client: fail. ")
+		fmt.Println("project.client: create fail. ")
 	}
 
 	readRsp, err := proj.Read(context.TODO(), &proto.ReadRequest{
@@ -82,6 +82,12 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 		return project.NewCreateProjectInternalServerError()
 	}
 
+	if uint32(codes.OK) == readRsp.Status {
+		fmt.Println(fmt.Sprintf("project.client read: ok. Id = %v", params.ID))
+	} else if uint32(codes.NotFound) == readRsp.Status {
+		return project.NewReadProjectNotFound()
+	}
+
 	pr := &models.Project{
 		ID:          readRsp.Project.Id,
 		Name:        readRsp.Project.Name,
@@ -110,8 +116,10 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 
 	if uint32(codes.OK) == rsp.Status {
 		fmt.Println(fmt.Sprintf("project.client update: ok. Id = %v", params.ID))
+	} else if uint32(codes.NotFound) == rsp.Status {
+		return project.NewUpdateProjectNotFound()
 	} else {
-		fmt.Println("project.client: fail. ")
+		fmt.Println("project.client: update fail. Id = %v, status=", params.ID, rsp.Status)
 		return project.NewCreateProjectInternalServerError()
 	}
 
