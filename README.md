@@ -69,6 +69,12 @@ docker exec -it relmmicro_service.project.db_1 psql -U releasemanager -d release
 ```
 go test $(glide novendor) --cover 
 ```
+
+### docker containers ip
+```
+docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+```
+
 ###TODO:
 +project - implement CRUD
 +Consul health check
@@ -83,5 +89,3 @@ add library https://github.com/grpc-ecosystem/grpc-gateway to API layer
 
 #### proto 
     - extend (inheritance)
-
-f

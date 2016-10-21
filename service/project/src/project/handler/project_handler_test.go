@@ -175,21 +175,23 @@ func (mock *projectGatewayMock) isNotFound(id uint64) bool {
 }
 
 func (mock *projectGatewayMock) SelectById(id uint64) (*model.Project, bool) {
-	if (mock.isNotFound(id)) {
+	if mock.isNotFound(id) {
 		return &model.Project{}, true
-	} else {
-		return mock.StoredProject, false
 	}
+
+	return mock.StoredProject, false
 }
 
 func (mock *projectGatewayMock) Update(p *model.Project) bool {
+	var result bool
 	if mock.isNotFound(p.Id) {
-		return false
+		result = false
 	} else {
 		mock.StoredProject = p
-
-		return true
+		result = true
 	}
+
+	return result
 }
 
 func (mock *projectGatewayMock) SelectAll() []*model.Project {

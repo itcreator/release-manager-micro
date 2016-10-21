@@ -119,7 +119,7 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 	} else if uint32(codes.NotFound) == rsp.Status {
 		return project.NewUpdateProjectNotFound()
 	} else {
-		fmt.Println("project.client: update fail. Id = %v, status=", params.ID, rsp.Status)
+		fmt.Println(fmt.Sprintf("project.client: update fail. Id = %v, status = %v", params.ID, rsp.Status))
 		return project.NewCreateProjectInternalServerError()
 	}
 
