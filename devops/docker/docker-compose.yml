@@ -19,15 +19,15 @@ services:
 #### API layer
     service.api:
         build: ../../devops/docker/go
-        working_dir: /go/src/Api
+        working_dir: /go/src/api
         command: sh -c "consul agent -node=agent-api -data-dir /tmp/consul"
 #        command: sh -c "glide install && consul agent -node=agent-api -data-dir /tmp/consul"
 #        command: sh -c "glide install && tail -f /dev/null"
 #        command: tail -f /dev/null
 
         volumes:
-           - ../../service/api/src:/go/src
-           - ../../service/api/apiDoc:/apiDoc
+           - ../../src/api:/go/src/api
+           - ../../apiDoc:/apiDoc
 #           - ../../service/project/src/project/proto:/go/src/proto
         expose:
            - "80"
@@ -54,7 +54,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.project.db
         volumes:
-           - ../../service/project/src:/go/src
+           - ../../src/project:/go/src/project
 
     service.project.db:
         image: 'postgres:9.5'

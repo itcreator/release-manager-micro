@@ -1,3 +1,3 @@
 .idea/
-service/api/src/Api/vendor
-service/project/src/project/vendor
+src/api/vendor
+src/project/vendor
