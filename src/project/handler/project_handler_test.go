@@ -40,7 +40,7 @@ func (suite *projectHandlerTestSuite) TestRead() {
 		Name:        "N",
 		Description: "D",
 	})
-\
+
 	ctx := context.TODO()
 	req := &proto.ReadRequest{
 		Id: 1,
@@ -167,7 +167,6 @@ func (mock *projectGatewayMock) isNotFound(id uint64) bool {
 	if nil == mock.StoredProject || mock.StoredProject.Id != id {
 		notFound = true
 	} else {
-		println(mock.StoredProject.Id, id)
 		notFound = false
 	}
 
