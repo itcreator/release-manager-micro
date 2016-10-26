@@ -26,7 +26,7 @@ func main() {
 
 	parser := flags.NewParser(server, flags.Default)
 	parser.ShortDescription = `Release Manager`
-	parser.LongDescription = swaggerSpec.Spec().Info.Description
+	parser.LongDescription = `This application generate version for your software.`
 
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {

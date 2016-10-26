@@ -16,6 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"api/restapi/operations/project"
+	"api/restapi/operations/version_semantic"
 )
 
 // NewReleaseManagerAPI creates a new ReleaseManager instance
@@ -32,7 +33,7 @@ func NewReleaseManagerAPI(spec *loads.Document) *ReleaseManagerAPI {
 	return o
 }
 
-/*ReleaseManagerAPI the release manager API */
+/*ReleaseManagerAPI This application generate version for your software. */
 type ReleaseManagerAPI struct {
 	spec            *loads.Document
 	context         *middleware.Context
@@ -52,6 +53,8 @@ type ReleaseManagerAPI struct {
 	ProjectListProjectsHandler project.ListProjectsHandler
 	// ProjectReadProjectHandler sets the operation handler for the read project operation
 	ProjectReadProjectHandler project.ReadProjectHandler
+	// VersionSemanticSemverGenerateHandler sets the operation handler for the semver generate operation
+	VersionSemanticSemverGenerateHandler version_semantic.SemverGenerateHandler
 	// ProjectUpdateProjectHandler sets the operation handler for the update project operation
 	ProjectUpdateProjectHandler project.UpdateProjectHandler
 
@@ -122,6 +125,10 @@ func (o *ReleaseManagerAPI) Validate() error {
 
 	if o.ProjectReadProjectHandler == nil {
 		unregistered = append(unregistered, "project.ReadProjectHandler")
+	}
+
+	if o.VersionSemanticSemverGenerateHandler == nil {
+		unregistered = append(unregistered, "version_semantic.SemverGenerateHandler")
 	}
 
 	if o.ProjectUpdateProjectHandler == nil {
@@ -215,6 +222,11 @@ func (o *ReleaseManagerAPI) initHandlerCache() {
 		o.handlers[strings.ToUpper("GET")] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/projects/{id}"] = project.NewReadProject(o.context, o.ProjectReadProjectHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers[strings.ToUpper("POST")] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/projects/{projectId}/version/semantic"] = version_semantic.NewSemverGenerate(o.context, o.VersionSemanticSemverGenerateHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers[strings.ToUpper("PUT")] = make(map[string]http.Handler)

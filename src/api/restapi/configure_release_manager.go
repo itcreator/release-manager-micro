@@ -11,6 +11,7 @@ import (
 	"api/microGateway"
 	"api/restapi/operations"
 	"api/restapi/operations/project"
+	"api/restapi/operations/version_semantic"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
@@ -33,6 +34,7 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	//PROJECT MICRO SERVICE INTEGRATION
 	projectGateway := microGateway.NewProjectGateway()
 	api.ProjectCreateProjectHandler = project.CreateProjectHandlerFunc(func(params project.CreateProjectParams) middleware.Responder {
 		return projectGateway.CreateProjectAction(params)
@@ -46,6 +48,14 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 	api.ProjectListProjectsHandler = project.ListProjectsHandlerFunc(func(params project.ListProjectsParams) middleware.Responder {
 		return projectGateway.ListProjectsAction(params)
 	})
+
+
+	//SEMANTIC VERSIONING MICRO SERVICE INTEGRATION
+	api.VersionSemanticSemverGenerateHandler = version_semantic.SemverGenerateHandlerFunc(func(params version_semantic.SemverGenerateParams) middleware.Responder {
+		return middleware.NotImplemented("This method not yet implemented")
+	})
+
+	//END OF MICRO SERVICES INTEGRATION
 
 	api.ServerShutdown = func() {}
 

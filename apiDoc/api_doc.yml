@@ -1,18 +1,18 @@
 swagger: '2.0'
 info:
     title: Release Manager
-#    description: This application generate version for your software.
-#    contact:
-#        name: Vital Leshchyk
-#        url: https://github.com/itcreator/release-manager
-#        email: vitalleshchyk@gmail.com
-#    license:
-#        name: 3-Clause BSD
-#        url: https://github.com/itcreator/release-manager/blob/master/LICENSE
+    description: This application generate version for your software.
+    contact:
+        name: Vital Leshchyk
+        url: https://github.com/itcreator/release-manager
+        email: vitalleshchyk@gmail.com
+    license:
+        name: 3-Clause BSD
+        url: https://github.com/itcreator/release-manager-micro/blob/master/LICENSE
     version: 0.2.0
-#
-#schemes:
-#    - http
+
+schemes:
+    - http
 #    - https
 
 consumes:
@@ -24,6 +24,28 @@ tags:
       description: manages project
 
 paths:
+    /projects/{projectId}/version/semantic:
+        post:
+            operationId: semverGenerate
+            tags:
+                - versionSemantic
+            summary: Generate new semantic version number (based on gitflow)
+            description: |
+                Semantic Versioning 2.0.0
+                See also http://semver.org/spec/v2.0.0.html
+                Based on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)
+
+            parameters:
+                - name: body
+                  in: body
+                  schema:
+                      $ref: "#/definitions/SemverGenerateParams"
+            responses:
+                201:
+                    $ref: "#/responses/SemverGenerateResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+
     /projects:
         get:
             operationId: listProjects
@@ -113,6 +135,11 @@ responses:
         schema:
             $ref: "#/definitions/Project"
 
+    SemverGenerateResponse:
+        description: Generate semantic version response
+        schema:
+            $ref: "#/definitions/Semver"
+
 
 definitions:
     Error:
@@ -159,5 +186,51 @@ definitions:
                 title: The description of the project.
                 type: string
                 maxLength: 4000
+                x-nullable: false #don't generate reference
+
+    SemverGenerateParams:
+        title: Paremeters for generate version number for project (Semantic Versioning)
+        type: object
+        required:
+            - major
+            - minor
+            - branch
+        properties:
+            major:
+                title: Major number
+                description: MAJOR version when you make incompatible API changes
+                type: integer
+                format: uint64
+                readOnly: true
+            minor:
+                title: Minor number
+                description: MAJOR version when you make incompatible API changes
+                type: integer
+                format: uint64
+                readOnly: true
+            branch:
+                title: Name of branch for which needed to generate a version tag.
+                type: string
+                minLength: 2
+                maxLength: 150
+                x-nullable: false #don't generate reference
+
+    Semver:
+        title: Semver
+        type: object
+        required:
+            - version
+        properties:
+            id:
+                title: The id of the generated version number.
+                description: A unique identifier for the generated version number.
+                type: integer
+                format: uint64
+                readOnly: true
+            version:
+                title: The version number
+                type: string
+                minLength: 3
+                maxLength: 150
                 x-nullable: false #don't generate reference
 
