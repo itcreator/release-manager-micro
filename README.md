@@ -6,12 +6,14 @@ _**Will be use instead https://github.com/itcreator/release-manager**_
 [![License (3-Clause BSD)](https://img.shields.io/:license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/itcreator/release-manager-micro)](https://goreportcard.com/report/github.com/itcreator/release-manager-micro)
 
+[API Documentation apiDoc/api_doc.yml](apiDoc/api_doc.yml)
 
 ```bash
     ##cd devops/docker/
     docker-compose up
     docker exec -it relmmicro_service.api_1 bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
+    curl -X POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
     curl -i http://127.0.0.1:9090/projects
     curl -X POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
     curl -i http://127.0.0.1:9090/projects/5

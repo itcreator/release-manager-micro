@@ -51,7 +51,6 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 		fmt.Println("project.client: create fail. ")
 	}
 
-
 	readRsp, err := proj.Read(context.TODO(), &proto.ReadRequest{
 		Id: rsp.Id,
 	})
