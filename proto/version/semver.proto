@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package semver;
+
+service Semver {
+    rpc Generate(GenerateRequest) returns (GenerateResponse) {}
+}
+
+message GenerateRequest {
+    uint64 projectId = 1;
+    uint32 major = 2;
+    uint32 minor = 3;
+    string branch = 4;
+}
+
+message GenerateResponse {
+    uint64 id = 1;
+    string version = 2;
+}

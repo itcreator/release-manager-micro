@@ -138,7 +138,7 @@ responses:
     SemverGenerateResponse:
         description: Generate semantic version response
         schema:
-            $ref: "#/definitions/Semver"
+            $ref: "#/definitions/SemverNumber"
 
 
 definitions:
@@ -215,8 +215,8 @@ definitions:
                 maxLength: 150
                 x-nullable: false #don't generate reference
 
-    Semver:
-        title: Semver
+    SemverNumber:
+        title: Semver Number
         type: object
         required:
             - version

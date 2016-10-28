@@ -20,23 +20,21 @@ type IProjectGateway interface {
 }
 
 type projectGateway struct {
-	service micro.Service
+	projectClient proto.ProjectClient
 }
 
 //NewProjectGateway returns go-micro gateway for project
 func NewProjectGateway() IProjectGateway {
+	service := micro.NewService(micro.Name("project.client"))
+
 	return &projectGateway{
-		service: micro.NewService(micro.Name("project.client")),
+		projectClient: proto.NewProjectClient("project", service.Client()),
 	}
 }
 
 //CreateProjectAction sends create request to micro-service
 func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams) middleware.Responder {
-	service := micro.NewService(micro.Name("project.client"))
-
-	proj := proto.NewProjectClient("project", service.Client())
-
-	rsp, err := proj.Create(context.TODO(), &proto.CreateRequest{
+	rsp, err := g.projectClient.Create(context.TODO(), &proto.CreateRequest{
 		Name:        params.Body.Name,
 		Description: params.Body.Description,
 	})
@@ -51,7 +49,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 		fmt.Println("project.client: create fail. ")
 	}
 
-	readRsp, err := proj.Read(context.TODO(), &proto.ReadRequest{
+	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
 		Id: rsp.Id,
 	})
 	if err != nil {
@@ -70,10 +68,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 
 //ReadProjectAction read project from micro-service
 func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) middleware.Responder {
-	service := micro.NewService(micro.Name("project.client"))
-
-	proj := proto.NewProjectClient("project", service.Client())
-	readRsp, err := proj.Read(context.TODO(), &proto.ReadRequest{
+	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
 		Id: params.ID,
 	})
 
@@ -99,12 +94,7 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 
 //ReadProjectAction sends update request to micro-service
 func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams) middleware.Responder {
-	service := micro.NewService(micro.Name("project.client"))
-
-	proj := proto.NewProjectClient("project", service.Client())
-
-	// request the Hello method on the Greeter handler
-	rsp, err := proj.Update(context.TODO(), &proto.UpdateRequest{
+	rsp, err := g.projectClient.Update(context.TODO(), &proto.UpdateRequest{
 		Id:          params.ID,
 		Name:        params.Body.Name,
 		Description: params.Body.Description,
@@ -123,7 +113,7 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 		return project.NewCreateProjectInternalServerError()
 	}
 
-	readRsp, err := proj.Read(context.TODO(), &proto.ReadRequest{
+	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
 		Id: params.ID,
 	})
 	if err != nil {
@@ -142,10 +132,7 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 
 //ListProjectsAction get all of projects from micro-service
 func (g *projectGateway) ListProjectsAction(params project.ListProjectsParams) middleware.Responder {
-	service := micro.NewService(micro.Name("project.client"))
-
-	proj := proto.NewProjectClient("project", service.Client())
-	listRsp, err := proj.List(context.TODO(), &proto.ListRequest{})
+	listRsp, err := g.projectClient.List(context.TODO(), &proto.ListRequest{})
 
 	if err != nil {
 		fmt.Println(err)
@@ -153,11 +140,11 @@ func (g *projectGateway) ListProjectsAction(params project.ListProjectsParams) m
 	}
 
 	var projects = []*models.Project{}
-	for _, projResp := range listRsp.Projects {
+	for _, listResp := range listRsp.Projects {
 		p := &models.Project{
-			ID:          projResp.Id,
-			Name:        projResp.Name,
-			Description: projResp.Description,
+			ID:          listResp.Id,
+			Name:        listResp.Name,
+			Description: listResp.Description,
 		}
 		projects = append(projects, p)
 	}

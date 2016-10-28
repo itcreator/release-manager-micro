@@ -19,7 +19,7 @@ swagger:response semverGenerateCreated
 type SemverGenerateCreated struct {
 
 	// In: body
-	Payload *models.Semver `json:"body,omitempty"`
+	Payload *models.SemverNumber `json:"body,omitempty"`
 }
 
 // NewSemverGenerateCreated creates SemverGenerateCreated with default headers values
@@ -28,13 +28,13 @@ func NewSemverGenerateCreated() *SemverGenerateCreated {
 }
 
 // WithPayload adds the payload to the semver generate created response
-func (o *SemverGenerateCreated) WithPayload(payload *models.Semver) *SemverGenerateCreated {
+func (o *SemverGenerateCreated) WithPayload(payload *models.SemverNumber) *SemverGenerateCreated {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the semver generate created response
-func (o *SemverGenerateCreated) SetPayload(payload *models.Semver) {
+func (o *SemverGenerateCreated) SetPayload(payload *models.SemverNumber) {
 	o.Payload = payload
 }
 

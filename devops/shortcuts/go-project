@@ -3,4 +3,4 @@
 #compose=$(dirname "$0")/compose
 #compose run --no-deps api go $@
 
-docker exec -it relmmicro_service.project_1 $@
+docker exec -it relm_service.project_1 $@

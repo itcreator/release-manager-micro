@@ -1,16 +1,16 @@
 hash: b0da3933d56590ebc075e4d5b8b1c0f049a8f263cb5e8416a4218b6ab79fbf4c
-updated: 2016-10-12T19:59:37.280415706Z
+updated: 2016-10-27T23:20:42.947474979Z
 imports:
 - name: github.com/facebookgo/inject
   version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
 - name: github.com/facebookgo/structtag
   version: 217e25fb96916cc60332e399c9aa63f5c422ceed
 - name: github.com/golang/protobuf
-  version: 3571fb58c2425ca244702e8e2dfb156d95c44246
+  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 6197cc802a61508f4e4529bdeb0cb8c38543b0ab
+  version: 2de81c22c40073a63b65d82972ba3271e081e25a
   subpackages:
   - api
   - watch
@@ -21,13 +21,13 @@ imports:
   subpackages:
   - coordinate
 - name: github.com/lib/pq
-  version: 068cb1c8e4be77b9bdef4d0d91f162160537779e
+  version: ae8357db35d721c58dcdc911318b55bef6b1b001
   subpackages:
   - oid
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
 - name: github.com/micro/go-micro
-  version: 32bf930ea1786e5145f5c370de1e2fb38eb24b0d
+  version: db948d0dc3062bc5dc8f96eab32af64715654815
   subpackages:
   - broker
   - broker/http
@@ -55,7 +55,7 @@ imports:
   subpackages:
   - lib/tls
 - name: github.com/miekg/dns
-  version: fc4e1e2843d86c346d7203160cfdbf14fa654a9b
+  version: 58f52c57ce9df13460ac68200cef30a008b9c468
 - name: github.com/mitchellh/hashstructure
   version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
 - name: github.com/pborman/uuid
@@ -67,7 +67,7 @@ imports:
   - require
   - suite
 - name: golang.org/x/net
-  version: 6dba816f1056709e29a1c442883cab1336d3c083
+  version: b336a971b799939dd16ae9b1df8334cb8b977c4d
   subpackages:
   - bpf
   - context
@@ -76,7 +76,7 @@ imports:
   - ipv4
   - ipv6
 - name: google.golang.org/grpc
-  version: 9eaed1a74af580b44448989c8ed830bc210bddf4
+  version: 396f8ba2a6b9039070f4ff97561f5e408828fccd
   subpackages:
   - codes
 testImports:

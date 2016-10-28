@@ -1,0 +1,14 @@
+hash: 1b92837d7e7c2952ef2aee461a192d79e92b99e04a7e8a26a483d40788543bdf
+updated: 2016-10-27T22:27:27.573182396Z
+imports:
+- name: github.com/facebookgo/inject
+  version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
+- name: github.com/micro/go-micro
+  version: db948d0dc3062bc5dc8f96eab32af64715654815
+- name: github.com/stretchr/testify
+  version: 976c720a22c8eb4eb6a0b4348ad85ad12491a506
+- name: google.golang.org/grpc
+  version: 396f8ba2a6b9039070f4ff97561f5e408828fccd
+  subpackages:
+  - codes
+testImports: []

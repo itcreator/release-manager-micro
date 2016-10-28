@@ -11,13 +11,13 @@ _**Will be use instead https://github.com/itcreator/release-manager**_
 ```bash
     ##cd devops/docker/
     docker-compose up
-    docker exec -it relmmicro_service.api_1 bash
+    docker exec -it relm_service.api_1 bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
-    curl -X POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
     curl -i http://127.0.0.1:9090/projects
-    curl -X POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
     curl -i http://127.0.0.1:9090/projects/5
-    curl -X PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
+    curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
 ```
 
 shortcuts
@@ -31,18 +31,18 @@ shortcuts
 Add new agent: go to `devops/consul/scripts/boot.sh` and add line  consul join service.***
 Add new agent manually:
 ```bash
-    docker exec -it relmmicro_consul_1 consul join service.api
+    docker exec -it relm_consul_1 consul join service.api
 ```
  
 Check consul cluster
 ```bash
-docker exec -it relmmicro_consul_1 consul members
+docker exec -it relm_consul_1 consul members
 ```
 
 
 ### project service
 ```bash
-    docker exec -it relmmicro_service.project_1 bash
+    docker exec -it relm_service.project_1 bash
 
     #server 
     go run main.go
@@ -51,7 +51,7 @@ docker exec -it relmmicro_consul_1 consul members
 
 ### protobuf
 ```bash
-docker exec -it relmmicro_service.project_1 bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
+docker exec -it relm_service.project_1 bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
 # or
 protoc --go_out=plugins=micro:. proto/**/*.proto
 ```
@@ -64,7 +64,7 @@ go-api ./swagger generate server -f /apiDoc/api_doc.yml
 
 ### db
 ```
-docker exec -it relmmicro_service.project.db_1 psql -U releasemanager -d release_manager
+docker exec -it relm_service.project.db_1 psql -U releasemanager -d release_manager
 ```
 
 ### tests

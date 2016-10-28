@@ -29,10 +29,11 @@ func NewSemverGenerate(ctx *middleware.Context, handler SemverGenerateHandler) *
 
 /*SemverGenerate swagger:route POST /projects/{projectId}/version/semantic versionSemantic semverGenerate
 
-Generate new semantic version number
+Generate new semantic version number (based on gitflow)
 
 Semantic Versioning 2.0.0
 See also http://semver.org/spec/v2.0.0.html
+Based on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)
 
 
 */
