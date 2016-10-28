@@ -29,8 +29,8 @@ RUN go get -u github.com/micro/protobuf/proto github.com/micro/protobuf/protoc-g
 ### consul agent
 
 RUN cd /tmp \
-    && wget https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip \
-    && unzip consul_0.6.4_linux_amd64.zip \
+    && wget https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip \
+    && unzip consul_0.7.0_linux_amd64.zip \
     && chmod +x consul \
     && mv consul /usr/bin/consul
 

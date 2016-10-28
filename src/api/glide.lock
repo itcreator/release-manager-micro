@@ -1,5 +1,5 @@
 hash: 08c0897201779081d5ba07788b5123a1b440e45b2c13c79d7cf5316d9978f81f
-updated: 2016-10-12T17:59:30.994870274Z
+updated: 2016-10-27T23:20:21.084231874Z
 imports:
 - name: github.com/asaskevich/govalidator
   version: 7b3beb6df3c42abd3509abfc3bcacc0fbfb7c877
@@ -14,9 +14,9 @@ imports:
 - name: github.com/go-openapi/jsonreference
   version: 13c6e3589ad90f49bd3e3bbe2c2cb3d7a4142272
 - name: github.com/go-openapi/loads
-  version: 18441dfa706d924a39a030ee2c3b1d8d81917b38
+  version: 9168874c33ac10e241ee7767ed9f5d209c2a5ab0
 - name: github.com/go-openapi/runtime
-  version: 3969e1fbeb2c58cc2e539bf8d35f1448d278729f
+  version: 2faaf90bf67e0616db00094f2141f99b00a9ebc2
   subpackages:
   - middleware
   - middleware/denco
@@ -24,26 +24,26 @@ imports:
   - middleware/untyped
   - security
 - name: github.com/go-openapi/spec
-  version: 451818a42c4560481c33bf592ca7665c928f7889
+  version: 8f2b3d0e3aa15100eea0ab61dc6fa02f00f5e713
 - name: github.com/go-openapi/strfmt
   version: d65c7fdb29eca313476e529628176fe17e58c488
 - name: github.com/go-openapi/swag
-  version: c98c5a1cc708d9860aeeceea6391da6f223d479c
+  version: 3b6d86cd965820f968760d5d419cb4add096bdd7
 - name: github.com/go-openapi/validate
-  version: 03d947b0268e1c2bb5c74ac4095447f140c9a112
+  version: 027696d4b54399770f1cdcc6c6daa56975f9e14e
 - name: github.com/go-swagger/go-swagger
-  version: 5891fa3a97f4c7b48702ad7c65d5bcec98eee371
+  version: dae55c0fc2df02e480114804b1d5b35a0e584c66
   subpackages:
   - httpkit/middleware
   - swag
 - name: github.com/golang/protobuf
-  version: df1d3ca07d2d07bba352d5b73c4313b4e2a6203e
+  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
   subpackages:
   - proto
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/hashicorp/consul
-  version: 6197cc802a61508f4e4529bdeb0cb8c38543b0ab
+  version: 2de81c22c40073a63b65d82972ba3271e081e25a
   subpackages:
   - api
   - watch
@@ -54,7 +54,7 @@ imports:
   subpackages:
   - coordinate
 - name: github.com/jessevdk/go-flags
-  version: 4cc2832a6e6d1d3b815e2b9d544b2a4dfb3ce8fa
+  version: 0648c820cd4e564706597268ae2d2c7d9e6900c6
 - name: github.com/mailru/easyjson
   version: 9dc3521db3580379d6cc493938ef9d2e9782ee7b
   subpackages:
@@ -64,7 +64,7 @@ imports:
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
 - name: github.com/micro/go-micro
-  version: 32bf930ea1786e5145f5c370de1e2fb38eb24b0d
+  version: db948d0dc3062bc5dc8f96eab32af64715654815
   subpackages:
   - broker
   - broker/http
@@ -92,7 +92,7 @@ imports:
   subpackages:
   - lib/tls
 - name: github.com/miekg/dns
-  version: fc4e1e2843d86c346d7203160cfdbf14fa654a9b
+  version: 58f52c57ce9df13460ac68200cef30a008b9c468
 - name: github.com/mitchellh/hashstructure
   version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
 - name: github.com/pborman/uuid
@@ -106,7 +106,7 @@ imports:
 - name: github.com/tylerb/graceful
   version: 50a48b6e73fcc75b45e22c05b79629a67c79e938
 - name: golang.org/x/net
-  version: 6dba816f1056709e29a1c442883cab1336d3c083
+  version: b336a971b799939dd16ae9b1df8334cb8b977c4d
   subpackages:
   - bpf
   - context
@@ -116,7 +116,7 @@ imports:
   - ipv4
   - ipv6
 - name: golang.org/x/text
-  version: afa951a3250e0e2195be7366207189f3184d3fe1
+  version: a8b38433e35b65ba247bb267317037dee1b70cea
   subpackages:
   - cases
   - internal
@@ -130,7 +130,7 @@ imports:
   - unicode/norm
   - width
 - name: google.golang.org/grpc
-  version: 9eaed1a74af580b44448989c8ed830bc210bddf4
+  version: 396f8ba2a6b9039070f4ff97561f5e408828fccd
   subpackages:
   - codes
 testImports: []

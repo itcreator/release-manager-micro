@@ -1,3 +1,4 @@
 .idea/
 src/api/vendor
 src/project/vendor
+src/semver/vendor
