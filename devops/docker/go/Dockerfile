@@ -5,25 +5,10 @@ FROM golang:1.7
 #todo: move protobuf to separate container
 
 RUN apt-get update -y
-RUN apt-get install -y autoconf automake libtool curl make g++ unzip
+RUN apt-get install -y unzip
 
 RUN mkdir /src
 WORKDIR /src
-
-RUN git clone https://github.com/google/protobuf -b 3.0.x --depth 1  .
-
-RUN ./autogen.sh
-
-RUN ./configure
-RUN make
-RUN make check
-RUN make install
-RUN ldconfig
-
-RUN protoc --version
-
-
-RUN go get -u github.com/micro/protobuf/proto github.com/micro/protobuf/protoc-gen-go
 
 
 ### consul agent

@@ -16,14 +16,6 @@ swagger:model SemverNumber
 */
 type SemverNumber struct {
 
-	/* The id of the generated version number.
-
-	A unique identifier for the generated version number.
-
-	Read Only: true
-	*/
-	ID uint64 `json:"id,omitempty"`
-
 	/* The version number
 
 	Required: true

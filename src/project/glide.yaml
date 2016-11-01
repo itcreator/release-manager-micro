@@ -5,7 +5,7 @@ import:
     - package: github.com/stretchr/testify
     - package: github.com/micro/go-micro
     - package: google.golang.org/grpc/codes
-#    - package: github.com/micro/protobuf/proto
+    - package: github.com/micro/protobuf/proto
 #    - package: github.com/micro/protobuf/protoc-gen-go
     #go-micro
 

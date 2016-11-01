@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package semver;
 
-service Semver {
+service versionSemver {
     rpc Generate(GenerateRequest) returns (GenerateResponse) {}
 }
 
@@ -14,6 +14,5 @@ message GenerateRequest {
 }
 
 message GenerateResponse {
-    uint64 id = 1;
-    string version = 2;
+    string version = 1;
 }

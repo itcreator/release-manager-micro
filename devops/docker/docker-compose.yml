@@ -80,6 +80,14 @@ services:
         volumes:
             - service.semver.dbdata:/var/lib/postgresql
 
+#### maitenance
+    protoc:
+        build: ../../devops/docker/protoc-go-micro
+        working_dir: /code
+        volumes:
+            - ../..:/code
+
+
 volumes:
     service.project.dbdata:
         driver: local
