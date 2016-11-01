@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/micro/go-micro"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
+	"context"
 )
 
 //IProjectGateway is go-micro gateway for project

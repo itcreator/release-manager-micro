@@ -31,7 +31,7 @@ type SemverGenerateParams struct {
 	Required: true
 	Read Only: true
 	*/
-	Major uint64 `json:"major"`
+	Major uint32 `json:"major"`
 
 	/* Minor number
 
@@ -40,7 +40,7 @@ type SemverGenerateParams struct {
 	Required: true
 	Read Only: true
 	*/
-	Minor uint64 `json:"minor"`
+	Minor uint32 `json:"minor"`
 }
 
 // Validate validates this semver generate params
@@ -87,7 +87,7 @@ func (m *SemverGenerateParams) validateBranch(formats strfmt.Registry) error {
 
 func (m *SemverGenerateParams) validateMajor(formats strfmt.Registry) error {
 
-	if err := validate.Required("major", "body", uint64(m.Major)); err != nil {
+	if err := validate.Required("major", "body", uint32(m.Major)); err != nil {
 		return err
 	}
 
@@ -96,7 +96,7 @@ func (m *SemverGenerateParams) validateMajor(formats strfmt.Registry) error {
 
 func (m *SemverGenerateParams) validateMinor(formats strfmt.Registry) error {
 
-	if err := validate.Required("minor", "body", uint64(m.Minor)); err != nil {
+	if err := validate.Required("minor", "body", uint32(m.Minor)); err != nil {
 		return err
 	}
 

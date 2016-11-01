@@ -54,6 +54,7 @@ docker exec -it relm_consul_1 consul members
 docker exec -it relm_service.project_1 bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
 # or
 protoc --go_out=plugins=micro:. proto/**/*.proto
+docker-compose run --rm protoc protoc --go_out=plugins=micro:src/semver proto/semver/*.proto
 ```
 
 
@@ -81,12 +82,13 @@ docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}
 +project - implement CRUD
 +Consul health check
 +go-swagger - return correct response and error messages
-implement versioning
++ implement versioning
+use gorp
 add `OpenID Connect`
-map project proto to swagger model automatically
+- map project proto to swagger model automatically
 folder/repo structure
 dashboard for micro services
-add library https://github.com/grpc-ecosystem/grpc-gateway to API layer
+- add library https://github.com/grpc-ecosystem/grpc-gateway to API layer
  
 
 #### proto 

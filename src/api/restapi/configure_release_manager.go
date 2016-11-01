@@ -51,8 +51,9 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 
 
 	//SEMANTIC VERSIONING MICRO SERVICE INTEGRATION
+	semverGateway := microGateway.NewSemverGateway();
 	api.VersionSemanticSemverGenerateHandler = version_semantic.SemverGenerateHandlerFunc(func(params version_semantic.SemverGenerateParams) middleware.Responder {
-		return middleware.NotImplemented("This method not yet implemented")
+		return semverGateway.GenerateVersionAction(params)
 	})
 
 	//END OF MICRO SERVICES INTEGRATION

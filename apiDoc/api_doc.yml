@@ -22,9 +22,17 @@ produces:
 tags:
     - name: project
       description: manages project
+    - name: versionSemantic
+      description: Generate version tag. See also http://semver.org/spec/v2.0.0.html
 
 paths:
     /projects/{projectId}/version/semantic:
+        parameters:
+          - type: integer
+            format: uint64
+            name: projectId
+            in: path
+            required: true
         post:
             operationId: semverGenerate
             tags:
@@ -200,13 +208,13 @@ definitions:
                 title: Major number
                 description: MAJOR version when you make incompatible API changes
                 type: integer
-                format: uint64
+                format: uint32
                 readOnly: true
             minor:
                 title: Minor number
                 description: MAJOR version when you make incompatible API changes
                 type: integer
-                format: uint64
+                format: uint32
                 readOnly: true
             branch:
                 title: Name of branch for which needed to generate a version tag.
@@ -221,12 +229,6 @@ definitions:
         required:
             - version
         properties:
-            id:
-                title: The id of the generated version number.
-                description: A unique identifier for the generated version number.
-                type: integer
-                format: uint64
-                readOnly: true
             version:
                 title: The version number
                 type: string
