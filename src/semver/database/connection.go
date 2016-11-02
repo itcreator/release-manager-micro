@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq" //for psql
-	"semver/config"
 	"gopkg.in/gorp.v1"
-	"semver/model"
 	"log"
+	"semver/config"
+	"semver/model"
 )
 
 func mapEntities(dbMap *gorp.DbMap) {
-	dbMap.AddTableWithName(model.Version{}, "version_semantic").SetKeys(true, "Id")
+	dbMap.AddTableWithName(model.Version{}, "version_semantic").SetKeys(true, "ID")
 }
 
 // InitORM create new database connection and return instance of gorp.DbMap
@@ -25,8 +25,7 @@ func InitORM(cfg config.AppConfig) *gorp.DbMap {
 	// construct a gorp DbMap
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
 
-	mapEntities(dbmap);
-
+	mapEntities(dbmap)
 
 	// create the table. in a production system you'd generally
 	// use a migration tool, or create the tables via scripts

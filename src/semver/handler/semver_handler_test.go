@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/stretchr/testify/suite"
 	"context"
+	"github.com/stretchr/testify/suite"
 	proto "semver/proto/semver"
 	"testing"
 )
@@ -31,12 +31,11 @@ type versioGeneratorMock struct {
 	StoredVersion string
 }
 
-func (mock *versioGeneratorMock) GenerateVersion(projectId uint64, major uint32, minor uint32, branch string) string {
+func (mock *versioGeneratorMock) GenerateVersion(projectID uint64, major uint32, minor uint32, branch string) string {
 	mock.StoredVersion = "1.0.1"
 
 	return mock.StoredVersion
 }
-
 
 func TestSemverHandlerSuite(t *testing.T) {
 	suite.Run(t, new(semverHandlerTestSuite))

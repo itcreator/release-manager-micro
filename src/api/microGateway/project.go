@@ -4,11 +4,11 @@ import (
 	"api/models"
 	proto "api/proto/project"
 	"api/restapi/operations/project"
+	"context"
 	"fmt"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/micro/go-micro"
 	"google.golang.org/grpc/codes"
-	"context"
 )
 
 //IProjectGateway is go-micro gateway for project

@@ -1,16 +1,17 @@
 package generator
 
 import (
-	"semver/model"
 	"fmt"
+	"semver/model"
 	"strings"
 )
 
+// ISemverGenerator generate version
 type ISemverGenerator interface {
-	GenerateVersion(projectId uint64, major uint32, minor uint32, branch string) string
+	GenerateVersion(projectID uint64, major uint32, minor uint32, branch string) string
 }
 
-// SemverGenerator implements `Strategy` interface
+// SemverGenerator implements `ISemverGenerator` interface
 type SemverGenerator struct {
 	VersionRepository model.IVersionRepository `inject:""`
 }
@@ -29,13 +30,13 @@ func (s *SemverGenerator) addRevisionPostfix(version *model.Version, tag string)
 	return tag
 }
 
-func (s *SemverGenerator) getStoredVersion(projectId uint64, major uint32, minor uint32, branch string) *model.Version {
+func (s *SemverGenerator) getStoredVersion(projectID uint64, major uint32, minor uint32, branch string) *model.Version {
 
 	rep := s.VersionRepository
-	ver, isEmpty := rep.Select(projectId, major, minor, branch)
+	ver, isEmpty := rep.Select(projectID, major, minor, branch)
 
 	if isEmpty {
-		ver.ProjectId = projectId
+		ver.ProjectID = projectID
 		ver.Revision = 0
 		ver.Major = major
 		ver.Minor = minor
@@ -48,13 +49,13 @@ func (s *SemverGenerator) getStoredVersion(projectId uint64, major uint32, minor
 }
 
 // GenerateVersion function generate version for project
-func (s *SemverGenerator) GenerateVersion(projectId uint64, major uint32, minor uint32, branch string) string {
+func (s *SemverGenerator) GenerateVersion(projectID uint64, major uint32, minor uint32, branch string) string {
 	//todo: move branch names to config DB table
 	branchMaster := "master"
 	branchDev := "dev"
 	branchRelease := "release"
 
-	ver := s.getStoredVersion(projectId, major, minor, branch)
+	ver := s.getStoredVersion(projectID, major, minor, branch)
 
 	var versionName string
 
@@ -79,7 +80,7 @@ func (s *SemverGenerator) GenerateVersion(projectId uint64, major uint32, minor 
 	}
 
 	rep := s.VersionRepository
-	if ver.Id > 0 {
+	if ver.ID > 0 {
 		rep.UpdateRevision(ver)
 	} else {
 		rep.Insert(ver)
