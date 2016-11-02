@@ -16,12 +16,12 @@ import (
 func InitServices(graph inject.Graph, handler *handler.ProjectHandler) {
 
 	config := config.New()
-	dbConnection := database.NewConnection(config)
+	dbMap := database.NewConnection(config)
 
 	err := graph.Provide(
-		&inject.Object{Value: dbConnection, Name: "db"},
+		&inject.Object{Value: dbMap, Name: "dbMap"},
 		&inject.Object{Value: config, Name: "config"},
-		&inject.Object{Value: &model.ProjectGateway{}},
+		&inject.Object{Value: &model.ProjectRepository{}},
 		&inject.Object{Value: handler},
 	)
 

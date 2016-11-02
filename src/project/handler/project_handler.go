@@ -9,7 +9,7 @@ import (
 
 //ProjectHandler is a CRUD handler for project (with out delete)
 type ProjectHandler struct {
-	Gateway model.IProjectGateway `inject:""`
+	Repository model.IProjectRepository `inject:""`
 }
 
 //Create new project
@@ -19,24 +19,24 @@ func (h *ProjectHandler) Create(ctx context.Context, req *proto.CreateRequest, r
 		Description: req.Description,
 	}
 
-	h.Gateway.Insert(project)
+	h.Repository.Insert(project)
 
 	rsp.Status = uint32(codes.OK)
-	rsp.Id = project.Id
+	rsp.Id = project.ID
 
 	return nil
 }
 
 //Read project by id
 func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *proto.ReadResponse) error {
-	project, isEmpty := h.Gateway.SelectById(req.Id)
+	project := h.Repository.SelectByID(req.Id)
 
-	if isEmpty {
+	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
 	} else {
 		rsp.Status = uint32(codes.OK)
 		rsp.Project = &proto.ProjectItem{
-			Id:          project.Id,
+			Id:          project.ID,
 			Name:        project.Name,
 			Description: project.Description,
 		}
@@ -47,16 +47,16 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 
 //Update projects
 func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, rsp *proto.UpdateResponse) error {
-	project, notFound := h.Gateway.SelectById(req.Id)
+	project := h.Repository.SelectByID(req.Id)
 
-	if notFound {
+	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
 	} else {
-		project.Id = req.Id
+		project.ID = req.Id
 		project.Name = req.Name
 		project.Description = req.Description
 
-		if h.Gateway.Update(project) {
+		if h.Repository.Update(project) {
 			rsp.Status = uint32(codes.OK)
 		} else {
 			rsp.Status = uint32(codes.NotFound)
@@ -68,10 +68,10 @@ func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, r
 
 //List all elements
 func (h *ProjectHandler) List(ctx context.Context, req *proto.ListRequest, rsp *proto.ListResponse) error {
-	projects := h.Gateway.SelectAll()
+	projects := h.Repository.SelectAll()
 	for _, project := range projects {
 		readRsp := &proto.ProjectItem{
-			Id:          project.Id,
+			Id:          project.ID,
 			Name:        project.Name,
 			Description: project.Description,
 		}

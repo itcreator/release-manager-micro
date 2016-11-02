@@ -21,22 +21,22 @@ func (suite *projectHandlerTestSuite) TestCreate() {
 	}
 	rsp := new(proto.CreateResponse)
 
-	gateway := new(projectGatewayMock)
+	repository := new(projectRepositoryMock)
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.Create(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
 	suite.Equal(rsp.Id, uint64(1))
-	suite.Equal(gateway.StoredProject.Name, req.Name)
-	suite.Equal(gateway.StoredProject.Description, req.Description)
+	suite.Equal(repository.StoredProject.Name, req.Name)
+	suite.Equal(repository.StoredProject.Description, req.Description)
 }
 
 func (suite *projectHandlerTestSuite) TestRead() {
-	gateway := new(projectGatewayMock)
-	gateway.Insert(&model.Project{
+	repository := new(projectRepositoryMock)
+	repository.Insert(&model.Project{
 		Name:        "N",
 		Description: "D",
 	})
@@ -48,20 +48,20 @@ func (suite *projectHandlerTestSuite) TestRead() {
 	rsp := new(proto.ReadResponse)
 
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.Read(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
 	suite.Equal(rsp.Project.Id, uint64(1))
-	suite.Equal(gateway.StoredProject.Name, rsp.Project.Name)
-	suite.Equal(gateway.StoredProject.Description, rsp.Project.Description)
+	suite.Equal(repository.StoredProject.Name, rsp.Project.Name)
+	suite.Equal(repository.StoredProject.Description, rsp.Project.Description)
 }
 
 func (suite *projectHandlerTestSuite) TestReadNotFound() {
-	gateway := new(projectGatewayMock)
-	gateway.Insert(&model.Project{
+	repository := new(projectRepositoryMock)
+	repository.Insert(&model.Project{
 		Name:        "N",
 		Description: "D",
 	})
@@ -73,7 +73,7 @@ func (suite *projectHandlerTestSuite) TestReadNotFound() {
 	rsp := new(proto.ReadResponse)
 
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.Read(ctx, req, rsp)
@@ -83,8 +83,8 @@ func (suite *projectHandlerTestSuite) TestReadNotFound() {
 }
 
 func (suite *projectHandlerTestSuite) TestUpdate() {
-	gateway := new(projectGatewayMock)
-	gateway.Insert(&model.Project{
+	repository := new(projectRepositoryMock)
+	repository.Insert(&model.Project{
 		Name:        "N",
 		Description: "D",
 	})
@@ -98,19 +98,19 @@ func (suite *projectHandlerTestSuite) TestUpdate() {
 	rsp := new(proto.UpdateResponse)
 
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.Update(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
-	suite.Equal(gateway.StoredProject.Id, uint64(1))
-	suite.Equal(gateway.StoredProject.Name, req.Name)
-	suite.Equal(gateway.StoredProject.Description, req.Description)
+	suite.Equal(repository.StoredProject.ID, uint64(1))
+	suite.Equal(repository.StoredProject.Name, req.Name)
+	suite.Equal(repository.StoredProject.Description, req.Description)
 }
 
 func (suite *projectHandlerTestSuite) TestUpdateNotFound() {
-	gateway := new(projectGatewayMock)
+	repository := new(projectRepositoryMock)
 
 	ctx := context.TODO()
 	req := &proto.UpdateRequest{
@@ -121,18 +121,18 @@ func (suite *projectHandlerTestSuite) TestUpdateNotFound() {
 	rsp := new(proto.UpdateResponse)
 
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.Update(ctx, req, rsp)
 
 	suite.Equal(uint32(codes.NotFound), rsp.Status)
-	suite.Nil(gateway.StoredProject)
+	suite.Nil(repository.StoredProject)
 }
 
 func (suite *projectHandlerTestSuite) TestList() {
-	gateway := new(projectGatewayMock)
-	gateway.Insert(&model.Project{
+	repository := new(projectRepositoryMock)
+	repository.Insert(&model.Project{
 		Name:        "N",
 		Description: "D",
 	})
@@ -142,29 +142,29 @@ func (suite *projectHandlerTestSuite) TestList() {
 	rsp := new(proto.ListResponse)
 
 	handler := &ProjectHandler{
-		Gateway: gateway,
+		Repository: repository,
 	}
 
 	handler.List(ctx, req, rsp)
 
 	suite.Len(rsp.Projects, 1)
-	suite.Equal(rsp.Projects[0].Id, gateway.StoredProject.Id)
-	suite.Equal(rsp.Projects[0].Name, gateway.StoredProject.Name)
-	suite.Equal(rsp.Projects[0].Description, gateway.StoredProject.Description)
+	suite.Equal(rsp.Projects[0].Id, repository.StoredProject.ID)
+	suite.Equal(rsp.Projects[0].Name, repository.StoredProject.Name)
+	suite.Equal(rsp.Projects[0].Description, repository.StoredProject.Description)
 }
 
-type projectGatewayMock struct {
+type projectRepositoryMock struct {
 	StoredProject *model.Project
 }
 
-func (mock *projectGatewayMock) Insert(p *model.Project) {
+func (mock *projectRepositoryMock) Insert(p *model.Project) {
 	mock.StoredProject = p
-	mock.StoredProject.Id = 1
+	mock.StoredProject.ID = 1
 }
 
-func (mock *projectGatewayMock) isNotFound(id uint64) bool {
+func (mock *projectRepositoryMock) isNotFound(id uint64) bool {
 	var notFound bool
-	if nil == mock.StoredProject || mock.StoredProject.Id != id {
+	if nil == mock.StoredProject || mock.StoredProject.ID != id {
 		notFound = true
 	} else {
 		notFound = false
@@ -173,17 +173,20 @@ func (mock *projectGatewayMock) isNotFound(id uint64) bool {
 	return notFound
 }
 
-func (mock *projectGatewayMock) SelectById(id uint64) (*model.Project, bool) {
+func (mock *projectRepositoryMock) SelectByID(id uint64) *model.Project {
+	var p *model.Project
 	if mock.isNotFound(id) {
-		return &model.Project{}, true
+		p = nil
+	} else {
+		p = mock.StoredProject
 	}
 
-	return mock.StoredProject, false
+	return p
 }
 
-func (mock *projectGatewayMock) Update(p *model.Project) bool {
+func (mock *projectRepositoryMock) Update(p *model.Project) bool {
 	var result bool
-	if mock.isNotFound(p.Id) {
+	if mock.isNotFound(p.ID) {
 		result = false
 	} else {
 		mock.StoredProject = p
@@ -193,7 +196,7 @@ func (mock *projectGatewayMock) Update(p *model.Project) bool {
 	return result
 }
 
-func (mock *projectGatewayMock) SelectAll() []*model.Project {
+func (mock *projectRepositoryMock) SelectAll() []*model.Project {
 	var projects = []*model.Project{}
 	projects = append(projects, mock.StoredProject)
 
