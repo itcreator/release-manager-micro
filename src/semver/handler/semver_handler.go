@@ -1,11 +1,12 @@
 package handler
 
 import (
-	proto "semver/proto/semver"
 	"golang.org/x/net/context"
 	"semver/generator"
+	proto "semver/proto/semver"
 )
 
+//SemverHandler is a handler for generate version
 type SemverHandler struct {
 	Generator generator.ISemverGenerator `inject:""`
 }

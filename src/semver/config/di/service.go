@@ -7,9 +7,9 @@ import (
 	"github.com/facebookgo/inject"
 	"semver/config"
 	"semver/database"
+	"semver/generator"
 	"semver/handler"
 	"semver/model"
-	"semver/generator"
 )
 
 //InitServices initialize DI configuration

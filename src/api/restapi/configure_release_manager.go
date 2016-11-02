@@ -49,9 +49,8 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 		return projectGateway.ListProjectsAction(params)
 	})
 
-
 	//SEMANTIC VERSIONING MICRO SERVICE INTEGRATION
-	semverGateway := microGateway.NewSemverGateway();
+	semverGateway := microGateway.NewSemverGateway()
 	api.VersionSemanticSemverGenerateHandler = version_semantic.SemverGenerateHandlerFunc(func(params version_semantic.SemverGenerateParams) middleware.Responder {
 		return semverGateway.GenerateVersionAction(params)
 	})

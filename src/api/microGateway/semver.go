@@ -4,10 +4,10 @@ import (
 	"api/models"
 	proto "api/proto/semver"
 	semver "api/restapi/operations/version_semantic"
+	"context"
 	"fmt"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/micro/go-micro"
-	"context"
 )
 
 //ISemverGateway is go-micro gateway for semver
@@ -32,9 +32,9 @@ func NewSemverGateway() ISemverGateway {
 func (g *semverGateway) GenerateVersionAction(params semver.SemverGenerateParams) middleware.Responder {
 	rsp, err := g.semverClient.Generate(context.TODO(), &proto.GenerateRequest{
 		ProjectId: params.ProjectID,
-		Major: params.Body.Major,
-		Minor: params.Body.Minor,
-		Branch: params.Body.Branch,
+		Major:     params.Body.Major,
+		Minor:     params.Body.Minor,
+		Branch:    params.Body.Branch,
 	})
 	if err != nil {
 		fmt.Println(err)
