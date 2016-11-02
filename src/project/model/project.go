@@ -2,7 +2,7 @@ package model
 
 // Project entity store project details
 type Project struct {
-	Id          uint64
-	Name        string
-	Description string
+	ID          uint64 `db:"id"`
+	Name        string `db:"name"`
+	Description string `db:"description"`
 }

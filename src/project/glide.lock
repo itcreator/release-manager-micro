@@ -1,5 +1,5 @@
-hash: b0da3933d56590ebc075e4d5b8b1c0f049a8f263cb5e8416a4218b6ab79fbf4c
-updated: 2016-10-27T23:20:42.947474979Z
+hash: 27e41a1344f957024ffe04a590943e2bf5dc34dce38ac1c991ebef64ced54bcb
+updated: 2016-11-02T20:44:39.185618973Z
 imports:
 - name: github.com/facebookgo/inject
   version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
@@ -10,24 +10,24 @@ imports:
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 2de81c22c40073a63b65d82972ba3271e081e25a
+  version: fb7c03cbb1b3fa71b0746e2f19c442c63e686382
   subpackages:
   - api
   - watch
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/serf
-  version: 1d4fa605f6ff3ed628d7ae5eda7c0e56803e72a5
+  version: e0680ca729b018b791af1add413faebe3e1c147e
   subpackages:
   - coordinate
 - name: github.com/lib/pq
-  version: ae8357db35d721c58dcdc911318b55bef6b1b001
+  version: a37edb86214894fa6c6c3401a4c4976b02176dd3
   subpackages:
   - oid
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
 - name: github.com/micro/go-micro
-  version: db948d0dc3062bc5dc8f96eab32af64715654815
+  version: 2c65a38ba9c0bed980120300825e6c25b1aa1d01
   subpackages:
   - broker
   - broker/http
@@ -54,6 +54,10 @@ imports:
   version: 677e2a0beb40a3dd7418548fe0cdc661e2922859
   subpackages:
   - lib/tls
+- name: github.com/micro/protobuf
+  version: f18972e79be2d7799de602da330e832bbe0b9762
+  subpackages:
+  - proto
 - name: github.com/miekg/dns
   version: 58f52c57ce9df13460ac68200cef30a008b9c468
 - name: github.com/mitchellh/hashstructure
@@ -67,7 +71,7 @@ imports:
   - require
   - suite
 - name: golang.org/x/net
-  version: b336a971b799939dd16ae9b1df8334cb8b977c4d
+  version: 6c4ac8bdbf06a105c4baf3dcda28bd9b0fb15588
   subpackages:
   - bpf
   - context
@@ -76,9 +80,11 @@ imports:
   - ipv4
   - ipv6
 - name: google.golang.org/grpc
-  version: 396f8ba2a6b9039070f4ff97561f5e408828fccd
+  version: f8b3c6010888dd5f12b97390791d75ff43453836
   subpackages:
   - codes
+- name: gopkg.in/gorp.v1
+  version: c87af80f3cc5036b55b83d77171e156791085e2e
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9

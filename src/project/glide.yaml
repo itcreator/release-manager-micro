@@ -6,6 +6,7 @@ import:
     - package: github.com/micro/go-micro
     - package: google.golang.org/grpc/codes
     - package: github.com/micro/protobuf/proto
+    - package: gopkg.in/gorp.v1
 #    - package: github.com/micro/protobuf/protoc-gen-go
     #go-micro
 

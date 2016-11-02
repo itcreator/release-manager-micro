@@ -16,7 +16,7 @@ type IVersionRepository interface {
 
 // VersionRepository is data repository for `Version`
 type VersionRepository struct {
-	DbMap     *gorp.DbMap `inject:"dbMap"`
+	DbMap *gorp.DbMap `inject:"dbMap"`
 }
 
 //Insert new version
