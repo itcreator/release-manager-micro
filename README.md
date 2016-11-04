@@ -1,11 +1,72 @@
 Release manager (development version)
 =====================================
-_**Will be use instead https://github.com/itcreator/release-manager**_
 
 [![Build Status](https://travis-ci.org/itcreator/release-manager-micro.svg?branch=master)](https://travis-ci.org/itcreator/release-manager-micro)
 [![License (3-Clause BSD)](https://img.shields.io/:license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/itcreator/release-manager-micro)](https://goreportcard.com/report/github.com/itcreator/release-manager-micro)
 
+This application generate version for your software (based on semver and gitflow).
+ 
+Input: `project id`, `major version`, `minor version`, `branch name`
+
+Output: semantic version http://semver.org/ (look like as `v1.2.0-rc.7`)
+
+
+# Quick start (how to run and use)
+
+- Install docker and docker-compose
+
+- Clone sources
+```bash
+    git clone git@github.com:itcreator/release-manager.git .
+```
+
+- Up docker compose
+```bash
+    docker-compose up -d
+```
+
+- Run release manager
+```bash
+    devops/scripts/start.sh
+    
+    #waiting for the output: 2016/11/03 23:59:24 Serving release manager at http://[::]:80
+```
+
+- Create new project
+```
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
+```
+Response: 
+```
+    HTTP/1.1 201 Created
+    Content-Type: application/release-manager.v1+json
+    X-Error-Code: 
+    Date: Fri, 04 Nov 2016 00:08:17 GMT
+    Content-Length: 58
+    
+    {"description":"demo project","id":34,"name":"MyProject"}
+```
+
+- Generate version
+```
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
+```
+
+Response:
+```
+    HTTP/1.1 201 Created
+    Content-Type: application/release-manager.v1+json
+    Date: Fri, 04 Nov 2016 00:09:53 GMT
+    Content-Length: 24
+    
+    {"version":"v1.2.0-rc"}
+```
+
+- Use version number `v1.2.0-rc` (for example as `git tag` or ad `docker image tag`
+
+
+# Development information
 [API Documentation apiDoc/api_doc.yml](apiDoc/api_doc.yml)
 
 ```bash
@@ -82,13 +143,15 @@ docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}
 +project - implement CRUD
 +Consul health check
 +go-swagger - return correct response and error messages
-+ implement versioning
-use gorp
++implement versioning
++use gorp
+Implement build scripts
+Configure environment for CI and production
+Implement UI (Angular 2)
 add `OpenID Connect`
-- map project proto to swagger model automatically
+Implement ACL
 folder/repo structure
 dashboard for micro services
-- add library https://github.com/grpc-ecosystem/grpc-gateway to API layer
  
 
 #### proto 
