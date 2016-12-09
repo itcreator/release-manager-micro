@@ -4,7 +4,6 @@ import "os"
 
 //AppConfig is an interface for application configuration
 type AppConfig interface {
-	GetHttpPort() string
 	GetDatabaseHost() string
 	GetDatabaseName() string
 	GetDatabaseUser() string
@@ -32,11 +31,6 @@ func (c *appConfig) load() {
 	c.databaseName = os.Getenv("POSTGRES_DB")
 	c.databaseUser = os.Getenv("POSTGRES_USER")
 	c.databasePassword = os.Getenv("POSTGRES_PASSWORD")
-}
-
-//getters
-func (c *appConfig) GetHttpPort() string {
-	return c.httpPort
 }
 
 func (c *appConfig) GetDatabaseHost() string {

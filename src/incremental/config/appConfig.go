@@ -15,7 +15,6 @@ type appConfig struct {
 	databaseName     string
 	databaseUser     string
 	databasePassword string
-	httpPort         string
 }
 
 //New is constructor for application config

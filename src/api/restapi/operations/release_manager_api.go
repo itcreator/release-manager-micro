@@ -16,6 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"api/restapi/operations/project"
+	"api/restapi/operations/version_incremental"
 	"api/restapi/operations/version_semantic"
 )
 
@@ -49,6 +50,10 @@ type ReleaseManagerAPI struct {
 
 	// ProjectCreateProjectHandler sets the operation handler for the create project operation
 	ProjectCreateProjectHandler project.CreateProjectHandler
+	// VersionIncrementalIncrementalDeleteHandler sets the operation handler for the incremental delete operation
+	VersionIncrementalIncrementalDeleteHandler version_incremental.IncrementalDeleteHandler
+	// VersionIncrementalIncrementalGenerateHandler sets the operation handler for the incremental generate operation
+	VersionIncrementalIncrementalGenerateHandler version_incremental.IncrementalGenerateHandler
 	// ProjectListProjectsHandler sets the operation handler for the list projects operation
 	ProjectListProjectsHandler project.ListProjectsHandler
 	// ProjectReadProjectHandler sets the operation handler for the read project operation
@@ -117,6 +122,14 @@ func (o *ReleaseManagerAPI) Validate() error {
 
 	if o.ProjectCreateProjectHandler == nil {
 		unregistered = append(unregistered, "project.CreateProjectHandler")
+	}
+
+	if o.VersionIncrementalIncrementalDeleteHandler == nil {
+		unregistered = append(unregistered, "version_incremental.IncrementalDeleteHandler")
+	}
+
+	if o.VersionIncrementalIncrementalGenerateHandler == nil {
+		unregistered = append(unregistered, "version_incremental.IncrementalGenerateHandler")
 	}
 
 	if o.ProjectListProjectsHandler == nil {
@@ -212,6 +225,16 @@ func (o *ReleaseManagerAPI) initHandlerCache() {
 		o.handlers[strings.ToUpper("POST")] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/projects"] = project.NewCreateProject(o.context, o.ProjectCreateProjectHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers[strings.ToUpper("DELETE")] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/increamental_version/{projectName}"] = version_incremental.NewIncrementalDelete(o.context, o.VersionIncrementalIncrementalDeleteHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers[strings.ToUpper("POST")] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/increamental_version/{projectName}"] = version_incremental.NewIncrementalGenerate(o.context, o.VersionIncrementalIncrementalGenerateHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers[strings.ToUpper("GET")] = make(map[string]http.Handler)

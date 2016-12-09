@@ -2,3 +2,4 @@
 src/api/vendor
 src/project/vendor
 src/semver/vendor
+src/incremental/vendor

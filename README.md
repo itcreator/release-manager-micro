@@ -11,6 +11,13 @@ Input: `project id`, `major version`, `minor version`, `branch name`
 
 Output: semantic version http://semver.org/ (look like as `v1.2.0-rc.7`)
 
+```
+NOTICE: something does not work? Just remove all containers with consul agents
+
+docker-compose rm -vf consul service.version.incremental service.semver service.project service.api
+```
+
+
 
 # Quick start (how to run and use)
 
@@ -48,7 +55,7 @@ Response:
     {"description":"demo project","id":34,"name":"MyProject"}
 ```
 
-- Generate version
+- Generate semantic version
 ```
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
 ```
@@ -63,6 +70,21 @@ Response:
     {"version":"v1.2.0-rc"}
 ```
 
+
+- Generate incremental version
+```
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/increamental_version/test
+```
+
+Response:
+```
+    HTTP/1.1 201 Created
+    Content-Type: application/release-manager.v1+json
+    Date: Fri, 09 Dec 2016 12:15:24 GMT
+    Content-Length: 14
+    
+    {"version":1}
+```
 - Use version number `v1.2.0-rc` (for example as `git tag` or ad `docker image tag`
 
 

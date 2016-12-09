@@ -127,6 +127,42 @@ paths:
                     $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
+
+    /increamental_version/{projectName}:
+        parameters:
+          - type: string
+            name: projectName
+            maxLength: 100
+            x-nullable: false #don't generate reference
+            in: path
+            required: true
+        post:
+            operationId: incrementalGenerate
+            tags:
+                - versionIncremental
+            summary: Generate new incremental version number
+            description: |
+                Incremental Versioning
+
+            responses:
+                201:
+                    $ref: "#/responses/IncrementalGenerateResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+
+        delete:
+            operationId: incrementalDelete
+            tags:
+                - versionIncremental
+            summary: Delete incremental version number (RESET)
+            description: |
+                Delete generated version
+
+            responses:
+                204: ~
+                500:
+                    $ref: "#/responses/ErrorResponse"
+
 responses:
     ErrorResponse:
         description: Error response
@@ -147,6 +183,11 @@ responses:
         description: Generate semantic version response
         schema:
             $ref: "#/definitions/SemverNumber"
+
+    IncrementalGenerateResponse:
+        description: Generate incremental version response
+        schema:
+            $ref: "#/definitions/IncrementalVersionNumber"
 
 
 definitions:
@@ -236,3 +277,14 @@ definitions:
                 maxLength: 150
                 x-nullable: false #don't generate reference
 
+    IncrementalVersionNumber:
+        title: Incremental Version Number
+        type: object
+        required:
+            - version
+        properties:
+            version:
+                title: The version number
+                type: integer
+                format: uint64
+                x-nullable: false #don't generate reference
