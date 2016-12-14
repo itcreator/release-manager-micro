@@ -74,7 +74,7 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 
 	if err != nil {
 		fmt.Println(err)
-		return project.NewCreateProjectInternalServerError()
+		return project.NewReadProjectInternalServerError()
 	}
 
 	if uint32(codes.OK) == readRsp.Status {

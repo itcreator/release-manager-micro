@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package incremental;
+
+service versionIncremental {
+    rpc Generate(GenerateRequest) returns (GenerateResponse) {}
+    rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+}
+
+message GenerateRequest {
+    //TODO: user unique ID or UUID
+    string projectName = 1;
+}
+
+message GenerateResponse {
+    uint64 version = 1;
+}
+
+message DeleteRequest {
+    //TODO: user unique ID or UUID
+    string projectName = 1;
+}
+
+message DeleteResponse {
+    uint32 status = 1;
+}

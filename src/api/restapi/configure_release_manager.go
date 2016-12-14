@@ -11,6 +11,7 @@ import (
 	"api/microGateway"
 	"api/restapi/operations"
 	"api/restapi/operations/project"
+	"api/restapi/operations/version_incremental"
 	"api/restapi/operations/version_semantic"
 )
 
@@ -53,6 +54,16 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 	semverGateway := microGateway.NewSemverGateway()
 	api.VersionSemanticSemverGenerateHandler = version_semantic.SemverGenerateHandlerFunc(func(params version_semantic.SemverGenerateParams) middleware.Responder {
 		return semverGateway.GenerateVersionAction(params)
+	})
+
+	//INCREMENTAL VERSIONING MICRO SERVICE INTEGRATION
+	incrementalGateway := microGateway.NewIncrementalVersioningGateway()
+	api.VersionIncrementalIncrementalGenerateHandler = version_incremental.IncrementalGenerateHandlerFunc(func(params version_incremental.IncrementalGenerateParams) middleware.Responder {
+		return incrementalGateway.GenerateVersionAction(params)
+	})
+
+	api.VersionIncrementalIncrementalDeleteHandler = version_incremental.IncrementalDeleteHandlerFunc(func(params version_incremental.IncrementalDeleteParams) middleware.Responder {
+		return incrementalGateway.DeleteVersionAction(params)
 	})
 
 	//END OF MICRO SERVICES INTEGRATION

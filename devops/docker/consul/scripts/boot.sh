@@ -9,7 +9,7 @@ do
     i=$[$i+1]
     sleep 1
 
-    consul join service.api; consul join service.project; consul join service.semver
+    consul join service.api; consul join service.project; consul join service.semver; consul join service.version.incremental
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
         echo "Consul cluster is ready"

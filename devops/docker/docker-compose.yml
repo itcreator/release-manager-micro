@@ -80,6 +80,32 @@ services:
         volumes:
             - service.semver.dbdata:/var/lib/postgresql
 
+## version incremental
+    service.version.incremental:
+        build: ../../devops/docker/go
+        working_dir: /go/src/incremental
+        command: sh -c "consul agent -node=agent-version-incremental -data-dir /tmp/consul"
+        depends_on:
+            - service.version.incremental.db
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - APP_HTTP_PORT=${APP_HTTP_PORT}
+            - APP_DATABASE_HOST=service.version.incremental.db
+        volumes:
+           - ../../src/incremental:/go/src/incremental
+
+    service.version.incremental.db:
+        image: 'postgres:9.5'
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - service.version.incremental.dbdata:/var/lib/postgresql
+
+
 #### maitenance
     protoc:
         build: ../../devops/docker/protoc-go-micro
@@ -94,3 +120,6 @@ volumes:
 
     service.semver.dbdata:
         driver: local
+
+    service.version.incremental.dbdata:
+          driver: local
