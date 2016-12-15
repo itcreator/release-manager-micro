@@ -15,6 +15,7 @@ import (
 type IIncrementalVersioningGateway interface {
 	GenerateVersionAction(params incremental.IncrementalGenerateParams) middleware.Responder
 	DeleteVersionAction(params incremental.IncrementalDeleteParams) middleware.Responder
+	UpdateVersionAction(params incremental.IncrementalUpdateParams) middleware.Responder
 }
 
 type incrementalVersioningGateway struct {
@@ -69,4 +70,28 @@ func (g *incrementalVersioningGateway) DeleteVersionAction(params incremental.In
 	fmt.Println(fmt.Sprintf("Version was deleted: projectName = %v", params.ProjectName))
 
 	return incremental.NewIncrementalDeleteNoContent()
+}
+
+//UpdateVersionAction sends update request to micro-service
+func (g *incrementalVersioningGateway) UpdateVersionAction(params incremental.IncrementalUpdateParams) middleware.Responder {
+	//TODO: read project by name from project service
+	//Then use projectID
+
+	rsp, err := g.incrementalClient.Update(context.TODO(), &proto.UpdateRequest{
+		ProjectName: params.ProjectName,
+		Version: params.Body.Version,
+	})
+
+	if err != nil || rsp.Status != uint32(codes.OK) {
+		fmt.Println(err)
+		return incremental.NewIncrementalUpdateInternalServerError()
+	}
+
+	fmt.Println(fmt.Sprintf("Version was updated: projectName = %v, revision = %v", params.ProjectName, params.Body.Version))
+
+	s := &models.IncrementalVersionNumber{
+		Version: params.Body.Version,
+	}
+
+	return incremental.NewIncrementalUpdateOK().WithPayload(s)
 }

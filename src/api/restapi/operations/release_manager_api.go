@@ -54,6 +54,8 @@ type ReleaseManagerAPI struct {
 	VersionIncrementalIncrementalDeleteHandler version_incremental.IncrementalDeleteHandler
 	// VersionIncrementalIncrementalGenerateHandler sets the operation handler for the incremental generate operation
 	VersionIncrementalIncrementalGenerateHandler version_incremental.IncrementalGenerateHandler
+	// VersionIncrementalIncrementalUpdateHandler sets the operation handler for the incremental update operation
+	VersionIncrementalIncrementalUpdateHandler version_incremental.IncrementalUpdateHandler
 	// ProjectListProjectsHandler sets the operation handler for the list projects operation
 	ProjectListProjectsHandler project.ListProjectsHandler
 	// ProjectReadProjectHandler sets the operation handler for the read project operation
@@ -130,6 +132,10 @@ func (o *ReleaseManagerAPI) Validate() error {
 
 	if o.VersionIncrementalIncrementalGenerateHandler == nil {
 		unregistered = append(unregistered, "version_incremental.IncrementalGenerateHandler")
+	}
+
+	if o.VersionIncrementalIncrementalUpdateHandler == nil {
+		unregistered = append(unregistered, "version_incremental.IncrementalUpdateHandler")
 	}
 
 	if o.ProjectListProjectsHandler == nil {
@@ -235,6 +241,11 @@ func (o *ReleaseManagerAPI) initHandlerCache() {
 		o.handlers[strings.ToUpper("POST")] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/increamental_version/{projectName}"] = version_incremental.NewIncrementalGenerate(o.context, o.VersionIncrementalIncrementalGenerateHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers[strings.ToUpper("PUT")] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/increamental_version/{projectName}"] = version_incremental.NewIncrementalUpdate(o.context, o.VersionIncrementalIncrementalUpdateHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers[strings.ToUpper("GET")] = make(map[string]http.Handler)
