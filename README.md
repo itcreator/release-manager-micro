@@ -28,21 +28,16 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
     git clone git@github.com:itcreator/release-manager.git .
 ```
 
-- Up docker compose
-```bash
-    docker-compose up -d
-```
-
 - Run release manager
 ```bash
-    devops/scripts/start.sh
+    devops/scripts/start.sh #or start_semver.sh or start_incremental.sh
     
     #waiting for the output: 2016/11/03 23:59:24 Serving release manager at http://[::]:80
 ```
 
 - Create new project
 ```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects -d '{"name":"MyProject", "description":"demo project"}'
 ```
 Response: 
 ```
@@ -57,7 +52,7 @@ Response:
 
 - Generate semantic version
 ```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
 ```
 
 Response:
@@ -73,7 +68,7 @@ Response:
 
 - Generate incremental version
 ```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/increamental_version/test
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/increamental_version/test
 ```
 
 Response:
