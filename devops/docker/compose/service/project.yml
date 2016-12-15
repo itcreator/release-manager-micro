@@ -1,0 +1,32 @@
+version: "2"
+
+services:
+## project
+    service.project:
+        build: ../../go #base path is "devops/docker/compose/env"
+        working_dir: /go/src/project
+        command: sh -c "consul agent -node=agent-project -data-dir /tmp/consul"
+        depends_on:
+            - service.project.db
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - APP_HTTP_PORT=${APP_HTTP_PORT}
+            - APP_DATABASE_HOST=service.project.db
+        volumes:
+           - ../../../../src/project:/go/src/project #base path is "devops/docker/compose/env"
+
+    service.project.db:
+        image: 'postgres:9.5'
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - service.project.dbdata:/var/lib/postgresql
+
+
+volumes:
+    service.project.dbdata:
+        driver: local
