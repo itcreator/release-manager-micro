@@ -26,3 +26,11 @@ func (h *IncrementalVersionHandler) Delete(ctx context.Context, req *proto.Delet
 
 	return nil
 }
+
+//Update generated version
+func (h *IncrementalVersionHandler) Update(ctx context.Context, req *proto.UpdateRequest, rsp *proto.UpdateResponse) error {
+	h.Generator.SetVersion(req.ProjectName, req.Version)
+	rsp.Status = uint32(codes.OK)
+
+	return nil
+}

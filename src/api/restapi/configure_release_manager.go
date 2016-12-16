@@ -66,6 +66,10 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 		return incrementalGateway.DeleteVersionAction(params)
 	})
 
+	api.VersionIncrementalIncrementalUpdateHandler = version_incremental.IncrementalUpdateHandlerFunc(func(params version_incremental.IncrementalUpdateParams) middleware.Responder {
+		return incrementalGateway.UpdateVersionAction(params)
+	})
+
 	//END OF MICRO SERVICES INTEGRATION
 
 	api.ServerShutdown = func() {}

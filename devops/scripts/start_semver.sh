@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export COMPOSE_FILE=devops/docker/compose/env/prod.yml:devops/docker/docker-compose.yml:devops/docker/compose/service/project.yml:devops/docker/compose/service/semver.yml
+export CONSUL_AGENTS=service.api:service.project:service.semver
 docker-compose stop
 docker-compose rm -vf consul service.semver service.project service.api
 docker-compose up -d

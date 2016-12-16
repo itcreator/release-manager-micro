@@ -8,6 +8,7 @@ import (
 type IIncrementalVersionGenerator interface {
 	GenerateVersion(projectName string) uint64
 	DeleteVersion(projectName string)
+	SetVersion(projectName string, revision uint64) uint64
 }
 
 // IncrementalVersionGenerator implements `IIncrementalVersionGenerator` interface
@@ -34,6 +35,22 @@ func (g *IncrementalVersionGenerator) getStoredVersion(projectName string) (*mod
 func (g *IncrementalVersionGenerator) GenerateVersion(projectName string) uint64 {
 
 	ver, isNew := g.getStoredVersion(projectName)
+
+	rep := g.VersionRepository
+	if isNew {
+		rep.Insert(ver)
+	} else {
+		rep.Update(ver)
+	}
+
+	return ver.Revision
+}
+
+// GenerateVersion function generate version for project
+func (g *IncrementalVersionGenerator) SetVersion(projectName string, revision uint64) uint64 {
+
+	ver, isNew := g.getStoredVersion(projectName)
+	ver.Revision = revision;
 
 	rep := g.VersionRepository
 	if isNew {

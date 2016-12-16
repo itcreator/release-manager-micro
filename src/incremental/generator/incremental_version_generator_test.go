@@ -53,6 +53,11 @@ func (mock *versionGatewayMock) Update(ver *model.Version) *model.Version {
 	return ver
 }
 
+func (rep *versionGatewayMock) Delete(projectName string) {
+	rep.VersionEmpty = true
+	rep.StoredVersion = nil
+}
+
 func TestIncrementalStrategySuite(t *testing.T) {
 	suite.Run(t, new(incrementalStrategyTestSuite))
 }

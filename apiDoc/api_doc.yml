@@ -149,6 +149,25 @@ paths:
                     $ref: "#/responses/IncrementalGenerateResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
+        put:
+            operationId: incrementalUpdate
+            tags:
+                - versionIncremental
+            summary: Update incremental version number (Only for maintenance)
+            description: |
+                Incremental Versioning
+                Update revision number
+
+            parameters:
+              - name: body
+                in: body
+                schema:
+                    $ref: "#/definitions/IncrementalVersionNumber"
+            responses:
+                200:
+                    $ref: "#/responses/IncrementalUpdateResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
 
         delete:
             operationId: incrementalDelete
@@ -186,6 +205,11 @@ responses:
 
     IncrementalGenerateResponse:
         description: Generate incremental version response
+        schema:
+            $ref: "#/definitions/IncrementalVersionNumber"
+
+    IncrementalUpdateResponse:
+        description: Update incremental version response
         schema:
             $ref: "#/definitions/IncrementalVersionNumber"
 
