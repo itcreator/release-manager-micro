@@ -25,7 +25,7 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
 
 - Clone sources
 ```bash
-    git clone git@github.com:itcreator/release-manager.git .
+    git clone https://github.com/itcreator/release-manager-micro.git .
 ```
 
 - Run release manager
