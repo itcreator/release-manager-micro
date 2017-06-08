@@ -7,4 +7,4 @@ services:
         build: ../../protoc-go-micro #base path is "devops/docker/compose/env"
         working_dir: /code
         volumes:
-            - ../../../..:/code #base path is "devops/docker/compose/env"
+            - ../../../..:/code:Z #base path is "devops/docker/compose/env"

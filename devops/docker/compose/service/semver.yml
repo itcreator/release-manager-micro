@@ -15,7 +15,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.semver.db
         volumes:
-           - ../../../../src/semver:/go/src/semver #base path is "devops/docker/compose/env"
+           - ../../../../src/semver:/go/src/semver:Z #base path is "devops/docker/compose/env"
 
     service.semver.db:
         image: 'postgres:9.5'

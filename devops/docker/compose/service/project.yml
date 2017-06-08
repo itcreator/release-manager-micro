@@ -15,7 +15,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.project.db
         volumes:
-           - ../../../../src/project:/go/src/project #base path is "devops/docker/compose/env"
+           - ../../../../src/project:/go/src/project:Z #base path is "devops/docker/compose/env"
 
     service.project.db:
         image: 'postgres:9.5'

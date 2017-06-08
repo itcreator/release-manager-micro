@@ -15,7 +15,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.version.incremental.db
         volumes:
-           - ../../../../src/incremental:/go/src/incremental #base path is "devops/docker/compose/env"
+           - ../../../../src/incremental:/go/src/incremental:Z #base path is "devops/docker/compose/env"
 
     service.version.incremental.db:
         image: 'postgres:9.5'

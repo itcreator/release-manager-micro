@@ -1,4 +1,4 @@
-FROM golang:1.7
+FROM golang:1.8
 
 
 #### protobuf protoc
@@ -14,8 +14,8 @@ WORKDIR /src
 ### consul agent
 
 RUN cd /tmp \
-    && wget https://releases.hashicorp.com/consul/0.7.1/consul_0.7.1_linux_amd64.zip \
-    && unzip consul_0.7.1_linux_amd64.zip \
+    && wget https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip \
+    && unzip consul_0.7.5_linux_amd64.zip \
     && chmod +x consul \
     && mv consul /usr/bin/consul
 

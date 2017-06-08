@@ -1,33 +1,41 @@
 hash: 4a954df4508c6e106599926f56ba469ccaf72737996bb32cc697c6b75ef4cf0f
-updated: 2016-12-08T14:10:19.942439379Z
+updated: 2017-06-03T07:50:36.286564058Z
 imports:
 - name: github.com/facebookgo/inject
   version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
 - name: github.com/facebookgo/structtag
   version: 217e25fb96916cc60332e399c9aa63f5c422ceed
+- name: github.com/go-log/log
+  version: 37e2e1f19306361e1fc152a1839f1236149cb4e4
+  subpackages:
+  - log
 - name: github.com/golang/protobuf
-  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
+  version: 5a0f697c9ed9d68fef0116532c6e05cfeae00e55
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: e026bf2551bd1c173e898177fcc76c78b6f9c09f
+  version: 65bbad0975ae4d8236dd2200208b3d3ab6a7d46f
   subpackages:
   - api
   - watch
 - name: github.com/hashicorp/go-cleanhttp
-  version: ad28ea4487f05916463e2423a55166280e8254b5
+  version: 3573b8b52aa7b37b9358d966a898feb387f62437
+- name: github.com/hashicorp/go-rootcerts
+  version: 6bb64b370b90e7ef1fa532be9e591a81c3493e00
 - name: github.com/hashicorp/serf
-  version: d3a67ab21bc8a4643fa53a3633f2d951dd50c6ca
+  version: dfab144618a063232d5753eaa4250a09865106c5
   subpackages:
   - coordinate
 - name: github.com/lib/pq
-  version: 4a82388ebc5138c8289fe9bc602cb0b3e32cd617
+  version: 91f10e40ba0dd2d0bf9f93ec1d4077711a78df88
   subpackages:
   - oid
 - name: github.com/micro/cli
   version: 3d2263bb092286dde294a31049c92665f8373820
+- name: github.com/micro/go-log
+  version: cbfa9447f9b655f8e66583237e51f40ca9bff860
 - name: github.com/micro/go-micro
-  version: 4a1e5b34ee479475f4dbf860c21e296147bbda2e
+  version: 097395c5cbcce37d0d8ee673163a6a3f62824c4a
   subpackages:
   - broker
   - broker/codec
@@ -54,36 +62,40 @@ imports:
 - name: github.com/micro/mdns
   version: cdf30746f9f70dc7a366d3d885792a092fd83102
 - name: github.com/micro/misc
-  version: 677e2a0beb40a3dd7418548fe0cdc661e2922859
+  version: d090a0434084e482de5c73e8892b56d291881ec9
   subpackages:
+  - lib/addr
+  - lib/net
   - lib/tls
 - name: github.com/micro/protobuf
-  version: ae1e61dcf4e9b960283656d409bdc1e92456397e
+  version: fe0102d5d7abb6caa8b4a475581a6ff3e03f7403
   subpackages:
   - proto
 - name: github.com/miekg/dns
-  version: f4d2b086946a624202dc59e6a43f72e8f3f02bc1
+  version: fb6fbed0f5ec4e418de4f156c18d2e4f9bc854e7
+- name: github.com/mitchellh/go-homedir
+  version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/mitchellh/hashstructure
-  version: b098c52ef6beab8cd82bc4a32422cf54b890e8fa
+  version: 9204ce590301a868e3e86938bc12eadd416b211e
 - name: github.com/pborman/uuid
-  version: 5007efa264d92316c43112bc573e754bc889b7b1
+  version: 1b00554d822231195d1babd97ff4a781231955c9
 - name: github.com/stretchr/testify
-  version: 18a02ba4a312f95da08ff4cfc0055750ce50ae9e
+  version: f6abca593680b2315d2075e0f5e2a9751e3f431a
   subpackages:
   - assert
   - require
   - suite
 - name: golang.org/x/net
-  version: 944c58e9d57bcecf171fd4bea155269aa8a96805
+  version: e4fa1c5465ad6111f206fc92186b8c83d64adbe1
   subpackages:
   - bpf
   - context
   - internal/iana
-  - internal/netreflect
+  - internal/socket
   - ipv4
   - ipv6
 - name: google.golang.org/grpc
-  version: 7484960149bc6abec1aa7512626c4831a9fe9af2
+  version: 6fecf2831adf75ce3b8b756d2d174db8a2044dbb
   subpackages:
   - codes
 - name: gopkg.in/gorp.v1

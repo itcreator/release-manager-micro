@@ -6,7 +6,8 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -node=agent-one &
 i="0"
 while [ $i -lt 20 ] #waiting for cluster 20 seconds
 do
-    ((i++))
+#    ((i++))
+    i=$[$i+1]
     sleep 1
 
     agents=$(echo $CONSUL_AGENTS | tr ":" "\n")

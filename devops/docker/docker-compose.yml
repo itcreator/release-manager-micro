@@ -21,7 +21,7 @@ services:
         command: sh -c "consul agent -node=agent-api -data-dir /tmp/consul"
 
         volumes:
-           - ../../../../src/api:/go/src/api
-           - ../../../../apiDoc:/apiDoc
+           - ../../../../src/api:/go/src/api:Z
+           - ../../../../apiDoc:/apiDoc:Z
         expose:
            - "80"
