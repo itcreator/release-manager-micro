@@ -18,4 +18,4 @@ before_install:
 script:
     - docker version
     - docker-compose version
-    - ./devops/scripts/build.sh
+    - ./ops/scripts/build.sh

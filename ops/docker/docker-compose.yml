@@ -3,7 +3,7 @@ version: "2"
 services:
 #### Service Discovery
     consul:
-        build: ../../consul #base path is "devops/docker/compose/env"
+        image: itcreator/go-micro-stack-consul
         depends_on:
             - service.api
         environment:
@@ -16,7 +16,8 @@ services:
 
 #### API layer
     service.api:
-        build: ../../go #base path is "devops/docker/compose/env"
+        #base path is "ops/docker/compose/env"
+        image: itcreator/go-micro-stack
         working_dir: /go/src/api
         command: sh -c "consul agent -node=agent-api -data-dir /tmp/consul"
 
