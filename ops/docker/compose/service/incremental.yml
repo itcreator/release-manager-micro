@@ -3,7 +3,8 @@ version: "2"
 services:
 ## version incremental
     service.version.incremental:
-        build: ../../go #base path is "devops/docker/compose/env"
+        #base path is "ops/docker/compose/env"
+        image: itcreator/go-micro-stack
         working_dir: /go/src/incremental
         command: sh -c "consul agent -node=agent-version-incremental -data-dir /tmp/consul"
         depends_on:
@@ -15,7 +16,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.version.incremental.db
         volumes:
-           - ../../../../src/incremental:/go/src/incremental:Z #base path is "devops/docker/compose/env"
+           - ../../../../src/incremental:/go/src/incremental:Z #base path is "ops/docker/compose/env"
 
     service.version.incremental.db:
         image: 'postgres:9.5'

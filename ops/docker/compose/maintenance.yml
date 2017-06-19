@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+
+#### maitenance
+    protoc:
+        #base path is "ops/docker/compose/env"
+        image: itcreator/go-micro-stack-protoc-go-micro
+        working_dir: /code
+        volumes:
+            - ../../../..:/code:Z #base path is "ops/docker/compose/env"

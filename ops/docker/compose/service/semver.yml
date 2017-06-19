@@ -3,7 +3,8 @@ version: "2"
 services:
 ## semver
     service.semver:
-        build: ../../go #base path is "devops/docker/compose/env"
+        #base path is "ops/docker/compose/env"
+        image: itcreator/go-micro-stack
         working_dir: /go/src/semver
         command: sh -c "consul agent -node=agent-semver -data-dir /tmp/consul"
         depends_on:
@@ -15,7 +16,7 @@ services:
             - APP_HTTP_PORT=${APP_HTTP_PORT}
             - APP_DATABASE_HOST=service.semver.db
         volumes:
-           - ../../../../src/semver:/go/src/semver:Z #base path is "devops/docker/compose/env"
+           - ../../../../src/semver:/go/src/semver:Z #base path is "ops/docker/compose/env"
 
     service.semver.db:
         image: 'postgres:9.5'

@@ -4,6 +4,7 @@ Release manager (development version)
 [![Build Status](https://travis-ci.org/itcreator/release-manager-micro.svg?branch=master)](https://travis-ci.org/itcreator/release-manager-micro)
 [![License (3-Clause BSD)](https://img.shields.io/:license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/itcreator/release-manager-micro)](https://goreportcard.com/report/github.com/itcreator/release-manager-micro)
+[![BCH compliance](https://bettercodehub.com/edge/badge/itcreator/release-manager-micro?branch=master)](https://bettercodehub.com/)
 
 This application generate version for your software (based on semver and gitflow).
  
@@ -30,7 +31,7 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
 
 - Run release manager
 ```bash
-    devops/scripts/start.sh #or start_semver.sh or start_incremental.sh
+    ops/scripts/start.sh #or start_semver.sh or start_incremental.sh
     
     #waiting for the output: 2016/11/03 23:59:24 Serving release manager at http://[::]:80
 ```
@@ -87,7 +88,6 @@ Response:
 [API Documentation apiDoc/api_doc.yml](apiDoc/api_doc.yml)
 
 ```bash
-    ##cd devops/docker/
     docker-compose up
     docker-compose exec service.api bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
@@ -100,13 +100,13 @@ Response:
 
 shortcuts
 ```bash
-    export PATH=./devops/shortcuts:$PATH
+    export PATH=./ops/shortcuts:$PATH
     go-project go run cmd/service/main.go
     go-api go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
 ```
 
 
-Add new agent: go to `devops/consul/scripts/boot.sh` and add line  consul join service.***
+Add new agent: go to `ops/consul/scripts/boot.sh` and add line  consul join service.***
 Add new agent manually:
 ```bash
     docker-compose exec consul consul join service.api
@@ -114,7 +114,7 @@ Add new agent manually:
  
 Check consul cluster
 ```bash
-docker-compose exec consul consul members
+    docker-compose exec consul consul members
 ```
 
 
@@ -129,16 +129,16 @@ docker-compose exec consul consul members
 
 ### protobuf
 ```bash
-docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
-# or
-protoc --go_out=plugins=micro:. proto/**/*.proto
-docker-compose run --rm protoc protoc --go_out=plugins=micro:src/semver proto/semver/*.proto
+    docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
+    # or
+    protoc --go_out=plugins=micro:. proto/**/*.proto
+    docker-compose run --rm protoc protoc --go_out=plugins=micro:src/semver proto/semver/*.proto
 ```
 
 
 ### swagger
-```
-go-api ./swagger generate server -f /apiDoc/api_doc.yml
+```bash
+    docker-compose exec service.api ./swagger generate server -f /apiDoc/api_doc.yml
 ```
 
 ### db
