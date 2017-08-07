@@ -4,3 +4,5 @@ services:
     service.api:
         ports:
           - "9090:80"
+          - "2345"
+        privileged: true
