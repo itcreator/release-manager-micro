@@ -1,0 +1,294 @@
+#%RAML 1.0
+title: Release Manager
+version: 0.2.0
+#baseUri: http://example.com/api
+mediaType: application/release-manager.v1+json
+baseUriParameters: {}
+documentation:
+- title: Release Manager
+  content: This application generate version for your software.
+
+types:
+  Project:
+    displayName: Project
+    type: object
+    properties:
+      id:
+        required: false
+        displayName: id
+        description: A unique identifier for the project. These are created in ascending order.
+        type: integer
+        format: uint64
+      name:
+        required: true
+        displayName: name
+        type: string
+        minLength: 2
+        maxLength: 150
+      description:
+        required: false
+        displayName: description
+        type: string
+        maxLength: 4000
+  SemverGenerateParams:
+    displayName: Paremeters for generate version number for project (Semantic Versioning)
+    type: object
+    properties:
+      major:
+        required: true
+        displayName: major
+        description: MAJOR version when you make incompatible API changes
+        type: integer
+        format: uint32
+      minor:
+        required: true
+        displayName: minor
+        description: MINOR version when you add functionality in a backwards-compatible manner
+        type: integer
+        format: uint32
+      branch:
+        required: true
+        displayName: branch
+        type: string
+        minLength: 2
+        maxLength: 150
+  SemverNumber:
+    displayName: Semver Number
+    type: object
+    properties:
+      version:
+        required: true
+        displayName: version
+        type: string
+        minLength: 3
+        maxLength: 150
+  IncrementalVersionNumber:
+    displayName: Incremental Version Number
+    type: object
+    properties:
+      version:
+        required: true
+        displayName: version
+        type: integer
+        format: uint64
+  Error:
+    displayName: Error Structure
+    description: >
+      Contains all the properties any error response from the API will contain.
+
+      Some properties are optional so might be empty most of the time
+    type: object
+    properties:
+      code:
+        required: true
+        displayName: code
+        description: the error code, this is not necessarily the http status code
+        type: integer
+        format: int32
+      message:
+        required: true
+        displayName: message
+        description: a human readable version of the error
+        type: string
+      helpUrl:
+        required: false
+        displayName: helpUrl
+        description: an optional url for getting more help about this error
+        type: string
+annotationTypes:
+  tags: string[]
+/projects:
+  get:
+    (tags):
+      - project
+    displayName: listProjects
+    description: List the projects
+    responses:
+      200:
+        description: Successful response
+        body:
+          application/json:
+            displayName: response
+            description: Successful response
+            type: array
+            items:
+              type: Project
+      500:
+        description: Error response
+        body:
+          application/json:
+            description: Error response
+            type: Error
+  post:
+    (tags):
+      - project
+    displayName: createProject
+    description: Create new projects
+    body:
+      application/json:
+        displayName: body
+        type: Project
+    responses:
+      200:
+        description: Project response
+        body:
+          application/json:
+            displayName: response
+            description: Project response
+            type: Project
+      500:
+        description: Error response
+        body:
+          application/json:
+            description: Error response
+            type: Error
+  /{id}:
+    uriParameters:
+      id:
+        required: true
+        displayName: id
+        type: integer
+        format: int32
+    get:
+      (tags):
+        - project
+      displayName: readProject
+      description: Read the projects
+      responses:
+        200:
+          description: Project response
+          body:
+            application/json:
+              displayName: response
+              description: Project response
+              type: Project
+        404:
+          description: Project response
+          body:
+            application/json:
+              description: Project response
+              type: Error
+        500:
+          description: Error response
+          body:
+            application/json:
+              description: Error response
+              type: Error
+    put:
+      (tags):
+        - project
+      displayName: updateProject
+      body:
+        application/json:
+          displayName: body
+          type: Project
+      responses:
+        200:
+          description: Project response
+          body:
+            application/json:
+              displayName: response
+              description: Project response
+              type: Project
+        404:
+          description: Project response
+          body:
+            application/json:
+              description: Project response
+              type: Error
+        500:
+          description: Error response
+          body:
+            application/json:
+              description: Error response
+              type: Error
+  /{projectId}/version/semantic:
+    uriParameters:
+      projectId:
+        required: true
+        displayName: projectId
+        type: integer
+        format: int32
+    post:
+      (tags):
+        - versionSemantic
+      displayName: semverGenerate
+      description: Generate new semantic version number (based on gitflow)
+      body:
+        application/json:
+          displayName: body
+          type: SemverGenerateParams
+      responses:
+        200:
+          description: Generate semantic version response
+          body:
+            application/json:
+              displayName: response
+              description: Generate semantic version response
+              type: SemverNumber
+        500:
+          description: Error response
+          body:
+            application/json:
+              description: Error response
+              type: Error
+/increamental_version/{projectName}:
+  uriParameters:
+    projectName:
+      required: true
+      displayName: projectName
+      type: string
+  put:
+    (tags):
+      - versionIncremental
+    displayName: incrementalUpdate
+    description: Update incremental version number (Only for maintenance)
+    body:
+      application/json:
+        displayName: body
+        type: IncrementalVersionNumber
+    responses:
+      200:
+        description: Update incremental version response
+        body:
+          application/json:
+            displayName: response
+            description: Update incremental version response
+            type: IncrementalVersionNumber
+      500:
+        description: Error response
+        body:
+          application/json:
+            description: Error response
+            type: Error
+  post:
+    (tags):
+      - versionIncremental
+    displayName: incrementalGenerate
+    description: Generate new incremental version number
+    responses:
+      200:
+        description: Generate incremental version response
+        body:
+          application/json:
+            displayName: response
+            description: Generate incremental version response
+            type: IncrementalVersionNumber
+      500:
+        description: Error response
+        body:
+          application/json:
+            description: Error response
+            type: Error
+  delete:
+    (tags):
+      - versionIncremental
+    displayName: incrementalDelete
+    description: Delete incremental version number (RESET)
+    responses:
+      500:
+        description: Error response
+        body:
+          text/plain:
+            description: Error response
+            type: Error

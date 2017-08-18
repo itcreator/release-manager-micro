@@ -26,6 +26,41 @@ tags:
       description: Generate version tag. See also http://semver.org/spec/v2.0.0.html
 
 paths:
+    /projects:
+        get:
+            operationId: listProjects
+            tags:
+                - project
+            summary: List the projects
+            description: |
+                Get all projects list.
+
+            responses:
+                200:
+                    description: Successful response
+                    schema:
+                        title: ProjectList
+                        type: array
+                        items:
+                            $ref: "#/definitions/Project"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+        post:
+            operationId: createProject
+            tags:
+                - project
+            summary: Create new projects
+            parameters:
+                - name: body
+                  in: body
+                  schema:
+                      $ref: "#/definitions/Project"
+            responses:
+                201:
+                    $ref: "#/responses/ProjectResponse"
+                500:
+                    $ref: "#/responses/ErrorResponse"
+
     /projects/{projectId}/version/semantic:
         parameters:
           - type: integer
@@ -51,42 +86,6 @@ paths:
             responses:
                 201:
                     $ref: "#/responses/SemverGenerateResponse"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-
-    /projects:
-        get:
-            operationId: listProjects
-            tags:
-                - project
-            summary: List the projects
-            description: |
-                Get all projects list.
-
-            responses:
-                200:
-                    description: Successful response
-#                    headers: ~
-                    schema:
-                        title: ProjectList
-                        type: array
-                        items:
-                            $ref: "#/definitions/Project"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-        post:
-            operationId: createProject
-            tags:
-                - project
-            summary: Create new projects
-            parameters:
-                - name: body
-                  in: body
-                  schema:
-                      $ref: "#/definitions/Project"
-            responses:
-                201:
-                    $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
 
@@ -178,7 +177,8 @@ paths:
                 Delete generated version
 
             responses:
-                204: ~
+                204:
+                    description: The resource was deleted successfully.
                 500:
                     $ref: "#/responses/ErrorResponse"
 
@@ -277,7 +277,7 @@ definitions:
                 readOnly: true
             minor:
                 title: Minor number
-                description: MAJOR version when you make incompatible API changes
+                description: MINOR version when you add functionality in a backwards-compatible manner
                 type: integer
                 format: uint32
                 readOnly: true
