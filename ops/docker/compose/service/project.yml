@@ -1,9 +1,10 @@
-version: "2"
+version: "3"
 
 services:
 ## project
     service.project:
         #base path is "ops/docker/compose/env"
+#        build: ../../../../../go-micro-stack/go #Dockerfile debug
         image: itcreator/go-micro-stack
         working_dir: /go/src/project
         command: sh -c "consul agent -node=agent-project -data-dir /tmp/consul"
@@ -19,14 +20,13 @@ services:
            - ../../../../src/project:/go/src/project:Z #base path is "ops/docker/compose/env"
 
     service.project.db:
-        image: 'postgres:9.5'
+        image: 'postgres:9.6'
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
             - service.project.dbdata:/var/lib/postgresql
-
 
 volumes:
     service.project.dbdata:
