@@ -1,9 +1,10 @@
-version: "2"
+version: "3"
 
 services:
 ## version incremental
     service.version.incremental:
         #base path is "ops/docker/compose/env"
+#        build: ../../../../../go-micro-stack/go #Dockerfile debug
         image: itcreator/go-micro-stack
         working_dir: /go/src/incremental
         command: sh -c "consul agent -node=agent-version-incremental -data-dir /tmp/consul"
@@ -19,7 +20,7 @@ services:
            - ../../../../src/incremental:/go/src/incremental:Z #base path is "ops/docker/compose/env"
 
     service.version.incremental.db:
-        image: 'postgres:9.5'
+        image: 'postgres:9.6'
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
