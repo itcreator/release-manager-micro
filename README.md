@@ -19,6 +19,7 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
 ```
 
 
+[Changelog](changelog.md)
 
 # Quick start (how to run and use)
 

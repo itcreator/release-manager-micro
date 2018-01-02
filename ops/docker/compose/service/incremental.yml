@@ -5,7 +5,7 @@ services:
     service.version.incremental:
         #base path is "ops/docker/compose/env"
 #        build: ../../../../../go-micro-stack/go #Dockerfile debug
-        image: itcreator/go-micro-stack
+        image: itcreator/go-micro-stack:0.2
         working_dir: /go/src/incremental
         command: sh -c "consul agent -node=agent-version-incremental -data-dir /tmp/consul"
         depends_on:

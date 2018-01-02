@@ -5,7 +5,7 @@ services:
     service.semver:
         #base path is "ops/docker/compose/env"
 #        build: ../../../../../go-micro-stack/go #Dockerfile debug
-        image: itcreator/go-micro-stack
+        image: itcreator/go-micro-stack:0.2
         working_dir: /go/src/semver
         command: sh -c "consul agent -node=agent-semver -data-dir /tmp/consul"
         depends_on:
