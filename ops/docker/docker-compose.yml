@@ -25,6 +25,5 @@ services:
 
         volumes:
            - ../../../../src/api:/go/src/api:Z
-           - ../../../../apiDoc:/apiDoc:Z
         expose:
            - "80"

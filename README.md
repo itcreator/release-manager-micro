@@ -99,7 +99,7 @@ Response:
     curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
 ```
 
-shortcuts
+Shortcuts
 ```bash
     export PATH=./ops/shortcuts:$PATH
     go-project go run cmd/service/main.go
@@ -119,7 +119,7 @@ Check consul cluster
 ```
 
 
-### project service
+### Project service
 ```bash
     docker-compose exec service.project bash
 
@@ -128,7 +128,7 @@ Check consul cluster
 
 ```
 
-### protobuf
+### Protobuf
 ```bash
     docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
     # or
@@ -137,24 +137,39 @@ Check consul cluster
 ```
 
 
-### swagger
+### Swagger
 ```bash
-    docker-compose exec service.api ./swagger generate server -f /apiDoc/api_doc.yml
+    docker-compose run --rm go_swagger generate server -f /apiDoc/api_doc.yml
 ```
 
-### db
-```
-docker-compose exec service.project.db psql -U releasemanager -d release_manager
-```
-
-### tests
-```
-go test $(glide novendor) --cover 
+### Serve API documentation
+```bash
+    docker-compose run --rm go_swagger serve --no-open --port=8070 /apiDoc/api_doyml
 ```
 
-### docker containers ip
+And open [http://127.0.0.1:8070/docs]
+
+Or
+
+```bash
+docker-compose run --rm go_swagger serve --no-open --port=8070 --flavor=swagger /apiDoc/api_doc.yml
 ```
-docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+
+And open [http://petstore.swagger.io/?url=http%3A%2F%2Flocalhost%3A8070%2Fswagger.json]
+
+### DB
+```
+    docker-compose exec service.project.db psql -U releasemanager -d release_manager
+```
+
+### Tests
+```
+    go test $(glide novendor) --cover
+```
+
+### Docker containers ip
+```
+    docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
 ```
 
 ###TODO:
@@ -172,5 +187,5 @@ folder/repo structure
 dashboard for micro services
  
 
-#### proto 
+#### Proto
     - extend (inheritance)

@@ -1,8 +1,10 @@
-hash: 08c0897201779081d5ba07788b5123a1b440e45b2c13c79d7cf5316d9978f81f
-updated: 2018-01-07T22:35:00.854986997Z
+hash: 232dd56726ef00a618538bf6a014edd66cfa101378aeeef1fb89082fb2a6cd9f
+updated: 2018-02-12T13:51:26.311850035Z
 imports:
 - name: github.com/asaskevich/govalidator
   version: 852d82c746b23d9b357b210ea470d99f4e023b72
+- name: github.com/docker/go-units
+  version: d59758554a3d3911fa25c0269de1ebe2f1912c39
 - name: github.com/eclipse/paho.mqtt.golang
   version: cd4337d9ef8b177236ef7abc7bc2677385c11381
 - name: github.com/go-log/log
@@ -22,6 +24,7 @@ imports:
 - name: github.com/go-openapi/runtime
   version: a76104f379d3c5041f2a56e69db3ad8404ce4826
   subpackages:
+  - flagext
   - logger
   - middleware
   - middleware/denco

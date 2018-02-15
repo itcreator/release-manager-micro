@@ -9,3 +9,11 @@ services:
         working_dir: /code
         volumes:
             - ../../../..:/code:Z #base path is "ops/docker/compose/env"
+
+    go_swagger:
+        image: quay.io/goswagger/swagger
+        working_dir: /go/src/api
+        network_mode: host
+        volumes:
+           - ../../../../src/api:/go/src/api:Z #base path is "ops/docker/compose/env"
+           - ../../../../apiDoc:/apiDoc:Z
