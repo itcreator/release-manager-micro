@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"gopkg.in/gorp.v1"
+	"gopkg.in/gorp.v2"
 )
 
 var tableName = "version_semantic"

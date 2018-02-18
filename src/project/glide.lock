@@ -1,5 +1,5 @@
-hash: 27e41a1344f957024ffe04a590943e2bf5dc34dce38ac1c991ebef64ced54bcb
-updated: 2017-06-03T07:49:12.468284476Z
+hash: 9fbc5c8076d060ff863cb1a4b02fb93109c9e0819241a9c9790b95e0e327a80b
+updated: 2018-02-16T23:51:26.312807024Z
 imports:
 - name: github.com/facebookgo/inject
   version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
@@ -98,8 +98,8 @@ imports:
   version: 6fecf2831adf75ce3b8b756d2d174db8a2044dbb
   subpackages:
   - codes
-- name: gopkg.in/gorp.v1
-  version: c87af80f3cc5036b55b83d77171e156791085e2e
+- name: gopkg.in/gorp.v2
+  version: 4deece61034873cb5b5416e81abe4cea7bd0da72
 testImports:
 - name: github.com/davecgh/go-spew
   version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9

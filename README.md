@@ -93,7 +93,7 @@ Response:
     docker-compose exec service.api bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
-    curl -i http://127.0.0.1:9090/projects
+    curl -i http://127.0.0.1:9/projects
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
     curl -i http://127.0.0.1:9090/projects/5
     curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
