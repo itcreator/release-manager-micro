@@ -1,13 +1,10 @@
 package: semver
 import:
-    - package: github.com/facebookgo/inject
-    - package: github.com/lib/pq
-    - package: github.com/micro/go-micro
-    - package: github.com/micro/protobuf/proto
-    - package: github.com/stretchr/testify
-    - package: google.golang.org/grpc/codes
-    - package: gopkg.in/gorp.v1
-#    - package: github.com/golang/protobuf/proto
-#    - package: github.com/micro/protobuf/protoc-gen-go
-    #go-micro
-
+- package: github.com/facebookgo/inject
+- package: github.com/lib/pq
+- package: github.com/micro/go-micro
+- package: github.com/micro/protobuf/proto
+- package: github.com/stretchr/testify
+- package: google.golang.org/grpc/codes
+- package: gopkg.in/gorp.v2
+  version: ^2.0.0

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq" //for psql
-	"gopkg.in/gorp.v1"
+	"gopkg.in/gorp.v2"
 	"log"
 	"semver/config"
 	"semver/model"

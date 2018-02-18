@@ -2,6 +2,7 @@ package: app
 import:
     - package: github.com/stretchr/testify
     - package: github.com/tylerb/graceful
+    - package: github.com/docker/go-units
     - package: github.com/go-swagger/go-swagger
     - package: github.com/go-openapi/loads
     - package: github.com/jessevdk/go-flags
