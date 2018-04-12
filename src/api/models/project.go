@@ -21,17 +21,17 @@ type Project struct {
 	// Max Length: 4000
 	Description string `json:"description,omitempty"`
 
-	// The id of the project.
-	//
-	// A unique identifier for the project. These are created in ascending order.
-	// Read Only: true
-	ID uint64 `json:"id,omitempty"`
-
 	// The name of the project.
 	// Required: true
 	// Max Length: 150
 	// Min Length: 2
 	Name string `json:"name"`
+
+	// The id of the project.
+	//
+	// A unique identifier for the project. These are created in ascending order.
+	// Read Only: true
+	UUID strfmt.UUID `json:"uuid,omitempty"`
 }
 
 // Validate validates this project
@@ -44,6 +44,11 @@ func (m *Project) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateName(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateUUID(formats); err != nil {
 		// prop
 		res = append(res, err)
 	}
@@ -78,6 +83,19 @@ func (m *Project) validateName(formats strfmt.Registry) error {
 	}
 
 	if err := validate.MaxLength("name", "body", string(m.Name), 150); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Project) validateUUID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.UUID) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("uuid", "body", "uuid", m.UUID.String(), formats); err != nil {
 		return err
 	}
 

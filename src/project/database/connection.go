@@ -11,7 +11,8 @@ import (
 )
 
 func mapEntities(dbMap *gorp.DbMap) {
-	dbMap.AddTableWithName(model.Project{}, "project").SetKeys(true, "ID")
+	//TODO: implement DDL "id UUID PRIMARY KEY DEFAULT gen_random_uuid(),"
+	dbMap.AddTableWithName(model.Project{}, "project").SetKeys(false, "UUID")
 }
 
 // NewConnection create new database connection

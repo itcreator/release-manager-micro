@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/strfmt"
 	"github.com/micro/go-micro"
 	"google.golang.org/grpc/codes"
 )
@@ -44,13 +45,13 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 	}
 
 	if uint32(codes.OK) == rsp.Status {
-		fmt.Println(fmt.Sprintf("project.client: ok. Id = %v", rsp.Id))
+		fmt.Println(fmt.Sprintf("project.client: ok. Id = %v", rsp.Uuid))
 	} else {
 		fmt.Println("project.client: create fail. ")
 	}
 
 	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
-		Id: rsp.Id,
+		Uuid: rsp.Uuid,
 	})
 	if err != nil {
 		fmt.Println(err)
@@ -58,7 +59,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Project.Id,
+		UUID:        strfmt.UUID(readRsp.Project.Uuid),
 		Name:        readRsp.Project.Name,
 		Description: readRsp.Project.Description,
 	}
@@ -69,7 +70,7 @@ func (g *projectGateway) CreateProjectAction(params project.CreateProjectParams)
 //ReadProjectAction read project from micro-service
 func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) middleware.Responder {
 	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
-		Id: params.ID,
+		Uuid: string(params.UUID),
 	})
 
 	if err != nil {
@@ -78,13 +79,13 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 	}
 
 	if uint32(codes.OK) == readRsp.Status {
-		fmt.Println(fmt.Sprintf("project.client read: ok. Id = %v", params.ID))
+		fmt.Println(fmt.Sprintf("project.client read: ok. Id = %v", params.UUID))
 	} else if uint32(codes.NotFound) == readRsp.Status {
 		return project.NewReadProjectNotFound()
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Project.Id,
+		UUID:        strfmt.UUID(readRsp.Project.Uuid),
 		Name:        readRsp.Project.Name,
 		Description: readRsp.Project.Description,
 	}
@@ -95,7 +96,7 @@ func (g *projectGateway) ReadProjectAction(params project.ReadProjectParams) mid
 //ReadProjectAction sends update request to micro-service
 func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams) middleware.Responder {
 	rsp, err := g.projectClient.Update(context.TODO(), &proto.UpdateRequest{
-		Id:          params.ID,
+		Uuid:        string(params.UUID),
 		Name:        params.Body.Name,
 		Description: params.Body.Description,
 	})
@@ -105,16 +106,16 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 	}
 
 	if uint32(codes.OK) == rsp.Status {
-		fmt.Println(fmt.Sprintf("project.client update: ok. Id = %v", params.ID))
+		fmt.Println(fmt.Sprintf("project.client update: ok. Id = %v", params.UUID))
 	} else if uint32(codes.NotFound) == rsp.Status {
 		return project.NewUpdateProjectNotFound()
 	} else {
-		fmt.Println(fmt.Sprintf("project.client: update fail. Id = %v, status = %v", params.ID, rsp.Status))
+		fmt.Println(fmt.Sprintf("project.client: update fail. Id = %v, status = %v", params.UUID, rsp.Status))
 		return project.NewCreateProjectInternalServerError()
 	}
 
 	readRsp, err := g.projectClient.Read(context.TODO(), &proto.ReadRequest{
-		Id: params.ID,
+		Uuid: string(params.UUID),
 	})
 	if err != nil {
 		fmt.Println(err)
@@ -122,7 +123,7 @@ func (g *projectGateway) UpdateProjectAction(params project.UpdateProjectParams)
 	}
 
 	pr := &models.Project{
-		ID:          readRsp.Project.Id,
+		UUID:        strfmt.UUID(readRsp.Project.Uuid),
 		Name:        readRsp.Project.Name,
 		Description: readRsp.Project.Description,
 	}
@@ -142,7 +143,7 @@ func (g *projectGateway) ListProjectsAction(params project.ListProjectsParams) m
 	var projects = []*models.Project{}
 	for _, listResp := range listRsp.Projects {
 		p := &models.Project{
-			ID:          listResp.Id,
+			UUID:        strfmt.UUID(listResp.Uuid),
 			Name:        listResp.Name,
 			Description: listResp.Description,
 		}

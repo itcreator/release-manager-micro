@@ -11,12 +11,12 @@ import (
 	golangswaggerpaths "path"
 	"strings"
 
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/strfmt"
 )
 
 // UpdateProjectURL generates an URL for the update project operation
 type UpdateProjectURL struct {
-	ID uint64
+	UUID strfmt.UUID
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,13 +42,13 @@ func (o *UpdateProjectURL) SetBasePath(bp string) {
 func (o *UpdateProjectURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/projects/{id}"
+	var _path = "/projects/{uuid}"
 
-	id := swag.FormatUint64(o.ID)
-	if id != "" {
-		_path = strings.Replace(_path, "{id}", id, -1)
+	uuid := o.UUID.String()
+	if uuid != "" {
+		_path = strings.Replace(_path, "{uuid}", uuid, -1)
 	} else {
-		return nil, errors.New("ID is required on UpdateProjectURL")
+		return nil, errors.New("UUID is required on UpdateProjectURL")
 	}
 
 	_basePath := o._basePath

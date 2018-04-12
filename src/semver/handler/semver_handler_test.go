@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/suite"
 	proto "semver/proto/semver"
 	"testing"
@@ -16,7 +17,7 @@ func (suite *semverHandlerTestSuite) TestGenerate() {
 	req := &proto.GenerateRequest{}
 	rsp := new(proto.GenerateResponse)
 
-	generator := new(versioGeneratorMock)
+	generator := new(versionGeneratorMock)
 	handler := SemverHandler{
 		Generator: generator,
 	}
@@ -27,11 +28,11 @@ func (suite *semverHandlerTestSuite) TestGenerate() {
 	suite.Equal(rsp.Version, "1.0.1")
 }
 
-type versioGeneratorMock struct {
+type versionGeneratorMock struct {
 	StoredVersion string
 }
 
-func (mock *versioGeneratorMock) GenerateVersion(projectID uint64, major uint32, minor uint32, branch string) string {
+func (mock *versionGeneratorMock) GenerateVersion(projectUUID uuid.UUID, major uint32, minor uint32, branch string) string {
 	mock.StoredVersion = "1.0.1"
 
 	return mock.StoredVersion

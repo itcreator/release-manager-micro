@@ -24,11 +24,11 @@ message CreateRequest {
 
 message CreateResponse {
     uint32 status = 1;
-    uint64 id = 2;
+    string uuid = 2; //format - UUID
 }
 
 message ReadRequest {
-    uint64 id = 1;
+    string uuid = 1; //format - UUID
 }
 
 message ReadResponse {
@@ -37,7 +37,7 @@ message ReadResponse {
 }
 
 message UpdateRequest {
-    uint64 id = 1;
+    string uuid = 1; //format - UUID
     string name = 2;
     string description = 3;
 }
@@ -47,7 +47,7 @@ message UpdateResponse {
 }
 
 message ProjectItem {
-    uint64 id = 2;
+    string uuid = 2; //format - UUID
     string name = 3;
     string description = 4;
 }

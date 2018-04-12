@@ -7,7 +7,7 @@ service versionSemver {
 }
 
 message GenerateRequest {
-    uint64 projectId = 1;
+    string projectUuid = 1; //format - UUID
     uint32 major = 2;
     uint32 minor = 3;
     string branch = 4;

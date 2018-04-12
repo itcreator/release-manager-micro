@@ -4,6 +4,7 @@ import:
 - package: github.com/lib/pq
 - package: github.com/micro/go-micro
 - package: github.com/micro/protobuf/proto
+- package: github.com/satori/go.uuid
 - package: github.com/stretchr/testify
 - package: google.golang.org/grpc/codes
 - package: gopkg.in/gorp.v2
