@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -31,11 +31,11 @@ type ReadProjectParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*
+	/*Project ID in UUID format
 	  Required: true
 	  In: path
 	*/
-	ID uint64
+	UUID strfmt.UUID
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -47,8 +47,8 @@ func (o *ReadProjectParams) BindRequest(r *http.Request, route *middleware.Match
 
 	o.HTTPRequest = r
 
-	rID, rhkID, _ := route.Params.GetOK("id")
-	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
+	rUUID, rhkUUID, _ := route.Params.GetOK("uuid")
+	if err := o.bindUUID(rUUID, rhkUUID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,7 +58,7 @@ func (o *ReadProjectParams) BindRequest(r *http.Request, route *middleware.Match
 	return nil
 }
 
-func (o *ReadProjectParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *ReadProjectParams) bindUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -67,11 +67,25 @@ func (o *ReadProjectParams) bindID(rawData []string, hasKey bool, formats strfmt
 	// Required: true
 	// Parameter is provided by construction from the route
 
-	value, err := swag.ConvertUint64(raw)
+	// Format: uuid
+	value, err := formats.Parse("uuid", raw)
 	if err != nil {
-		return errors.InvalidType("id", "path", "uint64", raw)
+		return errors.InvalidType("uuid", "path", "strfmt.UUID", raw)
 	}
-	o.ID = value
+	o.UUID = *(value.(*strfmt.UUID))
+
+	if err := o.validateUUID(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (o *ReadProjectParams) validateUUID(formats strfmt.Registry) error {
+
+	if err := validate.FormatOf("uuid", "path", "uuid", o.UUID.String(), formats); err != nil {
+		return err
+	}
 
 	return nil
 }

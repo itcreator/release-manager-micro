@@ -333,17 +333,17 @@ func (o *ReleaseManagerAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/projects/{id}"] = project.NewReadProject(o.context, o.ProjectReadProjectHandler)
+	o.handlers["GET"]["/projects/{uuid}"] = project.NewReadProject(o.context, o.ProjectReadProjectHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/projects/{projectId}/version/semantic"] = version_semantic.NewSemverGenerate(o.context, o.VersionSemanticSemverGenerateHandler)
+	o.handlers["POST"]["/projects/{projectUuid}/version/semantic"] = version_semantic.NewSemverGenerate(o.context, o.VersionSemanticSemverGenerateHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/projects/{id}"] = project.NewUpdateProject(o.context, o.ProjectUpdateProjectHandler)
+	o.handlers["PUT"]["/projects/{uuid}"] = project.NewUpdateProject(o.context, o.ProjectUpdateProjectHandler)
 
 }
 

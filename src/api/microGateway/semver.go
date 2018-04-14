@@ -31,17 +31,17 @@ func NewSemverGateway() ISemverGateway {
 //GenerateVersionAction sends generate request to micro-service
 func (g *semverGateway) GenerateVersionAction(params semver.SemverGenerateParams) middleware.Responder {
 	rsp, err := g.semverClient.Generate(context.TODO(), &proto.GenerateRequest{
-		ProjectId: params.ProjectID,
-		Major:     params.Body.Major,
-		Minor:     params.Body.Minor,
-		Branch:    params.Body.Branch,
+		ProjectUuid: string(params.ProjectUUID),
+		Major:       params.Body.Major,
+		Minor:       params.Body.Minor,
+		Branch:      params.Body.Branch,
 	})
 	if err != nil {
 		fmt.Println(err)
 		return semver.NewSemverGenerateInternalServerError()
 	}
 
-	fmt.Println(fmt.Sprintf("Version was generated: projectId = %v, version = %v", params.ProjectID, rsp.Version))
+	fmt.Println(fmt.Sprintf("Version was generated: projectUUID = %v, version = %v", params.ProjectUUID, rsp.Version))
 
 	s := &models.SemverNumber{
 		Version: rsp.Version,

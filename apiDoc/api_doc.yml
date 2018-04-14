@@ -26,11 +26,12 @@ tags:
       description: Generate version tag. See also http://semver.org/spec/v2.0.0.html
 
 paths:
-    /projects/{projectId}/version/semantic:
+    /projects/{projectUuid}/version/semantic:
         parameters:
-          - type: integer
-            format: uint64
-            name: projectId
+          - type: string
+            format: uuid
+            name: projectUuid
+            description: Project ID in UUID format
             in: path
             required: true
         post:
@@ -90,11 +91,12 @@ paths:
                 500:
                     $ref: "#/responses/ErrorResponse"
 
-    /projects/{id}:
+    /projects/{uuid}:
         parameters:
-            - type: integer
-              format: uint64
-              name: id
+            - type: string
+              description: Project ID in UUID format
+              format: uuid
+              name: uuid
               in: path
               required: true
         get:
@@ -243,11 +245,11 @@ definitions:
         required:
             - name
         properties:
-            id:
+            uuid:
                 title: The id of the project.
                 description: A unique identifier for the project. These are created in ascending order.
                 type: integer
-                format: uint64
+                format: uuid
                 readOnly: true
             name:
                 title: The name of the project.

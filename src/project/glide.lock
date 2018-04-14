@@ -1,5 +1,5 @@
-hash: 9fbc5c8076d060ff863cb1a4b02fb93109c9e0819241a9c9790b95e0e327a80b
-updated: 2018-02-16T23:51:26.312807024Z
+hash: cec6f5dbc28a46f94101db543d66b56a2bb3c38d34016d24f22ee21606e33f9f
+updated: 2018-04-04T20:46:47.312875289Z
 imports:
 - name: github.com/facebookgo/inject
   version: cc1aa653e50f6a9893bcaef89e673e5b24e1e97b
@@ -79,6 +79,8 @@ imports:
   version: 9204ce590301a868e3e86938bc12eadd416b211e
 - name: github.com/pborman/uuid
   version: 1b00554d822231195d1babd97ff4a781231955c9
+- name: github.com/satori/go.uuid
+  version: 36e9d2ebbde5e3f13ab2e25625fd453271d6522e
 - name: github.com/stretchr/testify
   version: f6abca593680b2315d2075e0f5e2a9751e3f431a
   subpackages:

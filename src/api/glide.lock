@@ -1,18 +1,20 @@
-hash: 232dd56726ef00a618538bf6a014edd66cfa101378aeeef1fb89082fb2a6cd9f
-updated: 2018-02-12T13:51:26.311850035Z
+hash: 8b5d8ef9b3f2f7a5f3397abdf18f706472cc9890e6aaee6a3b95231201d4a6be
+updated: 2018-03-12T20:26:51.109775617Z
 imports:
+- name: github.com/armon/go-metrics
+  version: 783273d703149aaeb9897cf58613d5af48861c25
 - name: github.com/asaskevich/govalidator
-  version: 852d82c746b23d9b357b210ea470d99f4e023b72
+  version: 4b3d68f87f176641ffc147420296013aff66ea32
 - name: github.com/docker/go-units
-  version: d59758554a3d3911fa25c0269de1ebe2f1912c39
+  version: 47565b4f722fb6ceae66b95f853feed578a4a51c
 - name: github.com/eclipse/paho.mqtt.golang
-  version: cd4337d9ef8b177236ef7abc7bc2677385c11381
+  version: b01d90bf326f7cf67915b70d48140961284e5c01
 - name: github.com/go-log/log
   version: 37e2e1f19306361e1fc152a1839f1236149cb4e4
   subpackages:
   - log
 - name: github.com/go-openapi/analysis
-  version: 0db1e4cf47d6eb0fc6b25135868c3483cc6b066e
+  version: f59a71f0ece6f9dfb438be7f45148f006cbad88e
 - name: github.com/go-openapi/errors
   version: 7bcb96a367bac6b76e6e42fa84155bb5581dcff8
 - name: github.com/go-openapi/jsonpointer
@@ -22,7 +24,7 @@ imports:
 - name: github.com/go-openapi/loads
   version: 2a2b323bab96e6b1fdee110e57d959322446e9c9
 - name: github.com/go-openapi/runtime
-  version: a76104f379d3c5041f2a56e69db3ad8404ce4826
+  version: 09fac855d8504674b22594470227bd94e5005025
   subpackages:
   - flagext
   - logger
@@ -32,39 +34,45 @@ imports:
   - middleware/untyped
   - security
 - name: github.com/go-openapi/spec
-  version: fa03337d7da5735229ee8f5e9d5d0b996014b7f8
+  version: d8000b5bfbd1147255710505a27c735b6b2ae2ac
 - name: github.com/go-openapi/strfmt
-  version: 4dd3d302e100bae008baedc42d446ce83bdd10ad
+  version: 6d1a47fad79c81e8cd732889cb80e91123951860
 - name: github.com/go-openapi/swag
-  version: 84f4bee7c0a6db40e3166044c7983c1c32125429
+  version: ceb469cb0fdf2d792f28d771bc05da6c606f55e5
 - name: github.com/go-openapi/validate
-  version: 0e805b142cf7a9f578a775ff7d05745534371f9d
+  version: 180bba53b98899f743a112e568bed9e2ef31aa20
 - name: github.com/go-swagger/go-swagger
-  version: 2db0ce663570b503015389ce4b53e61534d5c66c
+  version: e571dca8b0b44eff9dfccf5c2f4299a8f77389b3
   subpackages:
   - httpkit/middleware
   - swag
 - name: github.com/golang/protobuf
-  version: 1e59b77b52bf8e4b449a57e6f79f21226d571845
+  version: bbd03ef6da3a115852eaf24c8a1c46aeb39aa175
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 8837a18d25fc2555150db761f1d922a3fc2ffae3
+  version: 0e3c41738dae5636c458b3fabcc69b1cb64b8a1c
   subpackages:
   - api
   - watch
 - name: github.com/hashicorp/go-cleanhttp
   version: d5fe4b57a186c716b0e00b8c301cbd9b4182694d
+- name: github.com/hashicorp/go-immutable-radix
+  version: 7f3cd4390caab3250a57f30efdb2a65dd7649ecf
 - name: github.com/hashicorp/go-rootcerts
   version: 6bb64b370b90e7ef1fa532be9e591a81c3493e00
+- name: github.com/hashicorp/golang-lru
+  version: 0fb14efe8c47ae851c0034ed7a448854d3d34cf3
+  subpackages:
+  - simplelru
 - name: github.com/hashicorp/serf
-  version: 7da7fe5ea9876f0b178f6462f9ae3f4cfee054c3
+  version: 3b250ce4404edb266330f53fcfc8ad0d0dacfae7
   subpackages:
   - coordinate
 - name: github.com/jessevdk/go-flags
   version: f88afde2fa19a30cf50ba4b05b3d13bc6bae3079
 - name: github.com/mailru/easyjson
-  version: 32fa128f234d041f196a9f3e0fea5ac9772c08e1
+  version: f594efddfa171111dc4349cd6e78e8f61dc7936f
   subpackages:
   - buffer
   - jlexer
@@ -74,7 +82,7 @@ imports:
 - name: github.com/micro/go-log
   version: cbfa9447f9b655f8e66583237e51f40ca9bff860
 - name: github.com/micro/go-micro
-  version: 45420d841329d8e2252f528df3048f95b8e4be94
+  version: a3741f8a11be9763200cb529fd0e35bcb946f3f5
   subpackages:
   - broker
   - broker/codec
@@ -99,42 +107,42 @@ imports:
   - transport/codec
   - transport/http
 - name: github.com/micro/go-rcache
-  version: 5d0460e1ba8a8196c7b31c2b534903130edf94e2
+  version: c4d553f1c37857cdc6d5385e83b6946deed488e4
 - name: github.com/micro/mdns
   version: cdf30746f9f70dc7a366d3d885792a092fd83102
 - name: github.com/micro/misc
-  version: 92560176a0866e3584c13e7ff7d4747c5bf793f7
+  version: ab7317bd846b16037b3d415f99cb90f25f68c97d
   subpackages:
   - lib/addr
   - lib/net
   - lib/tls
 - name: github.com/miekg/dns
-  version: dcdbddd8102b79eeef1329473dffab4aec17ca25
+  version: 906238edc6eb0ddface4a1923f6d41ef2a5ca59b
 - name: github.com/mitchellh/go-homedir
   version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/mitchellh/hashstructure
   version: 2bca23e0e452137f789efbc8610126fd8b94f73b
 - name: github.com/mitchellh/mapstructure
-  version: 06020f85339e21b2478f756a78e295255ffa4d6a
+  version: 00c29f56e2386353d58c599509e8dc3801b0d716
 - name: github.com/pborman/uuid
-  version: e533369306653d193b93dae055f6083cbf8ba54f
+  version: c65b2f87fee37d1c7854c9164a450713c28d50cd
 - name: github.com/pkg/errors
-  version: e881fd58d78e04cf6d0de1217f8707c8cc2249bc
+  version: 816c9085562cd7ee03e7f8188a1cfd942858cded
 - name: github.com/PuerkitoBio/purell
-  version: 1c4bec281e4bbc75b4f4a1bd923bdf1bd989a969
+  version: 975f53781597ed779763b7b65566e74c4004d8de
 - name: github.com/PuerkitoBio/urlesc
   version: de5bf2ad457846296e2031421a34e2568e304e35
 - name: github.com/stretchr/testify
-  version: 87b1dfb5b2fa649f52695dd9eae19abe404a4308
+  version: b89eecf5ca5db6d3ba60b237ffe3df7bafb7662f
 - name: github.com/tylerb/graceful
   version: d72b0151351a13d0421b763b88f791469c4f5dc7
 - name: golang.org/x/crypto
-  version: 0fcca4842a8d74bfddc2c96a073bd2a4d2a7a2e8
+  version: 182114d582623c1caa54f73de9c7224e23a48487
   subpackages:
   - ed25519
   - ed25519/internal/edwards25519
 - name: golang.org/x/net
-  version: 42fe2e1c20de1054d3d30f82cc9fb5b41e2e3767
+  version: ae89d30ce0c63142b652837da33d782e2b0a9b25
   subpackages:
   - bpf
   - context
@@ -144,7 +152,7 @@ imports:
   - ipv4
   - ipv6
 - name: golang.org/x/text
-  version: e19ae1496984b1c655b8044a65c0300a3c878dd3
+  version: b7ef84aaf62aa3e70962625c80a571ae7c17cb40
   subpackages:
   - secure/bidirule
   - transform
@@ -152,7 +160,7 @@ imports:
   - unicode/norm
   - width
 - name: google.golang.org/grpc
-  version: 6913ad5caedced5d627918609375b057963334a5
+  version: 2c2d834e8e13f239343a3441b76b0efcc167a0d7
   subpackages:
   - codes
 - name: gopkg.in/mgo.v2
@@ -161,5 +169,5 @@ imports:
   - bson
   - internal/json
 - name: gopkg.in/yaml.v2
-  version: c4a9fb418357aceb801272d73efd518f183700fa
+  version: 7f97868eec74b32b0982dd158a51a446d1da7eb5
 testImports: []

@@ -11,7 +11,8 @@ import (
 )
 
 func mapEntities(dbMap *gorp.DbMap) {
-	dbMap.AddTableWithName(model.Version{}, "version_semantic").SetKeys(true, "ID")
+	//TODO: implement DDL "id UUID PRIMARY KEY DEFAULT gen_random_uuid(),"
+	dbMap.AddTableWithName(model.Version{}, "version_semantic").SetKeys(false, "UUID")
 }
 
 // InitORM create new database connection and return instance of gorp.DbMap

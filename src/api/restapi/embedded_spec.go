@@ -159,7 +159,44 @@ func init() {
         }
       }
     },
-    "/projects/{id}": {
+    "/projects/{projectUuid}/version/semantic": {
+      "post": {
+        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
+        "tags": [
+          "versionSemantic"
+        ],
+        "summary": "Generate new semantic version number (based on gitflow)",
+        "operationId": "semverGenerate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SemverGenerateParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/SemverGenerateResponse"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "projectUuid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/projects/{uuid}": {
       "get": {
         "description": "Get all projects list\n",
         "tags": [
@@ -207,45 +244,10 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
-          "format": "uint64",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/projects/{projectId}/version/semantic": {
-      "post": {
-        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
-        "tags": [
-          "versionSemantic"
-        ],
-        "summary": "Generate new semantic version number (based on gitflow)",
-        "operationId": "semverGenerate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/SemverGenerateParams"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "$ref": "#/responses/SemverGenerateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "integer",
-          "format": "uint64",
-          "name": "projectId",
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "uuid",
           "in": "path",
           "required": true
         }
@@ -306,19 +308,19 @@ func init() {
           "maxLength": 4000,
           "x-nullable": false
         },
-        "id": {
-          "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
-          "format": "uint64",
-          "title": "The id of the project.",
-          "readOnly": true
-        },
         "name": {
           "type": "string",
           "title": "The name of the project.",
           "maxLength": 150,
           "minLength": 2,
           "x-nullable": false
+        },
+        "uuid": {
+          "description": "A unique identifier for the project. These are created in ascending order.",
+          "type": "integer",
+          "format": "uuid",
+          "title": "The id of the project.",
+          "readOnly": true
         }
       }
     },
@@ -616,7 +618,55 @@ func init() {
         }
       }
     },
-    "/projects/{id}": {
+    "/projects/{projectUuid}/version/semantic": {
+      "post": {
+        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
+        "tags": [
+          "versionSemantic"
+        ],
+        "summary": "Generate new semantic version number (based on gitflow)",
+        "operationId": "semverGenerate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SemverGenerateParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Generate semantic version response",
+            "schema": {
+              "$ref": "#/definitions/SemverNumber"
+            }
+          },
+          "500": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "X-Error-Code": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "projectUuid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/projects/{uuid}": {
       "get": {
         "description": "Get all projects list\n",
         "tags": [
@@ -712,56 +762,10 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
-          "format": "uint64",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/projects/{projectId}/version/semantic": {
-      "post": {
-        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
-        "tags": [
-          "versionSemantic"
-        ],
-        "summary": "Generate new semantic version number (based on gitflow)",
-        "operationId": "semverGenerate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/SemverGenerateParams"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Generate semantic version response",
-            "schema": {
-              "$ref": "#/definitions/SemverNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "integer",
-          "format": "uint64",
-          "name": "projectId",
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "uuid",
           "in": "path",
           "required": true
         }
@@ -822,19 +826,19 @@ func init() {
           "maxLength": 4000,
           "x-nullable": false
         },
-        "id": {
-          "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
-          "format": "uint64",
-          "title": "The id of the project.",
-          "readOnly": true
-        },
         "name": {
           "type": "string",
           "title": "The name of the project.",
           "maxLength": 150,
           "minLength": 2,
           "x-nullable": false
+        },
+        "uuid": {
+          "description": "A unique identifier for the project. These are created in ascending order.",
+          "type": "integer",
+          "format": "uuid",
+          "title": "The id of the project.",
+          "readOnly": true
         }
       }
     },

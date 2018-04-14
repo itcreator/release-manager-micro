@@ -33,8 +33,8 @@ func NewIncrementalVersioningGateway() IIncrementalVersioningGateway {
 
 //GenerateVersionAction sends generate request to micro-service
 func (g *incrementalVersioningGateway) GenerateVersionAction(params incremental.IncrementalGenerateParams) middleware.Responder {
-	//TODO: read project by name from project service
-	//Then use projectID
+	//TODO: Use slug. Read project by name from project service
+	//Then use projectUUID
 
 	rsp, err := g.incrementalClient.Generate(context.TODO(), &proto.GenerateRequest{
 		ProjectName: params.ProjectName,
@@ -55,8 +55,8 @@ func (g *incrementalVersioningGateway) GenerateVersionAction(params incremental.
 
 //DeleteVersionAction sends delete request to micro-service
 func (g *incrementalVersioningGateway) DeleteVersionAction(params incremental.IncrementalDeleteParams) middleware.Responder {
-	//TODO: read project by name from project service
-	//Then use projectID
+	//TODO: Use slug. Read project by name from project service
+	//Then use projectUUID
 
 	rsp, err := g.incrementalClient.Delete(context.TODO(), &proto.DeleteRequest{
 		ProjectName: params.ProjectName,
@@ -74,12 +74,12 @@ func (g *incrementalVersioningGateway) DeleteVersionAction(params incremental.In
 
 //UpdateVersionAction sends update request to micro-service
 func (g *incrementalVersioningGateway) UpdateVersionAction(params incremental.IncrementalUpdateParams) middleware.Responder {
-	//TODO: read project by name from project service
-	//Then use projectID
+	//TODO: Use slug. Read project by name from project service
+	//Then use projectUUID
 
 	rsp, err := g.incrementalClient.Update(context.TODO(), &proto.UpdateRequest{
 		ProjectName: params.ProjectName,
-		Version: params.Body.Version,
+		Version:     params.Body.Version,
 	})
 
 	if err != nil || rsp.Status != uint32(codes.OK) {

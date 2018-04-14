@@ -6,3 +6,11 @@ services:
           - "9090:80"
           - "2345"
         privileged: true
+
+    service.project.db:
+        ports:
+          - "54321:5432"
+
+    service.semver.db:
+        ports:
+          - "54322:5432"

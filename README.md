@@ -93,10 +93,10 @@ Response:
     docker-compose exec service.api bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
-    curl -i http://127.0.0.1:9/projects
+    curl -i http://127.0.0.1:9090/projects
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
-    curl -i http://127.0.0.1:9090/projects/5
-    curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
+    curl -i http://127.0.0.1:9090/projects/{uuid}
+    curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/{uuid} -d '{"name":"Project 5!", "description":"demo project 5"}'
 ```
 
 Shortcuts
@@ -133,7 +133,7 @@ Check consul cluster
     docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
     # or
     protoc --go_out=plugins=micro:. proto/**/*.proto
-    docker-compose run --rm protoc protoc --go_out=plugins=micro:src/semver proto/semver/*.proto
+    docker-compose run --rm protoc protoc --go_out=plugins=micro:./src/project proto/project/*.proto
 ```
 
 
@@ -144,7 +144,7 @@ Check consul cluster
 
 ### Serve API documentation
 ```bash
-    docker-compose run --rm go_swagger serve --no-open --port=8070 /apiDoc/api_doyml
+    docker-compose run --rm go_swagger serve --no-open --port=8070 /apiDoc/api_doc.yml
 ```
 
 And open [http://127.0.0.1:8070/docs]

@@ -11,12 +11,12 @@ import (
 	golangswaggerpaths "path"
 	"strings"
 
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/strfmt"
 )
 
 // SemverGenerateURL generates an URL for the semver generate operation
 type SemverGenerateURL struct {
-	ProjectID uint64
+	ProjectUUID strfmt.UUID
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,13 +42,13 @@ func (o *SemverGenerateURL) SetBasePath(bp string) {
 func (o *SemverGenerateURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/projects/{projectId}/version/semantic"
+	var _path = "/projects/{projectUuid}/version/semantic"
 
-	projectID := swag.FormatUint64(o.ProjectID)
-	if projectID != "" {
-		_path = strings.Replace(_path, "{projectId}", projectID, -1)
+	projectUUID := o.ProjectUUID.String()
+	if projectUUID != "" {
+		_path = strings.Replace(_path, "{projectUuid}", projectUUID, -1)
 	} else {
-		return nil, errors.New("ProjectID is required on SemverGenerateURL")
+		return nil, errors.New("ProjectUUID is required on SemverGenerateURL")
 	}
 
 	_basePath := o._basePath

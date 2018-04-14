@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/suite"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
@@ -29,7 +30,7 @@ func (suite *projectHandlerTestSuite) TestCreate() {
 	handler.Create(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
-	suite.Equal(rsp.Id, uint64(1))
+	suite.Equal(rsp.Uuid, "7df6fe94-4f84-4803-8846-4b05b8baafd2")
 	suite.Equal(repository.StoredProject.Name, req.Name)
 	suite.Equal(repository.StoredProject.Description, req.Description)
 }
@@ -41,9 +42,11 @@ func (suite *projectHandlerTestSuite) TestRead() {
 		Description: "D",
 	})
 
+	id := "7df6fe94-4f84-4803-8846-4b05b8baafd2"
+
 	ctx := context.TODO()
 	req := &proto.ReadRequest{
-		Id: 1,
+		Uuid: id,
 	}
 	rsp := new(proto.ReadResponse)
 
@@ -54,7 +57,7 @@ func (suite *projectHandlerTestSuite) TestRead() {
 	handler.Read(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
-	suite.Equal(rsp.Project.Id, uint64(1))
+	suite.Equal(rsp.Project.Uuid, id)
 	suite.Equal(repository.StoredProject.Name, rsp.Project.Name)
 	suite.Equal(repository.StoredProject.Description, rsp.Project.Description)
 }
@@ -68,7 +71,7 @@ func (suite *projectHandlerTestSuite) TestReadNotFound() {
 
 	ctx := context.TODO()
 	req := &proto.ReadRequest{
-		Id: 17636356,
+		Uuid: "7df6fe94-4f84-4803-8846-4b05b8baaaaa",
 	}
 	rsp := new(proto.ReadResponse)
 
@@ -89,9 +92,11 @@ func (suite *projectHandlerTestSuite) TestUpdate() {
 		Description: "D",
 	})
 
+	id, _ := uuid.FromString("7df6fe94-4f84-4803-8846-4b05b8baafd2")
+
 	ctx := context.TODO()
 	req := &proto.UpdateRequest{
-		Id:          1,
+		Uuid:        id.String(),
 		Name:        "N2",
 		Description: "D2",
 	}
@@ -104,7 +109,7 @@ func (suite *projectHandlerTestSuite) TestUpdate() {
 	handler.Update(ctx, req, rsp)
 
 	suite.Equal(rsp.Status, uint32(codes.OK))
-	suite.Equal(repository.StoredProject.ID, uint64(1))
+	suite.Equal(repository.StoredProject.UUID, id)
 	suite.Equal(repository.StoredProject.Name, req.Name)
 	suite.Equal(repository.StoredProject.Description, req.Description)
 }
@@ -114,7 +119,7 @@ func (suite *projectHandlerTestSuite) TestUpdateNotFound() {
 
 	ctx := context.TODO()
 	req := &proto.UpdateRequest{
-		Id:          uint64(13435322),
+		Uuid:        "7df6fe94-4f84-4803-8846-4b05b8baaaaa",
 		Name:        "N4",
 		Description: "D4",
 	}
@@ -148,7 +153,7 @@ func (suite *projectHandlerTestSuite) TestList() {
 	handler.List(ctx, req, rsp)
 
 	suite.Len(rsp.Projects, 1)
-	suite.Equal(rsp.Projects[0].Id, repository.StoredProject.ID)
+	suite.Equal(rsp.Projects[0].Uuid, repository.StoredProject.UUID.String())
 	suite.Equal(rsp.Projects[0].Name, repository.StoredProject.Name)
 	suite.Equal(rsp.Projects[0].Description, repository.StoredProject.Description)
 }
@@ -159,12 +164,12 @@ type projectRepositoryMock struct {
 
 func (mock *projectRepositoryMock) Insert(p *model.Project) {
 	mock.StoredProject = p
-	mock.StoredProject.ID = 1
+	mock.StoredProject.UUID, _ = uuid.FromString("7df6fe94-4f84-4803-8846-4b05b8baafd2")
 }
 
-func (mock *projectRepositoryMock) isNotFound(id uint64) bool {
+func (mock *projectRepositoryMock) isNotFound(uuid uuid.UUID) bool {
 	var notFound bool
-	if nil == mock.StoredProject || mock.StoredProject.ID != id {
+	if nil == mock.StoredProject || mock.StoredProject.UUID != uuid {
 		notFound = true
 	} else {
 		notFound = false
@@ -173,9 +178,9 @@ func (mock *projectRepositoryMock) isNotFound(id uint64) bool {
 	return notFound
 }
 
-func (mock *projectRepositoryMock) SelectByID(id uint64) *model.Project {
+func (mock *projectRepositoryMock) SelectByUUID(uuid uuid.UUID) *model.Project {
 	var p *model.Project
-	if mock.isNotFound(id) {
+	if mock.isNotFound(uuid) {
 		p = nil
 	} else {
 		p = mock.StoredProject
@@ -186,7 +191,7 @@ func (mock *projectRepositoryMock) SelectByID(id uint64) *model.Project {
 
 func (mock *projectRepositoryMock) Update(p *model.Project) bool {
 	var result bool
-	if mock.isNotFound(p.ID) {
+	if mock.isNotFound(p.UUID) {
 		result = false
 	} else {
 		mock.StoredProject = p
