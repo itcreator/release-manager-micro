@@ -180,6 +180,9 @@ func init() {
           "201": {
             "$ref": "#/responses/SemverGenerateResponse"
           },
+          "404": {
+            "$ref": "#/responses/SemverProjectNotFoundResponse"
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
@@ -413,6 +416,12 @@ func init() {
       "schema": {
         "$ref": "#/definitions/SemverNumber"
       }
+    },
+    "SemverProjectNotFoundResponse": {
+      "description": "Semver: project not found response",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
     }
   },
   "tags": [
@@ -640,6 +649,12 @@ func init() {
             "description": "Generate semantic version response",
             "schema": {
               "$ref": "#/definitions/SemverNumber"
+            }
+          },
+          "404": {
+            "description": "Semver: project not found response",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           },
           "500": {
@@ -938,6 +953,12 @@ func init() {
       "description": "Generate semantic version response",
       "schema": {
         "$ref": "#/definitions/SemverNumber"
+      }
+    },
+    "SemverProjectNotFoundResponse": {
+      "description": "Semver: project not found response",
+      "schema": {
+        "$ref": "#/definitions/Error"
       }
     }
   },

@@ -57,6 +57,50 @@ func (o *SemverGenerateCreated) WriteResponse(rw http.ResponseWriter, producer r
 	}
 }
 
+// SemverGenerateNotFoundCode is the HTTP code returned for type SemverGenerateNotFound
+const SemverGenerateNotFoundCode int = 404
+
+/*SemverGenerateNotFound Semver: project not found response
+
+swagger:response semverGenerateNotFound
+*/
+type SemverGenerateNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewSemverGenerateNotFound creates SemverGenerateNotFound with default headers values
+func NewSemverGenerateNotFound() *SemverGenerateNotFound {
+
+	return &SemverGenerateNotFound{}
+}
+
+// WithPayload adds the payload to the semver generate not found response
+func (o *SemverGenerateNotFound) WithPayload(payload *models.Error) *SemverGenerateNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the semver generate not found response
+func (o *SemverGenerateNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *SemverGenerateNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 // SemverGenerateInternalServerErrorCode is the HTTP code returned for type SemverGenerateInternalServerError
 const SemverGenerateInternalServerErrorCode int = 500
 
