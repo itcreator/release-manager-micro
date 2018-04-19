@@ -52,6 +52,8 @@ paths:
             responses:
                 201:
                     $ref: "#/responses/SemverGenerateResponse"
+                404:
+                    $ref: "#/responses/SemverProjectNotFoundResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
 
@@ -204,6 +206,11 @@ responses:
         description: Generate semantic version response
         schema:
             $ref: "#/definitions/SemverNumber"
+
+    SemverProjectNotFoundResponse:
+        description: "Semver: project not found response"
+        schema:
+            $ref: "#/definitions/Error"
 
     IncrementalGenerateResponse:
         description: Generate incremental version response

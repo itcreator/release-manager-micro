@@ -2,12 +2,15 @@ package microGateway
 
 import (
 	"api/models"
+	protoProject "api/proto/project"
 	proto "api/proto/semver"
+	"api/restapi/operations/project"
 	semver "api/restapi/operations/version_semantic"
 	"context"
 	"fmt"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/micro/go-micro"
+	"google.golang.org/grpc/codes"
 )
 
 //ISemverGateway is go-micro gateway for semver
@@ -16,7 +19,8 @@ type ISemverGateway interface {
 }
 
 type semverGateway struct {
-	semverClient proto.VersionSemverClient
+	projectClient protoProject.ProjectClient
+	semverClient  proto.VersionSemverClient
 }
 
 //NewSemverGateway returns go-micro gateway for semver
@@ -24,12 +28,28 @@ func NewSemverGateway() ISemverGateway {
 	service := micro.NewService(micro.Name("semver.client"))
 
 	return &semverGateway{
-		semverClient: proto.NewVersionSemverClient("semver", service.Client()),
+		projectClient: protoProject.NewProjectClient("project", service.Client()),
+		semverClient:  proto.NewVersionSemverClient("semver", service.Client()),
 	}
 }
 
 //GenerateVersionAction sends generate request to micro-service
 func (g *semverGateway) GenerateVersionAction(params semver.SemverGenerateParams) middleware.Responder {
+	readRsp, err := g.projectClient.Read(context.TODO(), &protoProject.ReadRequest{
+		Uuid: string(params.ProjectUUID),
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return project.NewReadProjectInternalServerError()
+	}
+
+	if uint32(codes.NotFound) == readRsp.Status {
+		return semver.NewSemverGenerateNotFound()
+	} else if uint32(codes.OK) == readRsp.Status {
+		fmt.Println(fmt.Sprintf("Project exist: Id = %v", params.ProjectUUID))
+	}
+
 	rsp, err := g.semverClient.Generate(context.TODO(), &proto.GenerateRequest{
 		ProjectUuid: string(params.ProjectUUID),
 		Major:       params.Body.Major,
