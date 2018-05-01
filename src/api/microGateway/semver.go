@@ -61,10 +61,33 @@ func (g *semverGateway) GenerateVersionAction(params semver.SemverGenerateParams
 		return semver.NewSemverGenerateInternalServerError()
 	}
 
-	fmt.Println(fmt.Sprintf("Version was generated: projectUUID = %v, version = %v", params.ProjectUUID, rsp.Version))
+	fmt.Println(fmt.Sprintf("Version was generated: projectUUID = %v, version = %v", params.ProjectUUID, rsp.Full))
 
-	s := &models.SemverNumber{
-		Version: rsp.Version,
+	all := []string{rsp.Full}
+
+	if "" != rsp.Minor {
+		all = append(all, rsp.Minor)
+	}
+
+	if "" != rsp.Major {
+		all = append(all, rsp.Major)
+	}
+
+	if "" != rsp.Branch && rsp.Branch != rsp.Full {
+		all = append(all, rsp.Branch)
+	}
+
+	if rsp.IsLatest {
+		all = append(all, "latest")
+	}
+
+	s := &models.SemverTagSet{
+		All:      all,
+		IsLatest: rsp.IsLatest,
+		Full:     rsp.Full,
+		Major:    rsp.Major,
+		Minor:    rsp.Minor,
+		Branch:   rsp.Branch,
 	}
 
 	return semver.NewSemverGenerateCreated().WithPayload(s)

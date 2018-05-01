@@ -14,5 +14,9 @@ message GenerateRequest {
 }
 
 message GenerateResponse {
-    string version = 1;
+    string full = 1;
+    string minor = 2;
+    string major = 3;
+    string branch = 4;
+    bool isLatest = 5;
 }

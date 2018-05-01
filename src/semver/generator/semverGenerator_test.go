@@ -21,8 +21,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForFeatureBranch() {
 	//revision not exist in database
 	rep := &versionGatewayMock{VersionEmpty: true, StoredVersion: new(model.Version)}
 	strategy := SemverGenerator{VersionRepository: rep}
-	versionString := strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-feature-22", versionString)
+	versionTag := strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.False(versionTag.IsLatest)
+	suite.Equal("v1.2.0-feature-22", versionTag.Full)
+	suite.Equal("v1.2.0-feature-22", *versionTag.Branch)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 
 	//revision already saved
 	version := &model.Version{
@@ -34,8 +38,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForFeatureBranch() {
 
 	rep = &versionGatewayMock{VersionEmpty: false, StoredVersion: version}
 	strategy = SemverGenerator{VersionRepository: rep}
-	versionString = strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-feature-22.1", versionString)
+	versionTag = strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.False(versionTag.IsLatest)
+	suite.Equal("v1.2.0-feature-22.1", versionTag.Full)
+	suite.Equal("v1.2.0-feature-22", *versionTag.Branch)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForDevBranch() {
@@ -47,8 +55,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForDevBranch() {
 	//revision not exist in database
 	rep := &versionGatewayMock{VersionEmpty: true, StoredVersion: new(model.Version)}
 	strategy := SemverGenerator{VersionRepository: rep}
-	versionString := strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-dev", versionString)
+	versionTag := strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.False(versionTag.IsLatest)
+	suite.Equal("v1.2.0-dev", versionTag.Full)
+	suite.Equal("v1.2.0-dev", *versionTag.Branch)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 
 	//revision already saved
 	version := &model.Version{
@@ -59,8 +71,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForDevBranch() {
 	}
 	rep = &versionGatewayMock{VersionEmpty: false, StoredVersion: version}
 	strategy = SemverGenerator{VersionRepository: rep}
-	versionString = strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-dev.1", versionString)
+	versionTag = strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.False(versionTag.IsLatest)
+	suite.Equal("v1.2.0-dev.1", versionTag.Full)
+	suite.Equal("v1.2.0-dev", *versionTag.Branch)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForReleaseBranch() {
@@ -72,8 +88,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForReleaseBranch() {
 	//revision not exist in database
 	rep := &versionGatewayMock{VersionEmpty: true, StoredVersion: new(model.Version)}
 	strategy := SemverGenerator{VersionRepository: rep}
-	versionString := strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-rc", versionString)
+	versionTag := strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.Equal("v1.2.0-rc", versionTag.Full)
+	suite.Equal("v1.2.0-rc", *versionTag.Branch)
+	suite.False(versionTag.IsLatest)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 
 	//revision already saved
 	version := &model.Version{
@@ -84,8 +104,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForReleaseBranch() {
 	}
 	rep = &versionGatewayMock{VersionEmpty: false, StoredVersion: version}
 	strategy = SemverGenerator{VersionRepository: rep}
-	versionString = strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0-rc.1", versionString)
+	versionTag = strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.Equal("v1.2.0-rc.1", versionTag.Full)
+	suite.Equal("v1.2.0-rc", *versionTag.Branch)
+	suite.False(versionTag.IsLatest)
+	suite.Nil(versionTag.Major)
+	suite.Nil(versionTag.Minor)
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForProductionBranch() {
@@ -97,8 +121,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForProductionBranch()
 	//revision not exist in database
 	rep := &versionGatewayMock{VersionEmpty: true, StoredVersion: new(model.Version)}
 	strategy := SemverGenerator{VersionRepository: rep}
-	versionString := strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.0", versionString)
+	versionTag := strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.True(versionTag.IsLatest)
+	suite.Equal("v1.2.0", versionTag.Full)
+	suite.Equal("v1.2", *versionTag.Minor)
+	suite.Equal("v1", *versionTag.Major)
+	suite.Nil(versionTag.Branch)
 
 	//revision already saved
 	version := &model.Version{
@@ -109,8 +137,12 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForProductionBranch()
 	}
 	rep = &versionGatewayMock{VersionEmpty: false, StoredVersion: version}
 	strategy = SemverGenerator{VersionRepository: rep}
-	versionString = strategy.GenerateVersion(projectUUID, major, minor, branch)
-	suite.Equal("v1.2.1", versionString)
+	versionTag = strategy.GenerateVersion(projectUUID, major, minor, branch)
+	suite.True(versionTag.IsLatest)
+	suite.Equal("v1.2.1", versionTag.Full)
+	suite.Equal("v1.2", *versionTag.Minor)
+	suite.Equal("v1", *versionTag.Major)
+	suite.Nil(versionTag.Branch)
 }
 
 type versionGatewayMock struct {
@@ -121,7 +153,7 @@ type versionGatewayMock struct {
 func (mock *versionGatewayMock) Insert(ver *model.Version) *model.Version {
 	mock.StoredVersion = ver
 	id, err := uuid.FromString("8df6fe94-4f84-4803-8846-4b05b8baafd2")
-	mock.StoredVersion.UUID = uuid.NullUUID {UUID: id, Valid: nil == err}
+	mock.StoredVersion.UUID = uuid.NullUUID{UUID: id, Valid: nil == err}
 
 	return ver
 }

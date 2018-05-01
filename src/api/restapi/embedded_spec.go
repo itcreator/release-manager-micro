@@ -359,19 +359,51 @@ func init() {
         }
       }
     },
-    "SemverNumber": {
+    "SemverTagSet": {
       "type": "object",
-      "title": "Semver Number",
+      "title": "Semver set of tags",
       "required": [
-        "version"
+        "full",
+        "isLatest"
       ],
       "properties": {
-        "version": {
+        "all": {
+          "type": "array",
+          "title": "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])",
+          "items": {
+            "type": "string"
+          },
+          "x-nullable": false
+        },
+        "branch": {
           "type": "string",
-          "title": "The version number",
+          "title": "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "full": {
+          "type": "string",
+          "title": "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)",
           "maxLength": 150,
           "minLength": 3,
           "x-nullable": false
+        },
+        "isLatest": {
+          "type": "boolean",
+          "title": "True if this version is latest. False - if not.",
+          "x-nullable": false
+        },
+        "major": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "minor": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1.2)",
+          "maxLength": 150,
+          "minLength": 3
         }
       }
     }
@@ -414,7 +446,7 @@ func init() {
     "SemverGenerateResponse": {
       "description": "Generate semantic version response",
       "schema": {
-        "$ref": "#/definitions/SemverNumber"
+        "$ref": "#/definitions/SemverTagSet"
       }
     },
     "SemverProjectNotFoundResponse": {
@@ -648,7 +680,7 @@ func init() {
           "201": {
             "description": "Generate semantic version response",
             "schema": {
-              "$ref": "#/definitions/SemverNumber"
+              "$ref": "#/definitions/SemverTagSet"
             }
           },
           "404": {
@@ -889,19 +921,51 @@ func init() {
         }
       }
     },
-    "SemverNumber": {
+    "SemverTagSet": {
       "type": "object",
-      "title": "Semver Number",
+      "title": "Semver set of tags",
       "required": [
-        "version"
+        "full",
+        "isLatest"
       ],
       "properties": {
-        "version": {
+        "all": {
+          "type": "array",
+          "title": "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])",
+          "items": {
+            "type": "string"
+          },
+          "x-nullable": false
+        },
+        "branch": {
           "type": "string",
-          "title": "The version number",
+          "title": "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "full": {
+          "type": "string",
+          "title": "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)",
           "maxLength": 150,
           "minLength": 3,
           "x-nullable": false
+        },
+        "isLatest": {
+          "type": "boolean",
+          "title": "True if this version is latest. False - if not.",
+          "x-nullable": false
+        },
+        "major": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "minor": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1.2)",
+          "maxLength": 150,
+          "minLength": 3
         }
       }
     },
@@ -952,7 +1016,7 @@ func init() {
     "SemverGenerateResponse": {
       "description": "Generate semantic version response",
       "schema": {
-        "$ref": "#/definitions/SemverNumber"
+        "$ref": "#/definitions/SemverTagSet"
       }
     },
     "SemverProjectNotFoundResponse": {

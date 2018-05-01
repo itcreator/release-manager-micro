@@ -205,7 +205,7 @@ responses:
     SemverGenerateResponse:
         description: Generate semantic version response
         schema:
-            $ref: "#/definitions/SemverNumber"
+            $ref: "#/definitions/SemverTagSet"
 
     SemverProjectNotFoundResponse:
         description: "Semver: project not found response"
@@ -297,17 +297,43 @@ definitions:
                 maxLength: 150
                 x-nullable: false #don't generate reference
 
-    SemverNumber:
-        title: Semver Number
+    SemverTagSet:
+        title: Semver set of tags
         type: object
         required:
-            - version
+            - full
+            - isLatest
         properties:
-            version:
-                title: The version number
+            all:
+                title: "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])"
+                type: array
+                items:
+                  type: string
+                x-nullable: false #don't generate reference
+            full:
+                title: "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)"
                 type: string
                 minLength: 3
                 maxLength: 150
+                x-nullable: false #don't generate reference
+            minor:
+                title: "The minor version tag (e.g: v1.2)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            major:
+                title: "The minor version tag (e.g: v1)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            branch:
+                title: "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            isLatest:
+                title: True if this version is latest. False - if not.
+                type: boolean
                 x-nullable: false #don't generate reference
 
     IncrementalVersionNumber:
