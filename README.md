@@ -172,19 +172,22 @@ And open [http://petstore.swagger.io/?url=http%3A%2F%2Flocalhost%3A8070%2Fswagge
     docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
 ```
 
-###TODO:
-+project - implement CRUD
-+Consul health check
-+go-swagger - return correct response and error messages
-+implement versioning
-+use gorp
+### TODO
+
 Implement build scripts
+
 Configure environment for CI and production
+
 Implement UI (Angular 2)
-add `OpenID Connect`
+
+Dashboard for micro services
+
+Add `OpenID Connect`
+
 Implement ACL
+
 folder/repo structure
-dashboard for micro services
+
  
 
 #### Proto

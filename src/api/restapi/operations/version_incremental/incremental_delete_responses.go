@@ -16,7 +16,7 @@ import (
 // IncrementalDeleteNoContentCode is the HTTP code returned for type IncrementalDeleteNoContent
 const IncrementalDeleteNoContentCode int = 204
 
-/*IncrementalDeleteNoContent incremental delete no content
+/*IncrementalDeleteNoContent The resource was deleted successfully.
 
 swagger:response incrementalDeleteNoContent
 */

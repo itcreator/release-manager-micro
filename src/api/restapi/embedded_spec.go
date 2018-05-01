@@ -33,7 +33,7 @@ func init() {
     "title": "Release Manager",
     "contact": {
       "name": "Vital Leshchyk",
-      "url": "https://github.com/itcreator/release-manager",
+      "url": "https://github.com/itcreator/release-manager-micro",
       "email": "vitalleshchyk@gmail.com"
     },
     "license": {
@@ -93,7 +93,9 @@ func init() {
         "summary": "Delete incremental version number (RESET)",
         "operationId": "incrementalDelete",
         "responses": {
-          "204": {},
+          "204": {
+            "description": "The resource was deleted successfully."
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
@@ -348,14 +350,14 @@ func init() {
           "type": "integer",
           "format": "uint32",
           "title": "Major number",
-          "readOnly": true
+          "x-nullable": false
         },
         "minor": {
           "description": "MAJOR version when you make incompatible API changes",
           "type": "integer",
           "format": "uint32",
           "title": "Minor number",
-          "readOnly": true
+          "x-nullable": false
         }
       }
     },
@@ -483,7 +485,7 @@ func init() {
     "title": "Release Manager",
     "contact": {
       "name": "Vital Leshchyk",
-      "url": "https://github.com/itcreator/release-manager",
+      "url": "https://github.com/itcreator/release-manager-micro",
       "email": "vitalleshchyk@gmail.com"
     },
     "license": {
@@ -565,7 +567,9 @@ func init() {
         "summary": "Delete incremental version number (RESET)",
         "operationId": "incrementalDelete",
         "responses": {
-          "204": {},
+          "204": {
+            "description": "The resource was deleted successfully."
+          },
           "500": {
             "description": "Error response",
             "schema": {
@@ -910,14 +914,14 @@ func init() {
           "type": "integer",
           "format": "uint32",
           "title": "Major number",
-          "readOnly": true
+          "x-nullable": false
         },
         "minor": {
           "description": "MAJOR version when you make incompatible API changes",
           "type": "integer",
           "format": "uint32",
           "title": "Minor number",
-          "readOnly": true
+          "x-nullable": false
         }
       }
     },
