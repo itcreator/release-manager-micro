@@ -27,14 +27,12 @@ type SemverGenerateParams struct {
 	//
 	// MAJOR version when you make incompatible API changes
 	// Required: true
-	// Read Only: true
 	Major uint32 `json:"major"`
 
 	// Minor number
 	//
 	// MAJOR version when you make incompatible API changes
 	// Required: true
-	// Read Only: true
 	Minor uint32 `json:"minor"`
 }
 

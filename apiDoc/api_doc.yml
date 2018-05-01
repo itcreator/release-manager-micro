@@ -4,7 +4,7 @@ info:
     description: This application generate version for your software.
     contact:
         name: Vital Leshchyk
-        url: https://github.com/itcreator/release-manager
+        url: https://github.com/itcreator/release-manager-micro
         email: vitalleshchyk@gmail.com
     license:
         name: 3-Clause BSD
@@ -182,7 +182,8 @@ paths:
                 Delete generated version
 
             responses:
-                204: ~
+                204:
+                    description: The resource was deleted successfully.
                 500:
                     $ref: "#/responses/ErrorResponse"
 
@@ -283,13 +284,13 @@ definitions:
                 description: MAJOR version when you make incompatible API changes
                 type: integer
                 format: uint32
-                readOnly: true
+                x-nullable: false #don't generate reference
             minor:
                 title: Minor number
                 description: MAJOR version when you make incompatible API changes
                 type: integer
                 format: uint32
-                readOnly: true
+                x-nullable: false #don't generate reference
             branch:
                 title: Name of branch for which needed to generate a version tag.
                 type: string

@@ -11,7 +11,7 @@ This application generate version for your software.
     BasePath: /
     Version: 0.2.0
     License: 3-Clause BSD https://github.com/itcreator/release-manager-micro/blob/master/LICENSE
-    Contact: Vital Leshchyk<vitalleshchyk@gmail.com> https://github.com/itcreator/release-manager
+    Contact: Vital Leshchyk<vitalleshchyk@gmail.com> https://github.com/itcreator/release-manager-micro
 
     Consumes:
     - application/release-manager.v1+json
