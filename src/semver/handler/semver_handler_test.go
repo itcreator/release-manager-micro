@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/satori/go.uuid"
 	"github.com/stretchr/testify/suite"
+	"semver/model"
 	proto "semver/proto/semver"
 	"testing"
 )
@@ -25,15 +26,24 @@ func (suite *semverHandlerTestSuite) TestGenerate() {
 	handler.Generate(ctx, req, rsp)
 
 	//suite.Equal(rsp.Version, generator.StoredVersion)
-	suite.Equal(rsp.Version, "1.0.1")
+	suite.Equal("v1.0.1-dev.2", rsp.GetFull())
+	suite.Equal("v1.0.1-dev", rsp.GetBranch())
+	suite.False(rsp.GetIsLatest())
+	suite.Equal("", rsp.Major)
+	suite.Equal("", rsp.Minor)
 }
 
 type versionGeneratorMock struct {
-	StoredVersion string
+	StoredVersion model.TagSet
 }
 
-func (mock *versionGeneratorMock) GenerateVersion(projectUUID uuid.UUID, major uint32, minor uint32, branch string) string {
-	mock.StoredVersion = "1.0.1"
+func (mock *versionGeneratorMock) GenerateVersion(projectUUID uuid.UUID, major uint32, minor uint32, branch string) model.TagSet {
+	branchTag := "v1.0.1-dev"
+	mock.StoredVersion = model.TagSet{
+		IsLatest: false,
+		Full:     branchTag + ".2",
+		Branch:   &branchTag,
+	}
 
 	return mock.StoredVersion
 }
