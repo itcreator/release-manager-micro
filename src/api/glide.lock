@@ -1,5 +1,5 @@
 hash: 8b5d8ef9b3f2f7a5f3397abdf18f706472cc9890e6aaee6a3b95231201d4a6be
-updated: 2018-03-12T20:26:51.109775617Z
+updated: 2019-02-21T20:56:09.887776903Z
 imports:
 - name: github.com/armon/go-metrics
   version: 783273d703149aaeb9897cf58613d5af48861c25
@@ -26,6 +26,7 @@ imports:
 - name: github.com/go-openapi/runtime
   version: 09fac855d8504674b22594470227bd94e5005025
   subpackages:
+  - client
   - flagext
   - logger
   - middleware
@@ -111,7 +112,7 @@ imports:
 - name: github.com/micro/mdns
   version: cdf30746f9f70dc7a366d3d885792a092fd83102
 - name: github.com/micro/misc
-  version: ab7317bd846b16037b3d415f99cb90f25f68c97d
+  version: c27eba418ffb113812439bbcc36c09597df7e624
   subpackages:
   - lib/addr
   - lib/net
@@ -146,6 +147,7 @@ imports:
   subpackages:
   - bpf
   - context
+  - context/ctxhttp
   - idna
   - internal/iana
   - internal/socket
