@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 export COMPOSE_FILE=ops/docker/compose/env/prod.yml:ops/docker/docker-compose.yml:ops/docker/compose/service/incremental.yml:ops/docker/compose/service/project.yml:ops/docker/compose/service/semver.yml
 docker-compose stop
