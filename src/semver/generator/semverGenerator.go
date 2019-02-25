@@ -56,6 +56,10 @@ func (s *SemverGenerator) GenerateVersion(projectUUID uuid.UUID, major uint32, m
 	branchDev := "dev"
 	branchRelease := "release"
 
+	if 0 == strings.Index(branch, branchRelease) {
+		branch = branchRelease
+	}
+
 	ver := s.getStoredVersion(projectUUID, major, minor, branch)
 
 	var fullVersionName string
