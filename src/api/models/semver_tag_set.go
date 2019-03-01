@@ -50,48 +50,29 @@ type SemverTagSet struct {
 func (m *SemverTagSet) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateAll(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
 	if err := m.validateBranch(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFull(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateIsLatest(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMajor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMinor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *SemverTagSet) validateAll(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.All) { // not required
-		return nil
-	}
-
 	return nil
 }
 

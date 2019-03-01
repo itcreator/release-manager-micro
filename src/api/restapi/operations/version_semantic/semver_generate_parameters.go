@@ -60,6 +60,7 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {
+			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
 			}
@@ -68,9 +69,7 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 				o.Body = &body
 			}
 		}
-
 	}
-
 	rProjectUUID, rhkProjectUUID, _ := route.Params.GetOK("projectUuid")
 	if err := o.bindProjectUUID(rProjectUUID, rhkProjectUUID, route.Formats); err != nil {
 		res = append(res, err)
@@ -82,6 +81,7 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
+// bindProjectUUID binds and validates parameter ProjectUUID from path.
 func (o *SemverGenerateParams) bindProjectUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -105,11 +105,11 @@ func (o *SemverGenerateParams) bindProjectUUID(rawData []string, hasKey bool, fo
 	return nil
 }
 
+// validateProjectUUID carries on validations for parameter ProjectUUID
 func (o *SemverGenerateParams) validateProjectUUID(formats strfmt.Registry) error {
 
 	if err := validate.FormatOf("projectUuid", "path", "uuid", o.ProjectUUID.String(), formats); err != nil {
 		return err
 	}
-
 	return nil
 }

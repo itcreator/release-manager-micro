@@ -31,6 +31,7 @@ type Project struct {
 	//
 	// A unique identifier for the project. These are created in ascending order.
 	// Read Only: true
+	// Format: uuid
 	UUID strfmt.UUID `json:"uuid,omitempty"`
 }
 
@@ -39,17 +40,14 @@ func (m *Project) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUUID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

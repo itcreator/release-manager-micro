@@ -41,17 +41,14 @@ func (m *SemverGenerateParams) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBranch(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMajor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateMinor(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

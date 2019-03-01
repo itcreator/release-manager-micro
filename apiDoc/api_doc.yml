@@ -131,62 +131,6 @@ paths:
                     $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
-
-    /increamental_version/{projectName}:
-        parameters:
-          - type: string
-            name: projectName
-            maxLength: 100
-            x-nullable: false #don't generate reference
-            in: path
-            required: true
-        post:
-            operationId: incrementalGenerate
-            tags:
-                - versionIncremental
-            summary: Generate new incremental version number
-            description: |
-                Incremental Versioning
-
-            responses:
-                201:
-                    $ref: "#/responses/IncrementalGenerateResponse"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-        put:
-            operationId: incrementalUpdate
-            tags:
-                - versionIncremental
-            summary: Update incremental version number (Only for maintenance)
-            description: |
-                Incremental Versioning
-                Update revision number
-
-            parameters:
-              - name: body
-                in: body
-                schema:
-                    $ref: "#/definitions/IncrementalVersionNumber"
-            responses:
-                200:
-                    $ref: "#/responses/IncrementalUpdateResponse"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-
-        delete:
-            operationId: incrementalDelete
-            tags:
-                - versionIncremental
-            summary: Delete incremental version number (RESET)
-            description: |
-                Delete generated version
-
-            responses:
-                204:
-                    description: The resource was deleted successfully.
-                500:
-                    $ref: "#/responses/ErrorResponse"
-
 responses:
     ErrorResponse:
         description: Error response
@@ -212,17 +156,6 @@ responses:
         description: "Semver: project not found response"
         schema:
             $ref: "#/definitions/Error"
-
-    IncrementalGenerateResponse:
-        description: Generate incremental version response
-        schema:
-            $ref: "#/definitions/IncrementalVersionNumber"
-
-    IncrementalUpdateResponse:
-        description: Update incremental version response
-        schema:
-            $ref: "#/definitions/IncrementalVersionNumber"
-
 
 definitions:
     Error:
@@ -256,7 +189,7 @@ definitions:
             uuid:
                 title: The id of the project.
                 description: A unique identifier for the project. These are created in ascending order.
-                type: integer
+                type: string
                 format: uuid
                 readOnly: true
             name:
@@ -335,16 +268,4 @@ definitions:
             isLatest:
                 title: True if this version is latest. False - if not.
                 type: boolean
-                x-nullable: false #don't generate reference
-
-    IncrementalVersionNumber:
-        title: Incremental Version Number
-        type: object
-        required:
-            - version
-        properties:
-            version:
-                title: The version number
-                type: integer
-                format: uint64
                 x-nullable: false #don't generate reference

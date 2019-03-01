@@ -43,75 +43,6 @@ func init() {
     "version": "0.2.0"
   },
   "paths": {
-    "/increamental_version/{projectName}": {
-      "put": {
-        "description": "Incremental Versioning\nUpdate revision number\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Update incremental version number (Only for maintenance)",
-        "operationId": "incrementalUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/IncrementalUpdateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "post": {
-        "description": "Incremental Versioning\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Generate new incremental version number",
-        "operationId": "incrementalGenerate",
-        "responses": {
-          "201": {
-            "$ref": "#/responses/IncrementalGenerateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete generated version\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Delete incremental version number (RESET)",
-        "operationId": "incrementalDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully."
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "maxLength": 100,
-          "type": "string",
-          "x-nullable": false,
-          "name": "projectName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/projects": {
       "get": {
         "description": "Get all projects list.\n",
@@ -285,21 +216,6 @@ func init() {
         }
       }
     },
-    "IncrementalVersionNumber": {
-      "type": "object",
-      "title": "Incremental Version Number",
-      "required": [
-        "version"
-      ],
-      "properties": {
-        "version": {
-          "type": "integer",
-          "format": "uint64",
-          "title": "The version number",
-          "x-nullable": false
-        }
-      }
-    },
     "Project": {
       "type": "object",
       "title": "Project",
@@ -322,7 +238,7 @@ func init() {
         },
         "uuid": {
           "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
+          "type": "string",
           "format": "uuid",
           "title": "The id of the project.",
           "readOnly": true
@@ -422,18 +338,6 @@ func init() {
         }
       }
     },
-    "IncrementalGenerateResponse": {
-      "description": "Generate incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
-    "IncrementalUpdateResponse": {
-      "description": "Update incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
     "ProjectResponse": {
       "description": "Project response",
       "schema": {
@@ -495,105 +399,6 @@ func init() {
     "version": "0.2.0"
   },
   "paths": {
-    "/increamental_version/{projectName}": {
-      "put": {
-        "description": "Incremental Versioning\nUpdate revision number\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Update incremental version number (Only for maintenance)",
-        "operationId": "incrementalUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Update incremental version response",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Incremental Versioning\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Generate new incremental version number",
-        "operationId": "incrementalGenerate",
-        "responses": {
-          "201": {
-            "description": "Generate incremental version response",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete generated version\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Delete incremental version number (RESET)",
-        "operationId": "incrementalDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully."
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "maxLength": 100,
-          "type": "string",
-          "x-nullable": false,
-          "name": "projectName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/projects": {
       "get": {
         "description": "Get all projects list.\n",
@@ -606,7 +411,11 @@ func init() {
           "200": {
             "description": "Successful response",
             "schema": {
-              "$ref": "#/definitions/listProjectsOKBody"
+              "type": "array",
+              "title": "ProjectList",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
             }
           },
           "500": {
@@ -849,21 +658,6 @@ func init() {
         }
       }
     },
-    "IncrementalVersionNumber": {
-      "type": "object",
-      "title": "Incremental Version Number",
-      "required": [
-        "version"
-      ],
-      "properties": {
-        "version": {
-          "type": "integer",
-          "format": "uint64",
-          "title": "The version number",
-          "x-nullable": false
-        }
-      }
-    },
     "Project": {
       "type": "object",
       "title": "Project",
@@ -886,7 +680,7 @@ func init() {
         },
         "uuid": {
           "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
+          "type": "string",
           "format": "uuid",
           "title": "The id of the project.",
           "readOnly": true
@@ -972,14 +766,6 @@ func init() {
           "minLength": 3
         }
       }
-    },
-    "listProjectsOKBody": {
-      "type": "array",
-      "title": "ProjectList",
-      "items": {
-        "$ref": "#/definitions/Project"
-      },
-      "x-go-gen-location": "operations"
     }
   },
   "responses": {
@@ -992,18 +778,6 @@ func init() {
         "X-Error-Code": {
           "type": "string"
         }
-      }
-    },
-    "IncrementalGenerateResponse": {
-      "description": "Generate incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
-    "IncrementalUpdateResponse": {
-      "description": "Update incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
       }
     },
     "ProjectResponse": {
