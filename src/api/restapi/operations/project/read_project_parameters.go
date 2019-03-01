@@ -58,6 +58,7 @@ func (o *ReadProjectParams) BindRequest(r *http.Request, route *middleware.Match
 	return nil
 }
 
+// bindUUID binds and validates parameter UUID from path.
 func (o *ReadProjectParams) bindUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -81,11 +82,11 @@ func (o *ReadProjectParams) bindUUID(rawData []string, hasKey bool, formats strf
 	return nil
 }
 
+// validateUUID carries on validations for parameter UUID
 func (o *ReadProjectParams) validateUUID(formats strfmt.Registry) error {
 
 	if err := validate.FormatOf("uuid", "path", "uuid", o.UUID.String(), formats); err != nil {
 		return err
 	}
-
 	return nil
 }

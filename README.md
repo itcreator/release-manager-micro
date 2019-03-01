@@ -15,7 +15,7 @@ Output: semantic version http://semver.org/ (look like as `v1.2.0-rc.7`)
 ```
 NOTICE: something does not work? Just remove all containers with consul agents
 
-docker-compose rm -vf consul service.version.incremental service.semver service.project service.api
+docker-compose rm -vf consul service.semver service.project service.api
 ```
 
 
@@ -32,7 +32,7 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
 
 - Run release manager
 ```bash
-    ops/scripts/start.sh #or start_semver.sh or start_incremental.sh
+    ops/scripts/start.sh
     
     #waiting for the output: 2016/11/03 23:59:24 Serving release manager at http://[::]:80
 ```
@@ -54,7 +54,7 @@ Response:
 
 - Generate semantic version
 ```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects/{uuid}/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
 ```
 
 Response:
@@ -67,11 +67,6 @@ Response:
     {"version":"v1.2.0-rc"}
 ```
 
-
-- Generate incremental version
-```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/increamental_version/test
-```
 
 Response:
 ```
@@ -138,8 +133,15 @@ Check consul cluster
 
 
 ### Swagger
+
+#### Generate server
 ```bash
     docker-compose run --rm go_swagger generate server -f /apiDoc/api_doc.yml
+```
+
+#### Generate client
+```bash
+    docker-compose run --rm go_swagger generate client -f /apiDoc/api_doc.yml
 ```
 
 ### Serve API documentation

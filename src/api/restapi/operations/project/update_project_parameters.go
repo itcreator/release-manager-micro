@@ -60,6 +60,7 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {
+			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
 			}
@@ -68,9 +69,7 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 				o.Body = &body
 			}
 		}
-
 	}
-
 	rUUID, rhkUUID, _ := route.Params.GetOK("uuid")
 	if err := o.bindUUID(rUUID, rhkUUID, route.Formats); err != nil {
 		res = append(res, err)
@@ -82,6 +81,7 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 	return nil
 }
 
+// bindUUID binds and validates parameter UUID from path.
 func (o *UpdateProjectParams) bindUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -105,11 +105,11 @@ func (o *UpdateProjectParams) bindUUID(rawData []string, hasKey bool, formats st
 	return nil
 }
 
+// validateUUID carries on validations for parameter UUID
 func (o *UpdateProjectParams) validateUUID(formats strfmt.Registry) error {
 
 	if err := validate.FormatOf("uuid", "path", "uuid", o.UUID.String(), formats); err != nil {
 		return err
 	}
-
 	return nil
 }

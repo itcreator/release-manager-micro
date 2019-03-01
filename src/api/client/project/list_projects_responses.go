@@ -54,7 +54,7 @@ func NewListProjectsOK() *ListProjectsOK {
 Successful response
 */
 type ListProjectsOK struct {
-	Payload models.ListProjectsOKBody
+	Payload []*models.Project
 }
 
 func (o *ListProjectsOK) Error() string {

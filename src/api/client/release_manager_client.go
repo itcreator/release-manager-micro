@@ -12,7 +12,6 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 
 	"api/client/project"
-	"api/client/version_incremental"
 	"api/client/version_semantic"
 )
 
@@ -60,8 +59,6 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *ReleaseMan
 	cli.Transport = transport
 
 	cli.Project = project.New(transport, formats)
-
-	cli.VersionIncremental = version_incremental.New(transport, formats)
 
 	cli.VersionSemantic = version_semantic.New(transport, formats)
 
@@ -111,8 +108,6 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 type ReleaseManager struct {
 	Project *project.Client
 
-	VersionIncremental *version_incremental.Client
-
 	VersionSemantic *version_semantic.Client
 
 	Transport runtime.ClientTransport
@@ -123,8 +118,6 @@ func (c *ReleaseManager) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
 
 	c.Project.SetTransport(transport)
-
-	c.VersionIncremental.SetTransport(transport)
 
 	c.VersionSemantic.SetTransport(transport)
 
