@@ -2,7 +2,7 @@ package generator
 
 import (
 	"fmt"
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"semver/model"
 	"strings"
 )
@@ -105,7 +105,7 @@ func (s *SemverGenerator) GenerateVersion(projectUUID uuid.UUID, major uint32, m
 
 	rep := s.VersionRepository
 
-	if ver.UUID.Valid {
+	if nil != ver.UUID {
 		rep.UpdateRevision(ver)
 	} else {
 		rep.Insert(ver)

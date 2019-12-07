@@ -5,7 +5,7 @@ services:
 #### maitenance
     protoc:
         #base path is "ops/docker/compose/env"
-        image: itcreator/go-micro-stack-protoc-go-micro:0.2
+        image: itcreator/go-micro-stack-protoc-go-micro:0.4
         working_dir: /code
         volumes:
             - ../../../..:/code:Z #base path is "ops/docker/compose/env"

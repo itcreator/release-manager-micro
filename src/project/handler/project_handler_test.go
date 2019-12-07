@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/suite"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
@@ -92,7 +92,7 @@ func (suite *projectHandlerTestSuite) TestUpdate() {
 		Description: "D",
 	})
 
-	id, _ := uuid.FromString("7df6fe94-4f84-4803-8846-4b05b8baafd2")
+	id, _ := uuid.Parse("7df6fe94-4f84-4803-8846-4b05b8baafd2")
 
 	ctx := context.TODO()
 	req := &proto.UpdateRequest{
@@ -164,7 +164,7 @@ type projectRepositoryMock struct {
 
 func (mock *projectRepositoryMock) Insert(p *model.Project) {
 	mock.StoredProject = p
-	mock.StoredProject.UUID, _ = uuid.FromString("7df6fe94-4f84-4803-8846-4b05b8baafd2")
+	mock.StoredProject.UUID, _ = uuid.Parse("7df6fe94-4f84-4803-8846-4b05b8baafd2")
 }
 
 func (mock *projectRepositoryMock) isNotFound(uuid uuid.UUID) bool {

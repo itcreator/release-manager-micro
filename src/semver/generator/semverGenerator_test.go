@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/suite"
 	"io"
 	"semver/model"
@@ -13,7 +13,7 @@ type semanticStrategyTestSuite struct {
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForFeatureBranch() {
-	projectUUID, _ := uuid.FromString("7df6fe94-4f84-4803-8846-4b05b8baafd2")
+	projectUUID, _ := uuid.Parse("7df6fe94-4f84-4803-8846-4b05b8baafd2")
 	major := uint32(1)
 	minor := uint32(2)
 	branch := "feature/22"
@@ -47,7 +47,7 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForFeatureBranch() {
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForDevBranch() {
-	projectUUID, _ := uuid.FromString("6df6fe94-4f84-4803-8846-4b05b8baafd2")
+	projectUUID, _ := uuid.Parse("6df6fe94-4f84-4803-8846-4b05b8baafd2")
 	major := uint32(1)
 	minor := uint32(2)
 	branch := "dev"
@@ -80,7 +80,7 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForDevBranch() {
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForReleaseBranch() {
-	projectUUID, _ := uuid.FromString("5df6fe94-4f84-4803-8846-4b05b8baafd2")
+	projectUUID, _ := uuid.Parse("5df6fe94-4f84-4803-8846-4b05b8baafd2")
 	major := uint32(1)
 	minor := uint32(2)
 	branch := "release"
@@ -113,7 +113,7 @@ func (suite *semanticStrategyTestSuite) TestGenerateVersionForReleaseBranch() {
 }
 
 func (suite *semanticStrategyTestSuite) TestGenerateVersionForProductionBranch() {
-	projectUUID, _ := uuid.FromString("4df6fe94-4f84-4803-8846-4b05b8baafd2")
+	projectUUID, _ := uuid.Parse("4df6fe94-4f84-4803-8846-4b05b8baafd2")
 	major := uint32(1)
 	minor := uint32(2)
 	branch := "master"
@@ -152,8 +152,9 @@ type versionGatewayMock struct {
 
 func (mock *versionGatewayMock) Insert(ver *model.Version) *model.Version {
 	mock.StoredVersion = ver
-	id, err := uuid.FromString("8df6fe94-4f84-4803-8846-4b05b8baafd2")
-	mock.StoredVersion.UUID = uuid.NullUUID{UUID: id, Valid: nil == err}
+	id, _ := uuid.Parse("8df6fe94-4f84-4803-8846-4b05b8baafd2")
+	//mock.StoredVersion.UUID = uuid.NullUUID{UUID: id, Valid: nil == err}
+	mock.StoredVersion.UUID = &id
 
 	return ver
 }
