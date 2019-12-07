@@ -23,7 +23,7 @@ type VersionRepository struct {
 //Insert new version
 func (rep *VersionRepository) Insert(ver *Version) *Version {
 	id := uuid.New()
-	ver.UUID =  &id
+	ver.UUID = &id
 	err := rep.DbMap.Insert(ver)
 	checkErr(err)
 

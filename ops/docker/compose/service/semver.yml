@@ -20,14 +20,10 @@ services:
            - ../../../../src/semver:/go/src/semver:Z #base path is "ops/docker/compose/env"
 
     service.semver.db:
-        image: 'postgres:9.6'
+        image: 'postgres:12.1'
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
-            - service.semver.dbdata:/var/lib/postgresql
-
-volumes:
-    service.semver.dbdata:
-        driver: local
+            - ../../../../var/db/semver/data:/var/lib/postgresql/data

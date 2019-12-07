@@ -20,14 +20,10 @@ services:
            - ../../../../src/project:/go/src/project:Z #base path is "ops/docker/compose/env"
 
     service.project.db:
-        image: 'postgres:9.6'
+        image: 'postgres:12.1'
         environment:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
-            - service.project.dbdata:/var/lib/postgresql
-
-volumes:
-    service.project.dbdata:
-        driver: local
+            - ../../../../var/db/project/data:/var/lib/postgresql/data
