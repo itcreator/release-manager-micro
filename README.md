@@ -125,8 +125,6 @@ Check consul cluster
 
 ### Protobuf
 ```bash
-    docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
-    # or
     protoc --go_out=plugins=micro:. proto/**/*.proto
     docker-compose run --rm protoc protoc --go_out=plugins=micro:./src/project proto/project/*.proto
 ```
@@ -166,7 +164,7 @@ And open [http://petstore.swagger.io/?url=http%3A%2F%2Flocalhost%3A8070%2Fswagge
 
 ### Tests
 ```
-    go test $(glide novendor) --cover
+    go test  -mod=vendor handler/* --cover
 ```
 
 ### Docker containers ip

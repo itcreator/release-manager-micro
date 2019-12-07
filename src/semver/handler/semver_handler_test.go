@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/suite"
 	"semver/model"
 	proto "semver/proto/semver"
@@ -15,7 +15,7 @@ type semverHandlerTestSuite struct {
 
 func (suite *semverHandlerTestSuite) TestGenerate() {
 	ctx := context.TODO()
-	req := &proto.GenerateRequest{}
+	req := &proto.GenerateRequest{ProjectUuid: uuid.New().String()}
 	rsp := new(proto.GenerateResponse)
 
 	generator := new(versionGeneratorMock)

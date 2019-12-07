@@ -5,7 +5,7 @@ services:
     service.project:
         #base path is "ops/docker/compose/env"
 #        build: ../../../../../go-micro-stack/go #Dockerfile debug
-        image: itcreator/go-micro-stack:0.2
+        image: itcreator/go-micro-stack:0.4
         working_dir: /go/src/project
         command: sh -c "consul agent -node=agent-project -data-dir /tmp/consul"
         depends_on:

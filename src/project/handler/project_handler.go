@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"project/model"
@@ -31,7 +31,7 @@ func (h *ProjectHandler) Create(ctx context.Context, req *proto.CreateRequest, r
 
 //Read project by uuid
 func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *proto.ReadResponse) error {
-	project := h.Repository.SelectByUUID(uuid.FromStringOrNil(req.Uuid))
+	project := h.Repository.SelectByUUID(uuid.MustParse(req.Uuid))
 
 	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
@@ -49,12 +49,12 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 
 //Update projects
 func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, rsp *proto.UpdateResponse) error {
-	project := h.Repository.SelectByUUID(uuid.FromStringOrNil(req.Uuid))
+	project := h.Repository.SelectByUUID(uuid.MustParse(req.Uuid))
 
 	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
 	} else {
-		project.UUID = uuid.FromStringOrNil(req.Uuid)
+		project.UUID = uuid.MustParse(req.Uuid)
 		project.Name = req.Name
 		project.Description = req.Description
 

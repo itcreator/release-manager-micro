@@ -8,7 +8,7 @@ docker-compose up -d
 
 ops/scripts/wait.sh
 
-if [ "$1" == "--no-glide" ]
+if [ "$1" == "--no-deps" ]
 then
     (docker-compose exec -T service.project go run cmd/service/main.go) &
     (docker-compose exec -T service.semver go run cmd/service/main.go) &
@@ -16,9 +16,9 @@ then
 
     wait
 else
-    (docker-compose exec -T service.project bash -c "glide install && go run cmd/service/main.go") &
-    (docker-compose exec -T service.semver bash -c "glide install && go run cmd/service/main.go") &
-    (docker-compose exec -T service.api bash -c "glide install && go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80") &
+    (docker-compose exec -T service.project bash -c "go mod tidy && go mod vendor && go run cmd/service/main.go") &
+    (docker-compose exec -T service.semver bash -c "go mod tidy && go mod vendor && go run cmd/service/main.go") &
+    (docker-compose exec -T service.api bash -c "go mod tidy && go mod vendor && go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80") &
 
     wait
 fi

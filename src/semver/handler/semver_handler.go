@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"golang.org/x/net/context"
 	"semver/generator"
 	proto "semver/proto/semver"
@@ -14,7 +14,7 @@ type SemverHandler struct {
 
 //Generate new version tag for project
 func (h *SemverHandler) Generate(ctx context.Context, req *proto.GenerateRequest, rsp *proto.GenerateResponse) error {
-	projectUUID := uuid.FromStringOrNil(req.ProjectUuid)
+	projectUUID := uuid.MustParse(req.ProjectUuid)
 	tagSet := h.Generator.GenerateVersion(projectUUID, req.Major, req.Minor, req.Branch)
 	rsp.IsLatest = tagSet.IsLatest
 	rsp.Full = tagSet.Full
