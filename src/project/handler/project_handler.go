@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/google/uuid"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"project/model"
@@ -22,21 +23,22 @@ func (h *ProjectHandler) Create(ctx context.Context, req *proto.CreateRequest, r
 	h.Repository.Insert(project)
 
 	rsp.Status = uint32(codes.OK)
-	rsp.Id = project.ID
+
+	rsp.Uuid = project.UUID.String()
 
 	return nil
 }
 
-//Read project by id
+//Read project by uuid
 func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *proto.ReadResponse) error {
-	project := h.Repository.SelectByID(req.Id)
+	project := h.Repository.SelectByUUID(uuid.MustParse(req.Uuid))
 
 	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
 	} else {
 		rsp.Status = uint32(codes.OK)
 		rsp.Project = &proto.ProjectItem{
-			Id:          project.ID,
+			Uuid:        project.UUID.String(),
 			Name:        project.Name,
 			Description: project.Description,
 		}
@@ -47,12 +49,12 @@ func (h *ProjectHandler) Read(ctx context.Context, req *proto.ReadRequest, rsp *
 
 //Update projects
 func (h *ProjectHandler) Update(ctx context.Context, req *proto.UpdateRequest, rsp *proto.UpdateResponse) error {
-	project := h.Repository.SelectByID(req.Id)
+	project := h.Repository.SelectByUUID(uuid.MustParse(req.Uuid))
 
 	if nil == project {
 		rsp.Status = uint32(codes.NotFound)
 	} else {
-		project.ID = req.Id
+		project.UUID = uuid.MustParse(req.Uuid)
 		project.Name = req.Name
 		project.Description = req.Description
 
@@ -71,7 +73,7 @@ func (h *ProjectHandler) List(ctx context.Context, req *proto.ListRequest, rsp *
 	projects := h.Repository.SelectAll()
 	for _, project := range projects {
 		readRsp := &proto.ProjectItem{
-			Id:          project.ID,
+			Uuid:        project.UUID.String(),
 			Name:        project.Name,
 			Description: project.Description,
 		}

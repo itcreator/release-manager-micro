@@ -29,7 +29,7 @@ func NewReadProject(ctx *middleware.Context, handler ReadProjectHandler) *ReadPr
 	return &ReadProject{Context: ctx, Handler: handler}
 }
 
-/*ReadProject swagger:route GET /projects/{id} project readProject
+/*ReadProject swagger:route GET /projects/{uuid} project readProject
 
 Read the projects
 

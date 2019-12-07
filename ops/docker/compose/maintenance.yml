@@ -5,12 +5,13 @@ services:
 #### maitenance
     protoc:
         #base path is "ops/docker/compose/env"
-        image: itcreator/go-micro-stack-protoc-go-micro:0.2
+        image: itcreator/go-micro-stack-protoc-go-micro:0.4
         working_dir: /code
         volumes:
             - ../../../..:/code:Z #base path is "ops/docker/compose/env"
 
     go_swagger:
+        #TODO: build image and RUN in Dockerfile go get github.com/go-openapi/runtime github.com/tylerb/graceful  github.com/jessevdk/go-flags
         image: quay.io/goswagger/swagger
         working_dir: /go/src/api
         network_mode: host

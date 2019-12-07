@@ -11,12 +11,12 @@ import (
 	golangswaggerpaths "path"
 	"strings"
 
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/strfmt"
 )
 
 // ReadProjectURL generates an URL for the read project operation
 type ReadProjectURL struct {
-	ID uint64
+	UUID strfmt.UUID
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,13 +42,13 @@ func (o *ReadProjectURL) SetBasePath(bp string) {
 func (o *ReadProjectURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/projects/{id}"
+	var _path = "/projects/{uuid}"
 
-	id := swag.FormatUint64(o.ID)
-	if id != "" {
-		_path = strings.Replace(_path, "{id}", id, -1)
+	uuid := o.UUID.String()
+	if uuid != "" {
+		_path = strings.Replace(_path, "{uuid}", uuid, -1)
 	} else {
-		return nil, errors.New("ID is required on ReadProjectURL")
+		return nil, errors.New("UUID is required on ReadProjectURL")
 	}
 
 	_basePath := o._basePath

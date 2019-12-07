@@ -11,7 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -38,11 +38,11 @@ type UpdateProjectParams struct {
 	  In: body
 	*/
 	Body *models.Project
-	/*
+	/*Project ID in UUID format
 	  Required: true
 	  In: path
 	*/
-	ID uint64
+	UUID strfmt.UUID
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -60,6 +60,7 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {
+			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
 			}
@@ -68,11 +69,9 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 				o.Body = &body
 			}
 		}
-
 	}
-
-	rID, rhkID, _ := route.Params.GetOK("id")
-	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
+	rUUID, rhkUUID, _ := route.Params.GetOK("uuid")
+	if err := o.bindUUID(rUUID, rhkUUID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -82,7 +81,8 @@ func (o *UpdateProjectParams) BindRequest(r *http.Request, route *middleware.Mat
 	return nil
 }
 
-func (o *UpdateProjectParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindUUID binds and validates parameter UUID from path.
+func (o *UpdateProjectParams) bindUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -91,11 +91,25 @@ func (o *UpdateProjectParams) bindID(rawData []string, hasKey bool, formats strf
 	// Required: true
 	// Parameter is provided by construction from the route
 
-	value, err := swag.ConvertUint64(raw)
+	// Format: uuid
+	value, err := formats.Parse("uuid", raw)
 	if err != nil {
-		return errors.InvalidType("id", "path", "uint64", raw)
+		return errors.InvalidType("uuid", "path", "strfmt.UUID", raw)
 	}
-	o.ID = value
+	o.UUID = *(value.(*strfmt.UUID))
 
+	if err := o.validateUUID(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validateUUID carries on validations for parameter UUID
+func (o *UpdateProjectParams) validateUUID(formats strfmt.Registry) error {
+
+	if err := validate.FormatOf("uuid", "path", "uuid", o.UUID.String(), formats); err != nil {
+		return err
+	}
 	return nil
 }

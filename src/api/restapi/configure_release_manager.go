@@ -4,16 +4,14 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
 
 	"api/microGateway"
 	"api/restapi/operations"
 	"api/restapi/operations/project"
-	"api/restapi/operations/version_incremental"
 	"api/restapi/operations/version_semantic"
-	"github.com/tylerb/graceful"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
@@ -57,20 +55,6 @@ func configureAPI(api *operations.ReleaseManagerAPI) http.Handler {
 		return semverGateway.GenerateVersionAction(params)
 	})
 
-	//INCREMENTAL VERSIONING MICRO SERVICE INTEGRATION
-	incrementalGateway := microGateway.NewIncrementalVersioningGateway()
-	api.VersionIncrementalIncrementalGenerateHandler = version_incremental.IncrementalGenerateHandlerFunc(func(params version_incremental.IncrementalGenerateParams) middleware.Responder {
-		return incrementalGateway.GenerateVersionAction(params)
-	})
-
-	api.VersionIncrementalIncrementalDeleteHandler = version_incremental.IncrementalDeleteHandlerFunc(func(params version_incremental.IncrementalDeleteParams) middleware.Responder {
-		return incrementalGateway.DeleteVersionAction(params)
-	})
-
-	api.VersionIncrementalIncrementalUpdateHandler = version_incremental.IncrementalUpdateHandlerFunc(func(params version_incremental.IncrementalUpdateParams) middleware.Responder {
-		return incrementalGateway.UpdateVersionAction(params)
-	})
-
 	//END OF MICRO SERVICES INTEGRATION
 
 	api.ServerShutdown = func() {}
@@ -88,7 +72,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // If you need to modify a config, store server instance to stop it individually later, this is the place.
 // This function can be called multiple times, depending on the number of serving schemes.
 // scheme value will be set accordingly: "http", "https" or "unix"
-func configureServer(s *graceful.Server, scheme, addr string) {
+func configureServer(s *http.Server, scheme, addr string) {
 }
 
 

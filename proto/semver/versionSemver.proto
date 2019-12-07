@@ -7,12 +7,16 @@ service versionSemver {
 }
 
 message GenerateRequest {
-    uint64 projectId = 1;
+    string projectUuid = 1; //format - UUID
     uint32 major = 2;
     uint32 minor = 3;
     string branch = 4;
 }
 
 message GenerateResponse {
-    string version = 1;
+    string full = 1;
+    string minor = 2;
+    string major = 3;
+    string branch = 4;
+    bool isLatest = 5;
 }

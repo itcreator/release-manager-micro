@@ -29,7 +29,7 @@ func NewSemverGenerate(ctx *middleware.Context, handler SemverGenerateHandler) *
 	return &SemverGenerate{Context: ctx, Handler: handler}
 }
 
-/*SemverGenerate swagger:route POST /projects/{projectId}/version/semantic versionSemantic semverGenerate
+/*SemverGenerate swagger:route POST /projects/{projectUuid}/version/semantic versionSemantic semverGenerate
 
 Generate new semantic version number (based on gitflow)
 

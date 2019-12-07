@@ -33,7 +33,7 @@ func init() {
     "title": "Release Manager",
     "contact": {
       "name": "Vital Leshchyk",
-      "url": "https://github.com/itcreator/release-manager",
+      "url": "https://github.com/itcreator/release-manager-micro",
       "email": "vitalleshchyk@gmail.com"
     },
     "license": {
@@ -43,73 +43,6 @@ func init() {
     "version": "0.2.0"
   },
   "paths": {
-    "/increamental_version/{projectName}": {
-      "put": {
-        "description": "Incremental Versioning\nUpdate revision number\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Update incremental version number (Only for maintenance)",
-        "operationId": "incrementalUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/IncrementalUpdateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "post": {
-        "description": "Incremental Versioning\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Generate new incremental version number",
-        "operationId": "incrementalGenerate",
-        "responses": {
-          "201": {
-            "$ref": "#/responses/IncrementalGenerateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete generated version\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Delete incremental version number (RESET)",
-        "operationId": "incrementalDelete",
-        "responses": {
-          "204": {},
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "maxLength": 100,
-          "type": "string",
-          "x-nullable": false,
-          "name": "projectName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/projects": {
       "get": {
         "description": "Get all projects list.\n",
@@ -159,7 +92,47 @@ func init() {
         }
       }
     },
-    "/projects/{id}": {
+    "/projects/{projectUuid}/version/semantic": {
+      "post": {
+        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
+        "tags": [
+          "versionSemantic"
+        ],
+        "summary": "Generate new semantic version number (based on gitflow)",
+        "operationId": "semverGenerate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SemverGenerateParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/SemverGenerateResponse"
+          },
+          "404": {
+            "$ref": "#/responses/SemverProjectNotFoundResponse"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "projectUuid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/projects/{uuid}": {
       "get": {
         "description": "Get all projects list\n",
         "tags": [
@@ -207,45 +180,10 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
-          "format": "uint64",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/projects/{projectId}/version/semantic": {
-      "post": {
-        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
-        "tags": [
-          "versionSemantic"
-        ],
-        "summary": "Generate new semantic version number (based on gitflow)",
-        "operationId": "semverGenerate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/SemverGenerateParams"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "$ref": "#/responses/SemverGenerateResponse"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "integer",
-          "format": "uint64",
-          "name": "projectId",
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "uuid",
           "in": "path",
           "required": true
         }
@@ -278,21 +216,6 @@ func init() {
         }
       }
     },
-    "IncrementalVersionNumber": {
-      "type": "object",
-      "title": "Incremental Version Number",
-      "required": [
-        "version"
-      ],
-      "properties": {
-        "version": {
-          "type": "integer",
-          "format": "uint64",
-          "title": "The version number",
-          "x-nullable": false
-        }
-      }
-    },
     "Project": {
       "type": "object",
       "title": "Project",
@@ -306,19 +229,19 @@ func init() {
           "maxLength": 4000,
           "x-nullable": false
         },
-        "id": {
-          "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
-          "format": "uint64",
-          "title": "The id of the project.",
-          "readOnly": true
-        },
         "name": {
           "type": "string",
           "title": "The name of the project.",
           "maxLength": 150,
           "minLength": 2,
           "x-nullable": false
+        },
+        "uuid": {
+          "description": "A unique identifier for the project. These are created in ascending order.",
+          "type": "string",
+          "format": "uuid",
+          "title": "The id of the project.",
+          "readOnly": true
         }
       }
     },
@@ -343,30 +266,62 @@ func init() {
           "type": "integer",
           "format": "uint32",
           "title": "Major number",
-          "readOnly": true
+          "x-nullable": false
         },
         "minor": {
           "description": "MAJOR version when you make incompatible API changes",
           "type": "integer",
           "format": "uint32",
           "title": "Minor number",
-          "readOnly": true
+          "x-nullable": false
         }
       }
     },
-    "SemverNumber": {
+    "SemverTagSet": {
       "type": "object",
-      "title": "Semver Number",
+      "title": "Semver set of tags",
       "required": [
-        "version"
+        "full",
+        "isLatest"
       ],
       "properties": {
-        "version": {
+        "all": {
+          "type": "array",
+          "title": "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])",
+          "items": {
+            "type": "string"
+          },
+          "x-nullable": false
+        },
+        "branch": {
           "type": "string",
-          "title": "The version number",
+          "title": "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "full": {
+          "type": "string",
+          "title": "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)",
           "maxLength": 150,
           "minLength": 3,
           "x-nullable": false
+        },
+        "isLatest": {
+          "type": "boolean",
+          "title": "True if this version is latest. False - if not.",
+          "x-nullable": false
+        },
+        "major": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "minor": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1.2)",
+          "maxLength": 150,
+          "minLength": 3
         }
       }
     }
@@ -383,18 +338,6 @@ func init() {
         }
       }
     },
-    "IncrementalGenerateResponse": {
-      "description": "Generate incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
-    "IncrementalUpdateResponse": {
-      "description": "Update incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
     "ProjectResponse": {
       "description": "Project response",
       "schema": {
@@ -409,7 +352,13 @@ func init() {
     "SemverGenerateResponse": {
       "description": "Generate semantic version response",
       "schema": {
-        "$ref": "#/definitions/SemverNumber"
+        "$ref": "#/definitions/SemverTagSet"
+      }
+    },
+    "SemverProjectNotFoundResponse": {
+      "description": "Semver: project not found response",
+      "schema": {
+        "$ref": "#/definitions/Error"
       }
     }
   },
@@ -440,7 +389,7 @@ func init() {
     "title": "Release Manager",
     "contact": {
       "name": "Vital Leshchyk",
-      "url": "https://github.com/itcreator/release-manager",
+      "url": "https://github.com/itcreator/release-manager-micro",
       "email": "vitalleshchyk@gmail.com"
     },
     "license": {
@@ -450,103 +399,6 @@ func init() {
     "version": "0.2.0"
   },
   "paths": {
-    "/increamental_version/{projectName}": {
-      "put": {
-        "description": "Incremental Versioning\nUpdate revision number\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Update incremental version number (Only for maintenance)",
-        "operationId": "incrementalUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Update incremental version response",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Incremental Versioning\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Generate new incremental version number",
-        "operationId": "incrementalGenerate",
-        "responses": {
-          "201": {
-            "description": "Generate incremental version response",
-            "schema": {
-              "$ref": "#/definitions/IncrementalVersionNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete generated version\n",
-        "tags": [
-          "versionIncremental"
-        ],
-        "summary": "Delete incremental version number (RESET)",
-        "operationId": "incrementalDelete",
-        "responses": {
-          "204": {},
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "maxLength": 100,
-          "type": "string",
-          "x-nullable": false,
-          "name": "projectName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/projects": {
       "get": {
         "description": "Get all projects list.\n",
@@ -559,7 +411,11 @@ func init() {
           "200": {
             "description": "Successful response",
             "schema": {
-              "$ref": "#/definitions/listProjectsOKBody"
+              "type": "array",
+              "title": "ProjectList",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
             }
           },
           "500": {
@@ -616,7 +472,61 @@ func init() {
         }
       }
     },
-    "/projects/{id}": {
+    "/projects/{projectUuid}/version/semantic": {
+      "post": {
+        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
+        "tags": [
+          "versionSemantic"
+        ],
+        "summary": "Generate new semantic version number (based on gitflow)",
+        "operationId": "semverGenerate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SemverGenerateParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Generate semantic version response",
+            "schema": {
+              "$ref": "#/definitions/SemverTagSet"
+            }
+          },
+          "404": {
+            "description": "Semver: project not found response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "X-Error-Code": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "projectUuid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/projects/{uuid}": {
       "get": {
         "description": "Get all projects list\n",
         "tags": [
@@ -712,56 +622,10 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
-          "format": "uint64",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/projects/{projectId}/version/semantic": {
-      "post": {
-        "description": "Semantic Versioning 2.0.0\nSee also http://semver.org/spec/v2.0.0.html\nBased on branching model [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/)\n",
-        "tags": [
-          "versionSemantic"
-        ],
-        "summary": "Generate new semantic version number (based on gitflow)",
-        "operationId": "semverGenerate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/SemverGenerateParams"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Generate semantic version response",
-            "schema": {
-              "$ref": "#/definitions/SemverNumber"
-            }
-          },
-          "500": {
-            "description": "Error response",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "headers": {
-              "X-Error-Code": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "integer",
-          "format": "uint64",
-          "name": "projectId",
+          "type": "string",
+          "format": "uuid",
+          "description": "Project ID in UUID format",
+          "name": "uuid",
           "in": "path",
           "required": true
         }
@@ -794,21 +658,6 @@ func init() {
         }
       }
     },
-    "IncrementalVersionNumber": {
-      "type": "object",
-      "title": "Incremental Version Number",
-      "required": [
-        "version"
-      ],
-      "properties": {
-        "version": {
-          "type": "integer",
-          "format": "uint64",
-          "title": "The version number",
-          "x-nullable": false
-        }
-      }
-    },
     "Project": {
       "type": "object",
       "title": "Project",
@@ -822,19 +671,19 @@ func init() {
           "maxLength": 4000,
           "x-nullable": false
         },
-        "id": {
-          "description": "A unique identifier for the project. These are created in ascending order.",
-          "type": "integer",
-          "format": "uint64",
-          "title": "The id of the project.",
-          "readOnly": true
-        },
         "name": {
           "type": "string",
           "title": "The name of the project.",
           "maxLength": 150,
           "minLength": 2,
           "x-nullable": false
+        },
+        "uuid": {
+          "description": "A unique identifier for the project. These are created in ascending order.",
+          "type": "string",
+          "format": "uuid",
+          "title": "The id of the project.",
+          "readOnly": true
         }
       }
     },
@@ -859,40 +708,64 @@ func init() {
           "type": "integer",
           "format": "uint32",
           "title": "Major number",
-          "readOnly": true
+          "x-nullable": false
         },
         "minor": {
           "description": "MAJOR version when you make incompatible API changes",
           "type": "integer",
           "format": "uint32",
           "title": "Minor number",
-          "readOnly": true
-        }
-      }
-    },
-    "SemverNumber": {
-      "type": "object",
-      "title": "Semver Number",
-      "required": [
-        "version"
-      ],
-      "properties": {
-        "version": {
-          "type": "string",
-          "title": "The version number",
-          "maxLength": 150,
-          "minLength": 3,
           "x-nullable": false
         }
       }
     },
-    "listProjectsOKBody": {
-      "type": "array",
-      "title": "ProjectList",
-      "items": {
-        "$ref": "#/definitions/Project"
-      },
-      "x-go-gen-location": "operations"
+    "SemverTagSet": {
+      "type": "object",
+      "title": "Semver set of tags",
+      "required": [
+        "full",
+        "isLatest"
+      ],
+      "properties": {
+        "all": {
+          "type": "array",
+          "title": "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])",
+          "items": {
+            "type": "string"
+          },
+          "x-nullable": false
+        },
+        "branch": {
+          "type": "string",
+          "title": "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "full": {
+          "type": "string",
+          "title": "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)",
+          "maxLength": 150,
+          "minLength": 3,
+          "x-nullable": false
+        },
+        "isLatest": {
+          "type": "boolean",
+          "title": "True if this version is latest. False - if not.",
+          "x-nullable": false
+        },
+        "major": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1)",
+          "maxLength": 150,
+          "minLength": 3
+        },
+        "minor": {
+          "type": "string",
+          "title": "The minor version tag (e.g: v1.2)",
+          "maxLength": 150,
+          "minLength": 3
+        }
+      }
     }
   },
   "responses": {
@@ -905,18 +778,6 @@ func init() {
         "X-Error-Code": {
           "type": "string"
         }
-      }
-    },
-    "IncrementalGenerateResponse": {
-      "description": "Generate incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
-      }
-    },
-    "IncrementalUpdateResponse": {
-      "description": "Update incremental version response",
-      "schema": {
-        "$ref": "#/definitions/IncrementalVersionNumber"
       }
     },
     "ProjectResponse": {
@@ -933,7 +794,13 @@ func init() {
     "SemverGenerateResponse": {
       "description": "Generate semantic version response",
       "schema": {
-        "$ref": "#/definitions/SemverNumber"
+        "$ref": "#/definitions/SemverTagSet"
+      }
+    },
+    "SemverProjectNotFoundResponse": {
+      "description": "Semver: project not found response",
+      "schema": {
+        "$ref": "#/definitions/Error"
       }
     }
   },

@@ -2,9 +2,6 @@ exclude:
     - /src/api/models/.*
     - /src/api/proto/.*
     - /src/api/restapi/.*
-    - /src/incremental/config/.*
-    - /src/incremental/database/.*
-    - /src/incremental/proto/.*
     - /src/project/config/.*
     - /src/project/database/.*
     - /src/project/proto/.*

@@ -25,7 +25,7 @@ type SemverGenerateCreated struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.SemverNumber `json:"body,omitempty"`
+	Payload *models.SemverTagSet `json:"body,omitempty"`
 }
 
 // NewSemverGenerateCreated creates SemverGenerateCreated with default headers values
@@ -35,13 +35,13 @@ func NewSemverGenerateCreated() *SemverGenerateCreated {
 }
 
 // WithPayload adds the payload to the semver generate created response
-func (o *SemverGenerateCreated) WithPayload(payload *models.SemverNumber) *SemverGenerateCreated {
+func (o *SemverGenerateCreated) WithPayload(payload *models.SemverTagSet) *SemverGenerateCreated {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the semver generate created response
-func (o *SemverGenerateCreated) SetPayload(payload *models.SemverNumber) {
+func (o *SemverGenerateCreated) SetPayload(payload *models.SemverTagSet) {
 	o.Payload = payload
 }
 
@@ -49,6 +49,50 @@ func (o *SemverGenerateCreated) SetPayload(payload *models.SemverNumber) {
 func (o *SemverGenerateCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// SemverGenerateNotFoundCode is the HTTP code returned for type SemverGenerateNotFound
+const SemverGenerateNotFoundCode int = 404
+
+/*SemverGenerateNotFound Semver: project not found response
+
+swagger:response semverGenerateNotFound
+*/
+type SemverGenerateNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewSemverGenerateNotFound creates SemverGenerateNotFound with default headers values
+func NewSemverGenerateNotFound() *SemverGenerateNotFound {
+
+	return &SemverGenerateNotFound{}
+}
+
+// WithPayload adds the payload to the semver generate not found response
+func (o *SemverGenerateNotFound) WithPayload(payload *models.Error) *SemverGenerateNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the semver generate not found response
+func (o *SemverGenerateNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *SemverGenerateNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

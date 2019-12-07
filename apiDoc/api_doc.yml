@@ -4,7 +4,7 @@ info:
     description: This application generate version for your software.
     contact:
         name: Vital Leshchyk
-        url: https://github.com/itcreator/release-manager
+        url: https://github.com/itcreator/release-manager-micro
         email: vitalleshchyk@gmail.com
     license:
         name: 3-Clause BSD
@@ -26,11 +26,12 @@ tags:
       description: Generate version tag. See also http://semver.org/spec/v2.0.0.html
 
 paths:
-    /projects/{projectId}/version/semantic:
+    /projects/{projectUuid}/version/semantic:
         parameters:
-          - type: integer
-            format: uint64
-            name: projectId
+          - type: string
+            format: uuid
+            name: projectUuid
+            description: Project ID in UUID format
             in: path
             required: true
         post:
@@ -51,6 +52,8 @@ paths:
             responses:
                 201:
                     $ref: "#/responses/SemverGenerateResponse"
+                404:
+                    $ref: "#/responses/SemverProjectNotFoundResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
 
@@ -90,11 +93,12 @@ paths:
                 500:
                     $ref: "#/responses/ErrorResponse"
 
-    /projects/{id}:
+    /projects/{uuid}:
         parameters:
-            - type: integer
-              format: uint64
-              name: id
+            - type: string
+              description: Project ID in UUID format
+              format: uuid
+              name: uuid
               in: path
               required: true
         get:
@@ -127,61 +131,6 @@ paths:
                     $ref: "#/responses/ProjectResponse"
                 500:
                     $ref: "#/responses/ErrorResponse"
-
-    /increamental_version/{projectName}:
-        parameters:
-          - type: string
-            name: projectName
-            maxLength: 100
-            x-nullable: false #don't generate reference
-            in: path
-            required: true
-        post:
-            operationId: incrementalGenerate
-            tags:
-                - versionIncremental
-            summary: Generate new incremental version number
-            description: |
-                Incremental Versioning
-
-            responses:
-                201:
-                    $ref: "#/responses/IncrementalGenerateResponse"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-        put:
-            operationId: incrementalUpdate
-            tags:
-                - versionIncremental
-            summary: Update incremental version number (Only for maintenance)
-            description: |
-                Incremental Versioning
-                Update revision number
-
-            parameters:
-              - name: body
-                in: body
-                schema:
-                    $ref: "#/definitions/IncrementalVersionNumber"
-            responses:
-                200:
-                    $ref: "#/responses/IncrementalUpdateResponse"
-                500:
-                    $ref: "#/responses/ErrorResponse"
-
-        delete:
-            operationId: incrementalDelete
-            tags:
-                - versionIncremental
-            summary: Delete incremental version number (RESET)
-            description: |
-                Delete generated version
-
-            responses:
-                204: ~
-                500:
-                    $ref: "#/responses/ErrorResponse"
-
 responses:
     ErrorResponse:
         description: Error response
@@ -201,18 +150,12 @@ responses:
     SemverGenerateResponse:
         description: Generate semantic version response
         schema:
-            $ref: "#/definitions/SemverNumber"
+            $ref: "#/definitions/SemverTagSet"
 
-    IncrementalGenerateResponse:
-        description: Generate incremental version response
+    SemverProjectNotFoundResponse:
+        description: "Semver: project not found response"
         schema:
-            $ref: "#/definitions/IncrementalVersionNumber"
-
-    IncrementalUpdateResponse:
-        description: Update incremental version response
-        schema:
-            $ref: "#/definitions/IncrementalVersionNumber"
-
+            $ref: "#/definitions/Error"
 
 definitions:
     Error:
@@ -243,11 +186,11 @@ definitions:
         required:
             - name
         properties:
-            id:
+            uuid:
                 title: The id of the project.
                 description: A unique identifier for the project. These are created in ascending order.
-                type: integer
-                format: uint64
+                type: string
+                format: uuid
                 readOnly: true
             name:
                 title: The name of the project.
@@ -274,13 +217,13 @@ definitions:
                 description: MAJOR version when you make incompatible API changes
                 type: integer
                 format: uint32
-                readOnly: true
+                x-nullable: false #don't generate reference
             minor:
                 title: Minor number
                 description: MAJOR version when you make incompatible API changes
                 type: integer
                 format: uint32
-                readOnly: true
+                x-nullable: false #don't generate reference
             branch:
                 title: Name of branch for which needed to generate a version tag.
                 type: string
@@ -288,27 +231,41 @@ definitions:
                 maxLength: 150
                 x-nullable: false #don't generate reference
 
-    SemverNumber:
-        title: Semver Number
+    SemverTagSet:
+        title: Semver set of tags
         type: object
         required:
-            - version
+            - full
+            - isLatest
         properties:
-            version:
-                title: The version number
+            all:
+                title: "Array of all tags (e.g: [latest, v1.2.1, v1.2, v1])"
+                type: array
+                items:
+                  type: string
+                x-nullable: false #don't generate reference
+            full:
+                title: "The full version tag (e.g: v1.2.1 or v1.2.0-rc.1 or v1.2.0-feature-22.1)"
                 type: string
                 minLength: 3
                 maxLength: 150
                 x-nullable: false #don't generate reference
-
-    IncrementalVersionNumber:
-        title: Incremental Version Number
-        type: object
-        required:
-            - version
-        properties:
-            version:
-                title: The version number
-                type: integer
-                format: uint64
+            minor:
+                title: "The minor version tag (e.g: v1.2)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            major:
+                title: "The minor version tag (e.g: v1)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            branch:
+                title: "The version tag which is generated for custom branch  (e.g: v1.2.0-rc for release branch)"
+                type: string
+                minLength: 3
+                maxLength: 150
+            isLatest:
+                title: True if this version is latest. False - if not.
+                type: boolean
                 x-nullable: false #don't generate reference

@@ -15,7 +15,7 @@ Output: semantic version http://semver.org/ (look like as `v1.2.0-rc.7`)
 ```
 NOTICE: something does not work? Just remove all containers with consul agents
 
-docker-compose rm -vf consul service.version.incremental service.semver service.project service.api
+docker-compose rm -vf consul service.semver service.project service.api
 ```
 
 
@@ -32,7 +32,7 @@ docker-compose rm -vf consul service.version.incremental service.semver service.
 
 - Run release manager
 ```bash
-    ops/scripts/start.sh #or start_semver.sh or start_incremental.sh
+    ops/scripts/start.sh
     
     #waiting for the output: 2016/11/03 23:59:24 Serving release manager at http://[::]:80
 ```
@@ -54,7 +54,7 @@ Response:
 
 - Generate semantic version
 ```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects/1/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/projects/{uuid}/version/semantic -d '{"major":1, "minor": 2, "branch": "release"}'
 ```
 
 Response:
@@ -67,11 +67,6 @@ Response:
     {"version":"v1.2.0-rc"}
 ```
 
-
-- Generate incremental version
-```
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1/increamental_version/test
-```
 
 Response:
 ```
@@ -92,11 +87,11 @@ Response:
     docker-compose up
     docker-compose exec service.api bash
     go run cmd/release-manager-server/main.go --host=0.0.0.0 --port=80
-    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/1/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
-    curl -i http://127.0.0.1:9/projects
+    curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/{uuid}/version/semantic -d '{"major":1, "minor": 3, "branch": "release"}'
+    curl -i http://127.0.0.1:9090/projects
     curl -iX POST -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects -d '{"name":"MyProject", "description":"demo project"}'
-    curl -i http://127.0.0.1:9090/projects/5
-    curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/5 -d '{"name":"Project 5!", "description":"demo project 5"}'
+    curl -i http://127.0.0.1:9090/projects/{uuid}
+    curl -iX PUT -H "Content-Type: application/release-manager.v1+json" http://127.0.0.1:9090/projects/{uuid} -d '{"name":"Project 5!", "description":"demo project 5"}'
 ```
 
 Shortcuts
@@ -130,21 +125,26 @@ Check consul cluster
 
 ### Protobuf
 ```bash
-    docker-compose exec service.project bash -c "protoc --go_out=plugins=micro:. proto/**/*.proto"
-    # or
     protoc --go_out=plugins=micro:. proto/**/*.proto
-    docker-compose run --rm protoc protoc --go_out=plugins=micro:src/semver proto/semver/*.proto
+    docker-compose run --rm protoc protoc --go_out=plugins=micro:./src/project proto/project/*.proto
 ```
 
 
 ### Swagger
+
+#### Generate server
 ```bash
     docker-compose run --rm go_swagger generate server -f /apiDoc/api_doc.yml
 ```
 
+#### Generate client
+```bash
+    docker-compose run --rm go_swagger generate client -f /apiDoc/api_doc.yml
+```
+
 ### Serve API documentation
 ```bash
-    docker-compose run --rm go_swagger serve --no-open --port=8070 /apiDoc/api_doyml
+    docker-compose run --rm go_swagger serve --no-open --port=8070 /apiDoc/api_doc.yml
 ```
 
 And open [http://127.0.0.1:8070/docs]
@@ -164,7 +164,7 @@ And open [http://petstore.swagger.io/?url=http%3A%2F%2Flocalhost%3A8070%2Fswagge
 
 ### Tests
 ```
-    go test $(glide novendor) --cover
+    go test  -mod=vendor handler/* --cover
 ```
 
 ### Docker containers ip
@@ -172,19 +172,22 @@ And open [http://petstore.swagger.io/?url=http%3A%2F%2Flocalhost%3A8070%2Fswagge
     docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
 ```
 
-###TODO:
-+project - implement CRUD
-+Consul health check
-+go-swagger - return correct response and error messages
-+implement versioning
-+use gorp
+### TODO
+
 Implement build scripts
+
 Configure environment for CI and production
+
 Implement UI (Angular 2)
-add `OpenID Connect`
+
+Dashboard for micro services
+
+Add `OpenID Connect`
+
 Implement ACL
+
 folder/repo structure
-dashboard for micro services
+
  
 
 #### Proto

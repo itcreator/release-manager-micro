@@ -11,7 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -38,11 +38,11 @@ type SemverGenerateParams struct {
 	  In: body
 	*/
 	Body *models.SemverGenerateParams
-	/*
+	/*Project ID in UUID format
 	  Required: true
 	  In: path
 	*/
-	ProjectID uint64
+	ProjectUUID strfmt.UUID
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -60,6 +60,7 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {
+			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
 			}
@@ -68,11 +69,9 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 				o.Body = &body
 			}
 		}
-
 	}
-
-	rProjectID, rhkProjectID, _ := route.Params.GetOK("projectId")
-	if err := o.bindProjectID(rProjectID, rhkProjectID, route.Formats); err != nil {
+	rProjectUUID, rhkProjectUUID, _ := route.Params.GetOK("projectUuid")
+	if err := o.bindProjectUUID(rProjectUUID, rhkProjectUUID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -82,7 +81,8 @@ func (o *SemverGenerateParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
-func (o *SemverGenerateParams) bindProjectID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindProjectUUID binds and validates parameter ProjectUUID from path.
+func (o *SemverGenerateParams) bindProjectUUID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -91,11 +91,25 @@ func (o *SemverGenerateParams) bindProjectID(rawData []string, hasKey bool, form
 	// Required: true
 	// Parameter is provided by construction from the route
 
-	value, err := swag.ConvertUint64(raw)
+	// Format: uuid
+	value, err := formats.Parse("uuid", raw)
 	if err != nil {
-		return errors.InvalidType("projectId", "path", "uint64", raw)
+		return errors.InvalidType("projectUuid", "path", "strfmt.UUID", raw)
 	}
-	o.ProjectID = value
+	o.ProjectUUID = *(value.(*strfmt.UUID))
 
+	if err := o.validateProjectUUID(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validateProjectUUID carries on validations for parameter ProjectUUID
+func (o *SemverGenerateParams) validateProjectUUID(formats strfmt.Registry) error {
+
+	if err := validate.FormatOf("projectUuid", "path", "uuid", o.ProjectUUID.String(), formats); err != nil {
+		return err
+	}
 	return nil
 }
