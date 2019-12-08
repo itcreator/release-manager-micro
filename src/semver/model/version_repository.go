@@ -61,6 +61,7 @@ func checkErr(err error) {
 // UpdateRevision function update only revision field
 func (rep *VersionRepository) UpdateRevision(ver *Version) *Version {
 	stmt, err := rep.DbMap.Prepare("UPDATE " + tableName + " SET revision=$1 WHERE uuid=$2")
+	checkErr(err)
 
 	res, err := stmt.Exec(ver.Revision, ver.UUID)
 	checkErr(err)
